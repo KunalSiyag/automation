@@ -325,8 +325,8 @@ python3 openclaw-cli.py project todo_app
 # View its test file
 python3 openclaw-cli.py file todo_app test_models.py
 
-# See generated improvements
-python3 openclaw-cli.py file todo_app improvement_000.py
+# Inspect current source file
+python3 openclaw-cli.py file todo_app models.py
 ```
 
 ### Track Statistics

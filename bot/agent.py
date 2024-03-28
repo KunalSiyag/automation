@@ -2,13 +2,12 @@
 """
 OpenClaw - Autonomous Coding Agent
 
-An AI-powered agent that autonomously develops multiple mini-projects:
-- Reads tasks from TASKS.md
-- Processes queued build/feature/task commands from API signals
-- Generates improvements using Google Gemini API
-- Runs tests before committing
-- Makes local git commits with backdated timestamps
-- Logs all activities to bot_log.md
+An AI-powered agent that autonomously develops mini-projects by:
+- Reading TASKS.md and command signals from API
+- Generating in-place code edits with Gemini
+- Running tests before committing
+- Rolling back failed edits
+- Committing successful changes with backdated timestamps
 """
 
 import glob
@@ -34,6 +33,9 @@ LOG_FILE = os.path.join(WORKSPACE, "bot_log.md")
 MIN_SLEEP = int(os.getenv("OPENCLAW_MIN_SLEEP", "20"))
 MAX_SLEEP = int(os.getenv("OPENCLAW_MAX_SLEEP", "60"))
 
+MAX_CONTEXT_FILE_CHARS = int(os.getenv("OPENCLAW_MAX_CONTEXT_FILE_CHARS", "7000"))
+MAX_CONTEXT_FILES = int(os.getenv("OPENCLAW_MAX_CONTEXT_FILES", "3"))
+
 # Initialize Gemini
 model = None
 gemini_api_key = os.getenv("GEMINI_API_KEY")
@@ -44,12 +46,12 @@ else:
         genai.configure(api_key=gemini_api_key)
         model = genai.GenerativeModel("gemini-1.5-flash-latest")
     except Exception as exc:
-        print(f"⚠️  Gemini init error: {exc}. Falling back to deterministic code.")
+        print(f"⚠️  Gemini init error: {exc}. Falling back to deterministic edits.")
         model = None
 
 
 # --- LOGGING ---
-def log_action(action: str, details: str = ""):
+def log_action(action: str, details: str = "") -> None:
     """Log actions to bot_log.md."""
     timestamp = datetime.now().isoformat()
     log_entry = f"[{timestamp}] {action}"
@@ -67,7 +69,7 @@ def log_action(action: str, details: str = ""):
 
 
 # --- BACKDATE GENERATOR ---
-START_DATE = datetime.now() - timedelta(days=730)  # ~2 years ago
+START_DATE = datetime.now() - timedelta(days=730)
 commit_counter = 0
 
 
@@ -91,13 +93,13 @@ def initialize_commit_counter() -> None:
         commit_counter = 0
 
 
-# --- SAFETY CHECKS ---
-def is_path_safe(path: str) -> bool:
-    """Ensure path is within /workspace."""
+# --- SAFETY ---
+def is_path_safe(path: str, root: Optional[str] = None) -> bool:
+    """Ensure path is inside root (or workspace if omitted)."""
     try:
         real_path = os.path.realpath(path)
-        workspace_real = os.path.realpath(WORKSPACE)
-        return real_path.startswith(workspace_real)
+        root_real = os.path.realpath(root or WORKSPACE)
+        return real_path.startswith(root_real)
     except Exception:
         return False
 
@@ -221,28 +223,46 @@ def check_for_commands() -> List[Dict[str, Any]]:
     return commands
 
 
-# --- PROMPTING + GENERATION ---
-def _project_context(project_path: str) -> str:
-    """Build compact context describing project files."""
-    lines: List[str] = []
-    count = 0
+# --- FILE CONTEXT ---
+def _read_text(path: str) -> str:
+    with open(path, "r", encoding="utf-8") as handle:
+        return handle.read()
+
+
+def _write_text(path: str, content: str) -> None:
+    with open(path, "w", encoding="utf-8") as handle:
+        handle.write(content.rstrip() + "\n")
+
+
+def _relative_project_path(project_path: str, abs_path: str) -> str:
+    return os.path.relpath(abs_path, project_path)
+
+
+def _list_project_python_files(project_path: str) -> Tuple[List[str], List[str]]:
+    """Return (source_files, test_files) as relative paths."""
+    source_files: List[str] = []
+    test_files: List[str] = []
+
     for root, dirs, files in os.walk(project_path):
         dirs[:] = [d for d in dirs if d not in {".git", "__pycache__", ".pytest_cache"}]
-        rel_root = os.path.relpath(root, project_path)
-        rel_root = "." if rel_root == "." else rel_root
 
-        for filename in sorted(files):
-            if filename.startswith("."):
+        for filename in files:
+            if not filename.endswith(".py"):
                 continue
-            count += 1
-            if count > 40:
-                break
-            rel_file = filename if rel_root == "." else f"{rel_root}/{filename}"
-            lines.append(f"- {rel_file}")
-        if count > 40:
-            break
+            if filename.startswith("improvement_"):
+                continue
 
-    return "\n".join(lines)
+            abs_path = os.path.join(root, filename)
+            rel_path = _relative_project_path(project_path, abs_path)
+
+            if filename.startswith("test_"):
+                test_files.append(rel_path)
+            else:
+                source_files.append(rel_path)
+
+    source_files.sort()
+    test_files.sort()
+    return source_files, test_files
 
 
 def _directive_text(command: Optional[Dict[str, Any]]) -> str:
@@ -255,8 +275,8 @@ def _directive_text(command: Optional[Dict[str, Any]]) -> str:
     command_type = command.get("type")
     if command_type == "build":
         return (
-            "Improve build/test reliability for this project. "
-            "Focus on error handling, validation, or small refactors."
+            "Improve build/test reliability for this project. Focus on validation, edge cases, "
+            "or small refactors that improve maintainability."
         )
 
     if command_type == "feature":
@@ -275,34 +295,236 @@ def _directive_text(command: Optional[Dict[str, Any]]) -> str:
     return "Apply one small safe improvement."
 
 
-def generate_improvement(
-    project_name: str,
-    project_path: str,
-    command: Optional[Dict[str, Any]],
-) -> str:
-    """Generate code improvement using Gemini or fallback."""
-    if model is None:
-        log_action("WARN", "Gemini unavailable, using fallback code")
-        return get_fallback_code(project_name, command)
+def _keyword_tokens(command: Optional[Dict[str, Any]]) -> List[str]:
+    if not command:
+        return []
 
-    try:
-        prompt = f"""You are OpenClaw, an autonomous Python coding agent.
+    raw = " ".join(
+        [
+            str(command.get("feature", "")),
+            str(command.get("description", "")),
+            str(command.get("task", "")),
+        ]
+    ).lower()
+
+    tokens = [tok for tok in re.findall(r"[a-z]{4,}", raw) if tok not in {"with", "that", "from", "this"}]
+    return list(dict.fromkeys(tokens))[:10]
+
+
+def _choose_primary_source(source_files: List[str], command: Optional[Dict[str, Any]]) -> Optional[str]:
+    if not source_files:
+        return None
+
+    keywords = _keyword_tokens(command)
+    preferred = {"models.py", "analyzer.py", "scraper.py", "explainer.py"}
+
+    def score(rel_path: str) -> Tuple[int, int, int]:
+        name = os.path.basename(rel_path).lower()
+        stem = name[:-3] if name.endswith(".py") else name
+        keyword_hits = sum(1 for token in keywords if token in stem)
+        preferred_hit = 1 if name in preferred else 0
+        depth_penalty = -rel_path.count(os.sep)
+        return (keyword_hits, preferred_hit, depth_penalty)
+
+    return sorted(source_files, key=score, reverse=True)[0]
+
+
+def _select_context_files(project_path: str, command: Optional[Dict[str, Any]]) -> List[str]:
+    source_files, test_files = _list_project_python_files(project_path)
+    context: List[str] = []
+
+    primary = _choose_primary_source(source_files, command)
+    if primary:
+        context.append(primary)
+
+    for rel_path in source_files:
+        if rel_path not in context:
+            context.append(rel_path)
+        if len(context) >= max(1, MAX_CONTEXT_FILES - 1):
+            break
+
+    if test_files and len(context) < MAX_CONTEXT_FILES:
+        primary_name = os.path.basename(primary or "")
+        candidates = sorted(
+            test_files,
+            key=lambda p: 1 if primary_name and primary_name.replace(".py", "") in os.path.basename(p) else 0,
+            reverse=True,
+        )
+        for rel_path in candidates:
+            if rel_path not in context:
+                context.append(rel_path)
+            if len(context) >= MAX_CONTEXT_FILES:
+                break
+
+    return context[:MAX_CONTEXT_FILES]
+
+
+def _build_prompt(project_name: str, project_path: str, command: Optional[Dict[str, Any]]) -> str:
+    source_files, test_files = _list_project_python_files(project_path)
+    context_files = _select_context_files(project_path, command)
+
+    file_blocks: List[str] = []
+    for rel_path in context_files:
+        abs_path = os.path.join(project_path, rel_path)
+        try:
+            content = _read_text(abs_path)
+        except Exception as exc:
+            content = f"# Error reading file: {exc}"
+
+        if len(content) > MAX_CONTEXT_FILE_CHARS:
+            content = content[:MAX_CONTEXT_FILE_CHARS] + "\n# ...truncated..."
+
+        file_blocks.append(f"FILE: {rel_path}\n```python\n{content}\n```")
+
+    source_listing = "\n".join(f"- {p}" for p in source_files[:40]) or "- (none)"
+    test_listing = "\n".join(f"- {p}" for p in test_files[:40]) or "- (none)"
+
+    return f"""You are OpenClaw, an autonomous Python coding agent.
 
 Project: {project_name}
-Project files (partial):
-{_project_context(project_path)}
-
 Objective:
 {_directive_text(command)}
 
-Strict output rules:
-1. Return ONLY valid Python code (no markdown fences).
-2. Keep it small and safe.
-3. Must not import unavailable third-party packages.
-4. Prefer helper functions/classes that can live in one module.
-5. Do not include shell commands.
+Source files:
+{source_listing}
+
+Test files:
+{test_listing}
+
+Important constraints:
+1. Prefer editing existing source files over creating new files.
+2. DO NOT create files named improvement_*.py.
+3. If you change behavior, update/add relevant tests in existing test files when needed.
+4. Keep edits small and safe.
+5. Return ONLY JSON, no markdown.
+
+JSON response schema:
+{{
+  "summary": "one short sentence",
+  "edits": [
+    {{"file": "relative/path.py", "content": "FULL FILE CONTENT"}}
+  ]
+}}
+
+Rules for edits:
+- Each `file` must be a relative path inside the project.
+- Prefer 1-2 file edits.
+- `content` must be complete final file contents.
+
+Current file snapshots:
+{os.linesep.join(file_blocks)}
 """
 
+
+def _extract_json_payload(text: str) -> Optional[Dict[str, Any]]:
+    cleaned = text.strip()
+    if cleaned.startswith("```"):
+        cleaned = re.sub(r"^```(?:json)?\s*", "", cleaned)
+        cleaned = re.sub(r"\s*```$", "", cleaned)
+
+    try:
+        obj = json.loads(cleaned)
+        if isinstance(obj, dict):
+            return obj
+    except Exception:
+        pass
+
+    start = cleaned.find("{")
+    end = cleaned.rfind("}")
+    if start != -1 and end != -1 and end > start:
+        fragment = cleaned[start : end + 1]
+        try:
+            obj = json.loads(fragment)
+            if isinstance(obj, dict):
+                return obj
+        except Exception:
+            return None
+    return None
+
+
+def _validate_edit_plan(project_path: str, raw_plan: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    edits = raw_plan.get("edits")
+    summary = str(raw_plan.get("summary", "Autonomous update")).strip()
+
+    if not isinstance(edits, list) or not edits:
+        return None
+
+    valid_edits: List[Dict[str, str]] = []
+    for item in edits:
+        if not isinstance(item, dict):
+            continue
+
+        rel_file = item.get("file")
+        content = item.get("content")
+        if not isinstance(rel_file, str) or not isinstance(content, str):
+            continue
+
+        rel_file = rel_file.strip().replace("\\", "/")
+        if not rel_file or rel_file.startswith("/") or ".." in rel_file.split("/"):
+            continue
+        if not rel_file.endswith(".py"):
+            continue
+        if os.path.basename(rel_file).startswith("improvement_"):
+            continue
+
+        abs_path = os.path.realpath(os.path.join(project_path, rel_file))
+        if not is_path_safe(abs_path, root=project_path):
+            continue
+
+        valid_edits.append({"file": rel_file, "content": content})
+
+    if not valid_edits:
+        return None
+
+    return {
+        "summary": summary or "Autonomous update",
+        "edits": valid_edits,
+    }
+
+
+def _fallback_edit_plan(project_path: str, command: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+    source_files, _ = _list_project_python_files(project_path)
+    primary = _choose_primary_source(source_files, command)
+    if not primary and source_files:
+        primary = source_files[0]
+    if not primary:
+        primary = "__init__.py"
+
+    abs_path = os.path.join(project_path, primary)
+    existing = ""
+    if os.path.exists(abs_path):
+        existing = _read_text(abs_path).rstrip()
+
+    stamp = datetime.now().strftime("%Y%m%d%H%M%S")
+    note = _directive_text(command).replace('"', "'")
+    fn_name = f"openclaw_note_{stamp}"
+
+    addition = (
+        f"\n\n\ndef {fn_name}() -> str:\n"
+        f"    \"\"\"Autonomous note generated in fallback mode.\"\"\"\n"
+        f"    return \"{note}\"\n"
+    )
+
+    content = (existing + addition).lstrip("\n")
+    return {
+        "summary": "Fallback in-place update",
+        "edits": [{"file": primary, "content": content}],
+    }
+
+
+def generate_edit_plan(
+    project_name: str,
+    project_path: str,
+    command: Optional[Dict[str, Any]],
+) -> Dict[str, Any]:
+    """Generate in-place edit plan using Gemini or fallback."""
+    if model is None:
+        log_action("WARN", "Gemini unavailable, using fallback in-place edit")
+        return _fallback_edit_plan(project_path, command)
+
+    prompt = _build_prompt(project_name, project_path, command)
+
+    try:
         response = model.generate_content(
             prompt,
             safety_settings=[
@@ -315,72 +537,66 @@ Strict output rules:
             ],
         )
 
-        code = response.text or ""
-        if "```python" in code:
-            code = code.split("```python", 1)[1].split("```", 1)[0].strip()
-        elif "```" in code:
-            code = code.split("```", 1)[1].split("```", 1)[0].strip()
+        raw_text = response.text or ""
+        raw_plan = _extract_json_payload(raw_text)
+        if not raw_plan:
+            raise ValueError("Model did not return parseable JSON")
 
-        if not code.strip():
-            raise ValueError("Model returned empty code")
+        plan = _validate_edit_plan(project_path, raw_plan)
+        if not plan:
+            raise ValueError("Model returned invalid edit plan")
 
-        return code
+        return plan
     except Exception as exc:
-        log_action("ERROR", f"Gemini generation failed: {exc}")
-        return get_fallback_code(project_name, command)
+        log_action("ERROR", f"Gemini edit planning failed: {exc}")
+        return _fallback_edit_plan(project_path, command)
 
 
-def _slugify(text: str) -> str:
-    text = text.lower().strip()
-    text = re.sub(r"[^a-z0-9]+", "_", text)
-    return text.strip("_")[:40] or "improvement"
+# --- APPLY + ROLLBACK ---
+def apply_edit_plan(project_path: str, plan: Dict[str, Any]) -> Tuple[Dict[str, Optional[str]], List[str]]:
+    """Apply edit plan. Returns backups and edited file list."""
+    backups: Dict[str, Optional[str]] = {}
+    changed_files: List[str] = []
+
+    for edit in plan.get("edits", []):
+        rel_path = edit["file"]
+        new_content = edit["content"].rstrip() + "\n"
+        abs_path = os.path.realpath(os.path.join(project_path, rel_path))
+
+        if not is_path_safe(abs_path, root=project_path):
+            log_action("ERROR", f"Unsafe edit path rejected: {rel_path}")
+            continue
+
+        old_content: Optional[str] = None
+        if os.path.exists(abs_path):
+            old_content = _read_text(abs_path)
+
+        if old_content == new_content:
+            log_action("NOOP", f"No content change for {rel_path}")
+            continue
+
+        os.makedirs(os.path.dirname(abs_path), exist_ok=True)
+        _write_text(abs_path, new_content)
+        backups[abs_path] = old_content
+        changed_files.append(rel_path)
+        log_action("EDIT", f"Updated {rel_path}")
+
+    return backups, changed_files
 
 
-def _next_iteration(project_path: str) -> int:
-    max_num = -1
-    for file_path in Path(project_path).glob("improvement_*.py"):
-        match = re.match(r"improvement_(\d+)\.py", file_path.name)
-        if match:
-            max_num = max(max_num, int(match.group(1)))
-    return max_num + 1
-
-
-def get_fallback_code(project_name: str, command: Optional[Dict[str, Any]]) -> str:
-    """Fallback code generation when Gemini fails."""
-    directive = _directive_text(command)
-    return f'''"""Fallback improvement module for {project_name}."""
-
-
-def describe_improvement() -> str:
-    """Return a deterministic description for fallback mode."""
-    return "{directive}"
-'''
-
-
-def apply_improvement(project_path: str, code: str, command: Optional[Dict[str, Any]]) -> Optional[str]:
-    """Apply generated code to project. Returns written file path on success."""
-    try:
-        iteration = _next_iteration(project_path)
-        suffix = ""
-        if command and command.get("type") in {"feature", "task"}:
-            seed = command.get("feature") or command.get("task") or "request"
-            suffix = f"_{_slugify(seed)}"
-
-        filename = f"improvement_{iteration:03d}{suffix}.py"
-        file_path = os.path.join(project_path, filename)
-
-        if not is_path_safe(file_path):
-            log_action("ERROR", f"Unsafe path: {file_path}")
-            return None
-
-        with open(file_path, "w", encoding="utf-8") as handle:
-            handle.write(code.rstrip() + "\n")
-
-        log_action("IMPROVEMENT", f"Applied to {filename}")
-        return file_path
-    except Exception as exc:
-        log_action("ERROR", f"Failed to apply improvement: {exc}")
-        return None
+def rollback_edits(backups: Dict[str, Optional[str]]) -> None:
+    """Restore edited files from backup map."""
+    for abs_path, old_content in backups.items():
+        try:
+            if old_content is None:
+                if os.path.exists(abs_path):
+                    os.remove(abs_path)
+                    log_action("ROLLBACK", f"Removed new file {os.path.basename(abs_path)}")
+            else:
+                _write_text(abs_path, old_content)
+                log_action("ROLLBACK", f"Restored {os.path.basename(abs_path)}")
+        except Exception as exc:
+            log_action("ERROR", f"Rollback failed for {abs_path}: {exc}")
 
 
 # --- TESTING ---
@@ -394,7 +610,7 @@ def run_tests(project_path: str) -> Tuple[bool, str]:
             ["pytest", "-v", "--tb=short"],
             cwd=project_path,
             capture_output=True,
-            timeout=45,
+            timeout=60,
             text=True,
             env=env,
             check=False,
@@ -417,17 +633,24 @@ def run_tests(project_path: str) -> Tuple[bool, str]:
         return False, message
 
 
-# --- GIT OPERATIONS ---
+# --- GIT ---
 def get_repo() -> Repo:
-    """Get or init the git repository."""
+    """Get or initialize repository."""
     try:
         return Repo(WORKSPACE)
     except Exception:
         return Repo.init(WORKSPACE)
 
 
-def commit_changes(project_name: str, command: Optional[Dict[str, Any]] = None) -> bool:
-    """Commit changes with backdated timestamp."""
+def _summarize_for_commit(summary: str) -> str:
+    text = re.sub(r"\s+", " ", summary or "Autonomous update").strip()
+    if len(text) > 72:
+        return text[:69] + "..."
+    return text or "Autonomous update"
+
+
+def commit_changes(project_name: str, summary: str, command: Optional[Dict[str, Any]] = None) -> bool:
+    """Commit staged changes with backdated timestamp."""
     global commit_counter
 
     try:
@@ -444,7 +667,7 @@ def commit_changes(project_name: str, command: Optional[Dict[str, Any]] = None) 
         env["GIT_COMMITTER_DATE"] = commit_date_str
 
         command_tag = command.get("type") if command else "auto"
-        message = f"[{project_name}] {command_tag} improvement {commit_counter}"
+        message = f"[{project_name}] {command_tag}: {_summarize_for_commit(summary)}"
 
         result = subprocess.run(
             ["git", "-C", WORKSPACE, "commit", "-m", message],
@@ -467,27 +690,11 @@ def commit_changes(project_name: str, command: Optional[Dict[str, Any]] = None) 
         return False
 
 
-def rollback_improvement(file_path: Optional[str]) -> None:
-    """Remove the generated file when tests fail to keep workspace stable."""
-    if not file_path:
-        return
-
-    try:
-        if os.path.exists(file_path) and is_path_safe(file_path):
-            os.remove(file_path)
-            log_action("ROLLBACK", f"Removed failed improvement {os.path.basename(file_path)}")
-    except Exception as exc:
-        log_action("ERROR", f"Rollback failed for {file_path}: {exc}")
-
-
-# --- MAIN LOOP ---
+# --- LOOP ---
 def _summarize_command(command: Optional[Dict[str, Any]]) -> str:
     if not command:
         return "autonomous"
-    command_type = command.get("type", "unknown")
-    command_id = command.get("id", "unknown")
-    project = command.get("project", "unknown")
-    return f"{command_type}:{command_id}:{project}"
+    return f"{command.get('type', 'unknown')}:{command.get('id', 'unknown')}:{command.get('project', 'unknown')}"
 
 
 def main_loop() -> None:
@@ -525,15 +732,20 @@ def main_loop() -> None:
 
             log_action("SELECT", f"Working on {project} ({_summarize_command(command)})")
 
-            code = generate_improvement(project, project_path, command)
-            improvement_file = apply_improvement(project_path, code, command)
-            if not improvement_file:
+            plan = generate_edit_plan(project, project_path, command)
+            backups, changed_files = apply_edit_plan(project_path, plan)
+
+            if not changed_files:
                 error_count += 1
+                log_action("NOOP", "No actual code changes applied")
+                if command:
+                    log_action("COMMAND_FAIL", f"{command.get('type')} ({command.get('id')}) produced no changes")
+                time.sleep(3)
                 continue
 
             tests_ok, _ = run_tests(project_path)
             if tests_ok:
-                if commit_changes(project, command=command):
+                if commit_changes(project, summary=plan.get("summary", "Autonomous update"), command=command):
                     error_count = 0
                     if command:
                         log_action("COMMAND_DONE", f"{command.get('type')} ({command.get('id')}) completed")
@@ -541,7 +753,7 @@ def main_loop() -> None:
                     error_count += 1
             else:
                 error_count += 1
-                rollback_improvement(improvement_file)
+                rollback_edits(backups)
                 if command:
                     log_action("COMMAND_FAIL", f"{command.get('type')} ({command.get('id')}) failed tests")
 
@@ -549,8 +761,8 @@ def main_loop() -> None:
             pending_signals += len(glob.glob(os.path.join(WORKSPACE, ".feature_*")))
             pending_signals += len(glob.glob(os.path.join(WORKSPACE, ".task_*")))
 
-            if pending_signals > 0:
-                sleep_time = 5
+            if pending_commands or pending_signals > 0:
+                sleep_time = 2
             else:
                 sleep_time = random.randint(MIN_SLEEP, MAX_SLEEP)
 

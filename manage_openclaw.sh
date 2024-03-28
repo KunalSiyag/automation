@@ -13,6 +13,7 @@ Commands:
   status         Show container and API status
   shell          Open shell in the running container
   queue          Show pending build/feature/task commands via CLI
+  clean          Remove historical improvement_*.py files via API
   build <proj>   Queue a build for a project
   feature <proj> <feature> [description]
                  Queue a feature request
@@ -53,6 +54,9 @@ case "$cmd" in
     ;;
   queue)
     python3 openclaw-cli.py queue
+    ;;
+  clean)
+    python3 openclaw-cli.py clear-cache
     ;;
   build)
     project="${1:-}"

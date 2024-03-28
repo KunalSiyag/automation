@@ -157,11 +157,11 @@ This uses `docker-compose.yml` to run API + agent in one container and keeps pro
 ```python
 1. Read TASKS.md for project status
 2. Select a project (prefer IN_PROGRESS)
-3. Generate improvement code using Gemini API
-4. Apply changes to project
+3. Generate an in-place edit plan using Gemini API
+4. Apply edits directly to project source/test files
 5. Run pytest in project directory
 6. If tests pass: commit with backdated timestamp
-7. If tests fail: log failure and continue
+7. If tests fail: rollback edits and continue
 8. Sleep for random interval (20-60s)
 9. Repeat
 ```
@@ -235,7 +235,7 @@ All agent activities are logged to `bot_log.md`:
 ```
 [2026-03-27T20:15:30.123456] START - OpenClaw agent starting
 [2026-03-27T20:15:35.456789] SELECT - Working on project: todo_app
-[2026-03-27T20:15:40.789012] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T20:15:40.789012] EDIT - Updated models.py
 [2026-03-27T20:15:42.345678] TEST_PASS - /workspace/projects/todo_app
 [2026-03-27T20:15:43.678901] COMMIT - todo_app @ 2024-03-27 14:30:15
 [2026-03-27T20:15:44.901234] SLEEP - 45 seconds
@@ -300,7 +300,7 @@ WORKSPACE         # Default: /workspace (Docker)
 
 Edit `bot/agent.py`:
 - `START_DATE` - Adjust timeline
-- `generate_improvement()` - Modify prompt
+- `generate_edit_plan()` - Modify prompt/edit strategy
 - `run_tests()` - Change test command
 - Sleep intervals - Adjust timing
 
@@ -309,12 +309,12 @@ Edit `bot/agent.py`:
 ```
 [2026-03-27T20:20:15.123456] START - OpenClaw agent starting
 [2026-03-27T20:20:20.234567] SELECT - Working on project: data_analyzer
-[2026-03-27T20:20:25.345678] IMPROVEMENT - Applied to improvement_001.py
+[2026-03-27T20:20:25.345678] EDIT - Updated analyzer.py
 [2026-03-27T20:20:27.456789] TEST_PASS - /workspace/projects/data_analyzer
 [2026-03-27T20:20:28.567890] COMMIT - data_analyzer @ 2024-08-15 09:22:45
 [2026-03-27T20:20:29.678901] SLEEP - 35 seconds
 [2026-03-27T20:21:04.789012] SELECT - Working on project: code_explainer
-[2026-03-27T20:21:09.890123] IMPROVEMENT - Applied to improvement_002.py
+[2026-03-27T20:21:09.890123] EDIT - Updated explainer.py
 [2026-03-27T20:21:11.901234] TEST_PASS - /workspace/projects/code_explainer
 [2026-03-27T20:21:12.012345] COMMIT - code_explainer @ 2024-12-03 16:45:22
 ```

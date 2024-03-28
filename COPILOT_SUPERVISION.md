@@ -5,6 +5,7 @@ This repository now supports a supervised automation loop:
 - OpenClaw runs inside Docker and continuously improves projects.
 - Copilot (supervisor) reads logs and issues build/feature/task commands.
 - OpenClaw executes inside the container, runs tests, and commits successful changes.
+- OpenClaw now edits real project source/test files in-place (not `improvement_*.py` files).
 
 ## 1. Start OpenClaw
 
