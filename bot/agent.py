@@ -83,6 +83,20 @@ def is_path_safe(path: str) -> bool:
     except Exception:
         return False
 
+def initialize_agent():
+    """Initialize agent on startup"""
+    try:
+        # Configure git to accept /workspace directory
+        # This fixes "dubious ownership" error when running in Docker
+        subprocess.run(
+            ["git", "config", "--global", "--add", "safe.directory", WORKSPACE],
+            capture_output=True,
+            timeout=5
+        )
+        log_action("INIT", "Git safe.directory configured")
+    except Exception as e:
+        log_action("WARN", f"Git config failed: {e}")
+
 def read_tasks() -> dict:
     """Parse TASKS.md and return project status"""
     tasks = {}
@@ -222,12 +236,17 @@ def apply_improvement(project_path: str, code: str, iteration: int) -> bool:
 def run_tests(project_path: str) -> bool:
     """Run pytest in project directory"""
     try:
+        # Set PYTHONPATH to include the project directory
+        env = os.environ.copy()
+        env["PYTHONPATH"] = project_path
+        
         result = subprocess.run(
             ["pytest", "-v", "--tb=short"],
             cwd=project_path,
             capture_output=True,
             timeout=30,
-            text=True
+            text=True,
+            env=env
         )
         
         if result.returncode == 0:
@@ -345,6 +364,7 @@ def main_loop():
     max_errors = 5
     
     log_action("START", "OpenClaw agent starting")
+    initialize_agent()
     
     while True:
         try:

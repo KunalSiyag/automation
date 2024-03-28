@@ -2165,3 +2165,2182 @@ ERROR test_analyzer.py
 
 [2026-03-27T18:24:56.546108] RETRY - Will retry data_analyzer later
 [2026-03-27T18:24:56.546198] SLEEP - 53 seconds
+[2026-03-27T18:25:49.546866] SELECT - Working on project: todo_app
+[2026-03-27T18:25:49.547080] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:25:49.547374] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:25:49.785822] TEST_FAIL - /workspace/projects/todo_app
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/todo_app
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_______________________ ERROR collecting test_models.py ________________________
+ImportError while importing test module '/workspace/projects/todo_app/test_models.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_models.py:6: in <module>
+    from models import Task, TaskStatus, TaskManager
+E   ModuleNotFoundError: No module named 'models'
+=========================== short test summary info ============================
+ERROR test_models.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.09s ===============================
+
+
+[2026-03-27T18:25:49.785942] RETRY - Will retry todo_app later
+[2026-03-27T18:25:49.785989] SLEEP - 34 seconds
+[2026-03-27T18:26:23.786976] SELECT - Working on project: todo_app
+[2026-03-27T18:26:23.787282] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:26:23.787579] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:26:24.089115] TEST_FAIL - /workspace/projects/todo_app
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/todo_app
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_______________________ ERROR collecting test_models.py ________________________
+ImportError while importing test module '/workspace/projects/todo_app/test_models.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_models.py:6: in <module>
+    from models import Task, TaskStatus, TaskManager
+E   ModuleNotFoundError: No module named 'models'
+=========================== short test summary info ============================
+ERROR test_models.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.11s ===============================
+
+
+[2026-03-27T18:26:24.089299] RETRY - Will retry todo_app later
+[2026-03-27T18:26:24.089353] SLEEP - 31 seconds
+[2026-03-27T18:26:55.090057] SELECT - Working on project: code_explainer
+[2026-03-27T18:26:55.090363] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:26:55.098077] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:26:55.353493] TEST_FAIL - /workspace/projects/code_explainer
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/code_explainer
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+______________________ ERROR collecting test_explainer.py ______________________
+ImportError while importing test module '/workspace/projects/code_explainer/test_explainer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_explainer.py:6: in <module>
+    from explainer import CodeParser, CodeFormatter, CodeSummary
+E   ModuleNotFoundError: No module named 'explainer'
+=========================== short test summary info ============================
+ERROR test_explainer.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.09s ===============================
+
+
+[2026-03-27T18:26:55.353600] RETRY - Will retry code_explainer later
+[2026-03-27T18:26:55.353647] SLEEP - 37 seconds
+[2026-03-27T18:27:32.354266] SELECT - Working on project: data_analyzer
+[2026-03-27T18:27:32.354462] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:27:32.354697] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:27:32.591291] TEST_FAIL - /workspace/projects/data_analyzer
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/data_analyzer
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+______________________ ERROR collecting test_analyzer.py _______________________
+ImportError while importing test module '/workspace/projects/data_analyzer/test_analyzer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_analyzer.py:10: in <module>
+    from analyzer import DataLoader, DataAnalyzer
+E   ModuleNotFoundError: No module named 'analyzer'
+=========================== short test summary info ============================
+ERROR test_analyzer.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.09s ===============================
+
+
+[2026-03-27T18:27:32.591401] RETRY - Will retry data_analyzer later
+[2026-03-27T18:27:32.591438] SLEEP - 36 seconds
+[2026-03-27T18:28:08.592229] SELECT - Working on project: code_explainer
+[2026-03-27T18:28:08.592506] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:28:08.592786] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:28:08.899120] TEST_FAIL - /workspace/projects/code_explainer
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/code_explainer
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+______________________ ERROR collecting test_explainer.py ______________________
+ImportError while importing test module '/workspace/projects/code_explainer/test_explainer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_explainer.py:6: in <module>
+    from explainer import CodeParser, CodeFormatter, CodeSummary
+E   ModuleNotFoundError: No module named 'explainer'
+=========================== short test summary info ============================
+ERROR test_explainer.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.12s ===============================
+
+
+[2026-03-27T18:28:08.899325] RETRY - Will retry code_explainer later
+[2026-03-27T18:28:08.899370] SLEEP - 36 seconds
+[2026-03-27T18:28:44.900375] SELECT - Working on project: data_analyzer
+[2026-03-27T18:28:44.900623] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:28:44.900897] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:28:45.161406] TEST_FAIL - /workspace/projects/data_analyzer
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/data_analyzer
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+______________________ ERROR collecting test_analyzer.py _______________________
+ImportError while importing test module '/workspace/projects/data_analyzer/test_analyzer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_analyzer.py:10: in <module>
+    from analyzer import DataLoader, DataAnalyzer
+E   ModuleNotFoundError: No module named 'analyzer'
+=========================== short test summary info ============================
+ERROR test_analyzer.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.09s ===============================
+
+
+[2026-03-27T18:28:45.161527] RETRY - Will retry data_analyzer later
+[2026-03-27T18:28:45.161575] SLEEP - 32 seconds
+[2026-03-27T18:29:17.162390] SELECT - Working on project: todo_app
+[2026-03-27T18:29:17.162655] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:29:17.162880] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:29:17.402731] TEST_FAIL - /workspace/projects/todo_app
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/todo_app
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_______________________ ERROR collecting test_models.py ________________________
+ImportError while importing test module '/workspace/projects/todo_app/test_models.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_models.py:6: in <module>
+    from models import Task, TaskStatus, TaskManager
+E   ModuleNotFoundError: No module named 'models'
+=========================== short test summary info ============================
+ERROR test_models.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.09s ===============================
+
+
+[2026-03-27T18:29:17.402849] RETRY - Will retry todo_app later
+[2026-03-27T18:29:17.402898] SLEEP - 54 seconds
+[2026-03-27T18:30:11.403529] SELECT - Working on project: data_analyzer
+[2026-03-27T18:30:11.403940] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:30:11.404176] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:30:11.653087] TEST_FAIL - /workspace/projects/data_analyzer
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/data_analyzer
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+______________________ ERROR collecting test_analyzer.py _______________________
+ImportError while importing test module '/workspace/projects/data_analyzer/test_analyzer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_analyzer.py:10: in <module>
+    from analyzer import DataLoader, DataAnalyzer
+E   ModuleNotFoundError: No module named 'analyzer'
+=========================== short test summary info ============================
+ERROR test_analyzer.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.09s ===============================
+
+
+[2026-03-27T18:30:11.653248] RETRY - Will retry data_analyzer later
+[2026-03-27T18:30:11.653298] SLEEP - 52 seconds
+[2026-03-27T18:31:03.654101] SELECT - Working on project: data_analyzer
+[2026-03-27T18:31:03.654413] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:31:03.654688] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:31:03.984373] TEST_FAIL - /workspace/projects/data_analyzer
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/data_analyzer
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+______________________ ERROR collecting test_analyzer.py _______________________
+ImportError while importing test module '/workspace/projects/data_analyzer/test_analyzer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_analyzer.py:10: in <module>
+    from analyzer import DataLoader, DataAnalyzer
+E   ModuleNotFoundError: No module named 'analyzer'
+=========================== short test summary info ============================
+ERROR test_analyzer.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.13s ===============================
+
+
+[2026-03-27T18:31:03.984534] RETRY - Will retry data_analyzer later
+[2026-03-27T18:31:03.984591] SLEEP - 48 seconds
+[2026-03-27T18:31:51.985261] SELECT - Working on project: data_analyzer
+[2026-03-27T18:31:51.993325] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:31:51.993585] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:31:52.242281] TEST_FAIL - /workspace/projects/data_analyzer
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/data_analyzer
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+______________________ ERROR collecting test_analyzer.py _______________________
+ImportError while importing test module '/workspace/projects/data_analyzer/test_analyzer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_analyzer.py:10: in <module>
+    from analyzer import DataLoader, DataAnalyzer
+E   ModuleNotFoundError: No module named 'analyzer'
+=========================== short test summary info ============================
+ERROR test_analyzer.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.09s ===============================
+
+
+[2026-03-27T18:31:52.242389] RETRY - Will retry data_analyzer later
+[2026-03-27T18:31:52.242440] SLEEP - 48 seconds
+[2026-03-27T18:32:40.243089] SELECT - Working on project: todo_app
+[2026-03-27T18:32:40.243330] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:32:40.243541] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:32:40.495517] TEST_FAIL - /workspace/projects/todo_app
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/todo_app
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_______________________ ERROR collecting test_models.py ________________________
+ImportError while importing test module '/workspace/projects/todo_app/test_models.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_models.py:6: in <module>
+    from models import Task, TaskStatus, TaskManager
+E   ModuleNotFoundError: No module named 'models'
+=========================== short test summary info ============================
+ERROR test_models.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.09s ===============================
+
+
+[2026-03-27T18:32:40.495653] RETRY - Will retry todo_app later
+[2026-03-27T18:32:40.495703] SLEEP - 26 seconds
+[2026-03-27T18:33:06.496316] SELECT - Working on project: todo_app
+[2026-03-27T18:33:06.496617] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:33:06.496857] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:33:06.814372] TEST_FAIL - /workspace/projects/todo_app
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/todo_app
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_______________________ ERROR collecting test_models.py ________________________
+ImportError while importing test module '/workspace/projects/todo_app/test_models.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_models.py:6: in <module>
+    from models import Task, TaskStatus, TaskManager
+E   ModuleNotFoundError: No module named 'models'
+=========================== short test summary info ============================
+ERROR test_models.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.11s ===============================
+
+
+[2026-03-27T18:33:06.814555] RETRY - Will retry todo_app later
+[2026-03-27T18:33:06.814614] SLEEP - 44 seconds
+[2026-03-27T18:33:50.815449] SELECT - Working on project: data_analyzer
+[2026-03-27T18:33:50.815790] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:33:50.816080] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:33:51.111264] TEST_FAIL - /workspace/projects/data_analyzer
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/data_analyzer
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+______________________ ERROR collecting test_analyzer.py _______________________
+ImportError while importing test module '/workspace/projects/data_analyzer/test_analyzer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_analyzer.py:10: in <module>
+    from analyzer import DataLoader, DataAnalyzer
+E   ModuleNotFoundError: No module named 'analyzer'
+=========================== short test summary info ============================
+ERROR test_analyzer.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.10s ===============================
+
+
+[2026-03-27T18:33:51.111455] RETRY - Will retry data_analyzer later
+[2026-03-27T18:33:51.111508] SLEEP - 27 seconds
+[2026-03-27T18:34:18.112350] SELECT - Working on project: todo_app
+[2026-03-27T18:34:18.112641] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:34:18.112935] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:34:18.399923] TEST_FAIL - /workspace/projects/todo_app
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/todo_app
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_______________________ ERROR collecting test_models.py ________________________
+ImportError while importing test module '/workspace/projects/todo_app/test_models.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_models.py:6: in <module>
+    from models import Task, TaskStatus, TaskManager
+E   ModuleNotFoundError: No module named 'models'
+=========================== short test summary info ============================
+ERROR test_models.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.11s ===============================
+
+
+[2026-03-27T18:34:18.400095] RETRY - Will retry todo_app later
+[2026-03-27T18:34:18.400175] SLEEP - 32 seconds
+[2026-03-27T18:34:50.401021] SELECT - Working on project: code_explainer
+[2026-03-27T18:34:50.401409] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:34:50.401705] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:34:50.714561] TEST_FAIL - /workspace/projects/code_explainer
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/code_explainer
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+______________________ ERROR collecting test_explainer.py ______________________
+ImportError while importing test module '/workspace/projects/code_explainer/test_explainer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_explainer.py:6: in <module>
+    from explainer import CodeParser, CodeFormatter, CodeSummary
+E   ModuleNotFoundError: No module named 'explainer'
+=========================== short test summary info ============================
+ERROR test_explainer.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.12s ===============================
+
+
+[2026-03-27T18:34:50.714752] RETRY - Will retry code_explainer later
+[2026-03-27T18:34:50.714806] SLEEP - 50 seconds
+[2026-03-27T18:35:40.715313] SELECT - Working on project: data_analyzer
+[2026-03-27T18:35:40.715472] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:35:40.715666] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:35:40.976389] TEST_FAIL - /workspace/projects/data_analyzer
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/data_analyzer
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+______________________ ERROR collecting test_analyzer.py _______________________
+ImportError while importing test module '/workspace/projects/data_analyzer/test_analyzer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_analyzer.py:10: in <module>
+    from analyzer import DataLoader, DataAnalyzer
+E   ModuleNotFoundError: No module named 'analyzer'
+=========================== short test summary info ============================
+ERROR test_analyzer.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.10s ===============================
+
+
+[2026-03-27T18:35:40.976516] RETRY - Will retry data_analyzer later
+[2026-03-27T18:35:40.976566] SLEEP - 42 seconds
+[2026-03-27T18:36:22.977134] SELECT - Working on project: todo_app
+[2026-03-27T18:36:22.977348] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:36:22.977577] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:36:23.250054] TEST_FAIL - /workspace/projects/todo_app
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/todo_app
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_______________________ ERROR collecting test_models.py ________________________
+ImportError while importing test module '/workspace/projects/todo_app/test_models.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_models.py:6: in <module>
+    from models import Task, TaskStatus, TaskManager
+E   ModuleNotFoundError: No module named 'models'
+=========================== short test summary info ============================
+ERROR test_models.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.10s ===============================
+
+
+[2026-03-27T18:36:23.250277] RETRY - Will retry todo_app later
+[2026-03-27T18:36:23.250354] SLEEP - 21 seconds
+[2026-03-27T18:36:44.250975] SELECT - Working on project: todo_app
+[2026-03-27T18:36:44.251208] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:36:44.251395] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:36:44.535057] TEST_FAIL - /workspace/projects/todo_app
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/todo_app
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_______________________ ERROR collecting test_models.py ________________________
+ImportError while importing test module '/workspace/projects/todo_app/test_models.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_models.py:6: in <module>
+    from models import Task, TaskStatus, TaskManager
+E   ModuleNotFoundError: No module named 'models'
+=========================== short test summary info ============================
+ERROR test_models.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.11s ===============================
+
+
+[2026-03-27T18:36:44.535192] RETRY - Will retry todo_app later
+[2026-03-27T18:36:44.535245] SLEEP - 48 seconds
+[2026-03-27T18:37:32.535889] SELECT - Working on project: todo_app
+[2026-03-27T18:37:32.543678] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:37:32.544010] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:37:32.883978] TEST_FAIL - /workspace/projects/todo_app
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/todo_app
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_______________________ ERROR collecting test_models.py ________________________
+ImportError while importing test module '/workspace/projects/todo_app/test_models.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_models.py:6: in <module>
+    from models import Task, TaskStatus, TaskManager
+E   ModuleNotFoundError: No module named 'models'
+=========================== short test summary info ============================
+ERROR test_models.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.11s ===============================
+
+
+[2026-03-27T18:37:32.884125] RETRY - Will retry todo_app later
+[2026-03-27T18:37:32.884183] SLEEP - 60 seconds
+[2026-03-27T18:38:32.884776] SELECT - Working on project: data_analyzer
+[2026-03-27T18:38:32.884978] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:38:32.885287] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:38:33.124230] TEST_FAIL - /workspace/projects/data_analyzer
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/data_analyzer
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+______________________ ERROR collecting test_analyzer.py _______________________
+ImportError while importing test module '/workspace/projects/data_analyzer/test_analyzer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_analyzer.py:10: in <module>
+    from analyzer import DataLoader, DataAnalyzer
+E   ModuleNotFoundError: No module named 'analyzer'
+=========================== short test summary info ============================
+ERROR test_analyzer.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.09s ===============================
+
+
+[2026-03-27T18:38:33.124356] RETRY - Will retry data_analyzer later
+[2026-03-27T18:38:33.124403] SLEEP - 23 seconds
+[2026-03-27T18:38:56.124896] SELECT - Working on project: data_analyzer
+[2026-03-27T18:38:56.125085] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:38:56.125363] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:38:56.371012] TEST_FAIL - /workspace/projects/data_analyzer
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/data_analyzer
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+______________________ ERROR collecting test_analyzer.py _______________________
+ImportError while importing test module '/workspace/projects/data_analyzer/test_analyzer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_analyzer.py:10: in <module>
+    from analyzer import DataLoader, DataAnalyzer
+E   ModuleNotFoundError: No module named 'analyzer'
+=========================== short test summary info ============================
+ERROR test_analyzer.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.09s ===============================
+
+
+[2026-03-27T18:38:56.371143] RETRY - Will retry data_analyzer later
+[2026-03-27T18:38:56.371223] SLEEP - 56 seconds
+[2026-03-27T18:39:52.371918] SELECT - Working on project: todo_app
+[2026-03-27T18:39:52.372228] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:39:52.372516] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:39:52.657002] TEST_FAIL - /workspace/projects/todo_app
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/todo_app
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_______________________ ERROR collecting test_models.py ________________________
+ImportError while importing test module '/workspace/projects/todo_app/test_models.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_models.py:6: in <module>
+    from models import Task, TaskStatus, TaskManager
+E   ModuleNotFoundError: No module named 'models'
+=========================== short test summary info ============================
+ERROR test_models.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.10s ===============================
+
+
+[2026-03-27T18:39:52.657222] RETRY - Will retry todo_app later
+[2026-03-27T18:39:52.657274] SLEEP - 35 seconds
+[2026-03-27T18:40:27.658079] SELECT - Working on project: todo_app
+[2026-03-27T18:40:27.658350] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:40:27.658617] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:40:27.963138] TEST_FAIL - /workspace/projects/todo_app
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/todo_app
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_______________________ ERROR collecting test_models.py ________________________
+ImportError while importing test module '/workspace/projects/todo_app/test_models.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_models.py:6: in <module>
+    from models import Task, TaskStatus, TaskManager
+E   ModuleNotFoundError: No module named 'models'
+=========================== short test summary info ============================
+ERROR test_models.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.11s ===============================
+
+
+[2026-03-27T18:40:27.963351] RETRY - Will retry todo_app later
+[2026-03-27T18:40:27.963407] SLEEP - 31 seconds
+[2026-03-27T18:40:58.964006] SELECT - Working on project: code_explainer
+[2026-03-27T18:40:58.964286] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:40:58.964549] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:40:59.206838] TEST_FAIL - /workspace/projects/code_explainer
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/code_explainer
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+______________________ ERROR collecting test_explainer.py ______________________
+ImportError while importing test module '/workspace/projects/code_explainer/test_explainer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_explainer.py:6: in <module>
+    from explainer import CodeParser, CodeFormatter, CodeSummary
+E   ModuleNotFoundError: No module named 'explainer'
+=========================== short test summary info ============================
+ERROR test_explainer.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.09s ===============================
+
+
+[2026-03-27T18:40:59.206971] RETRY - Will retry code_explainer later
+[2026-03-27T18:40:59.207021] SLEEP - 56 seconds
+[2026-03-27T18:41:55.207649] SELECT - Working on project: code_explainer
+[2026-03-27T18:41:55.207845] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:41:55.208090] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:41:55.460480] TEST_FAIL - /workspace/projects/code_explainer
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/code_explainer
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+______________________ ERROR collecting test_explainer.py ______________________
+ImportError while importing test module '/workspace/projects/code_explainer/test_explainer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_explainer.py:6: in <module>
+    from explainer import CodeParser, CodeFormatter, CodeSummary
+E   ModuleNotFoundError: No module named 'explainer'
+=========================== short test summary info ============================
+ERROR test_explainer.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.10s ===============================
+
+
+[2026-03-27T18:41:55.460594] RETRY - Will retry code_explainer later
+[2026-03-27T18:41:55.460643] SLEEP - 26 seconds
+[2026-03-27T18:42:21.461457] SELECT - Working on project: code_explainer
+[2026-03-27T18:42:21.461906] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:42:21.462297] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:42:21.761472] TEST_FAIL - /workspace/projects/code_explainer
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/code_explainer
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+______________________ ERROR collecting test_explainer.py ______________________
+ImportError while importing test module '/workspace/projects/code_explainer/test_explainer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_explainer.py:6: in <module>
+    from explainer import CodeParser, CodeFormatter, CodeSummary
+E   ModuleNotFoundError: No module named 'explainer'
+=========================== short test summary info ============================
+ERROR test_explainer.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.11s ===============================
+
+
+[2026-03-27T18:42:21.761624] RETRY - Will retry code_explainer later
+[2026-03-27T18:42:21.761683] SLEEP - 24 seconds
+[2026-03-27T18:42:45.762440] COMMAND - Received build signal
+[2026-03-27T18:42:45.762597] COMMAND - Received feature request: Add CSV support
+[2026-03-27T18:42:45.762700] EXEC - Processing build command for todo_app
+[2026-03-27T18:42:45.762753] EXEC - Generating feature: Add CSV support for data_analyzer
+[2026-03-27T18:42:45.762965] SELECT - Working on project: code_explainer
+[2026-03-27T18:42:45.763094] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:42:45.763273] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:42:46.009466] TEST_FAIL - /workspace/projects/code_explainer
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/code_explainer
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+______________________ ERROR collecting test_explainer.py ______________________
+ImportError while importing test module '/workspace/projects/code_explainer/test_explainer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_explainer.py:6: in <module>
+    from explainer import CodeParser, CodeFormatter, CodeSummary
+E   ModuleNotFoundError: No module named 'explainer'
+=========================== short test summary info ============================
+ERROR test_explainer.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.09s ===============================
+
+
+[2026-03-27T18:42:46.009599] RETRY - Will retry code_explainer later
+[2026-03-27T18:42:46.009648] SLEEP - 47 seconds
+[2026-03-27T18:43:33.010309] SELECT - Working on project: code_explainer
+[2026-03-27T18:43:33.010524] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:43:33.018735] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:43:33.284859] TEST_FAIL - /workspace/projects/code_explainer
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/code_explainer
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+______________________ ERROR collecting test_explainer.py ______________________
+ImportError while importing test module '/workspace/projects/code_explainer/test_explainer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_explainer.py:6: in <module>
+    from explainer import CodeParser, CodeFormatter, CodeSummary
+E   ModuleNotFoundError: No module named 'explainer'
+=========================== short test summary info ============================
+ERROR test_explainer.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.10s ===============================
+
+
+[2026-03-27T18:43:33.284981] RETRY - Will retry code_explainer later
+[2026-03-27T18:43:33.285021] SLEEP - 50 seconds
+[2026-03-27T18:44:23.285672] SELECT - Working on project: data_analyzer
+[2026-03-27T18:44:23.285875] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:44:23.286113] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:44:23.536964] TEST_FAIL - /workspace/projects/data_analyzer
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/data_analyzer
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+______________________ ERROR collecting test_analyzer.py _______________________
+ImportError while importing test module '/workspace/projects/data_analyzer/test_analyzer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_analyzer.py:10: in <module>
+    from analyzer import DataLoader, DataAnalyzer
+E   ModuleNotFoundError: No module named 'analyzer'
+=========================== short test summary info ============================
+ERROR test_analyzer.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.09s ===============================
+
+
+[2026-03-27T18:44:23.537089] RETRY - Will retry data_analyzer later
+[2026-03-27T18:44:23.537138] SLEEP - 25 seconds
+[2026-03-27T18:44:48.537844] SELECT - Working on project: code_explainer
+[2026-03-27T18:44:48.538044] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:44:48.538267] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:44:48.779800] TEST_FAIL - /workspace/projects/code_explainer
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/code_explainer
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+______________________ ERROR collecting test_explainer.py ______________________
+ImportError while importing test module '/workspace/projects/code_explainer/test_explainer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_explainer.py:6: in <module>
+    from explainer import CodeParser, CodeFormatter, CodeSummary
+E   ModuleNotFoundError: No module named 'explainer'
+=========================== short test summary info ============================
+ERROR test_explainer.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.09s ===============================
+
+
+[2026-03-27T18:44:48.779918] RETRY - Will retry code_explainer later
+[2026-03-27T18:44:48.779967] SLEEP - 36 seconds
+[2026-03-27T18:45:24.780586] SELECT - Working on project: todo_app
+[2026-03-27T18:45:24.780778] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:45:24.780964] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:45:25.024584] TEST_FAIL - /workspace/projects/todo_app
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/todo_app
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_______________________ ERROR collecting test_models.py ________________________
+ImportError while importing test module '/workspace/projects/todo_app/test_models.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_models.py:6: in <module>
+    from models import Task, TaskStatus, TaskManager
+E   ModuleNotFoundError: No module named 'models'
+=========================== short test summary info ============================
+ERROR test_models.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.09s ===============================
+
+
+[2026-03-27T18:45:25.024709] RETRY - Will retry todo_app later
+[2026-03-27T18:45:25.024758] SLEEP - 46 seconds
+[2026-03-27T18:45:55.571000] START - OpenClaw agent starting
+[2026-03-27T18:45:55.571536] SELECT - Working on project: code_explainer
+[2026-03-27T18:45:55.571759] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:45:55.571930] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:45:55.849752] TEST_FAIL - /workspace/projects/code_explainer
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/code_explainer
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+______________________ ERROR collecting test_explainer.py ______________________
+ImportError while importing test module '/workspace/projects/code_explainer/test_explainer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_explainer.py:6: in <module>
+    from explainer import CodeParser, CodeFormatter, CodeSummary
+E   ModuleNotFoundError: No module named 'explainer'
+=========================== short test summary info ============================
+ERROR test_explainer.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.10s ===============================
+
+
+[2026-03-27T18:45:55.849869] RETRY - Will retry code_explainer later
+[2026-03-27T18:45:55.849922] SLEEP - 32 seconds
+[2026-03-27T18:46:27.850594] SELECT - Working on project: data_analyzer
+[2026-03-27T18:46:27.850805] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:46:27.851036] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:46:28.093819] TEST_FAIL - /workspace/projects/data_analyzer
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/data_analyzer
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+______________________ ERROR collecting test_analyzer.py _______________________
+ImportError while importing test module '/workspace/projects/data_analyzer/test_analyzer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_analyzer.py:10: in <module>
+    from analyzer import DataLoader, DataAnalyzer
+E   ModuleNotFoundError: No module named 'analyzer'
+=========================== short test summary info ============================
+ERROR test_analyzer.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.09s ===============================
+
+
+[2026-03-27T18:46:28.093928] RETRY - Will retry data_analyzer later
+[2026-03-27T18:46:28.093967] SLEEP - 49 seconds
+[2026-03-27T18:47:17.094408] COMMAND - Received build signal
+[2026-03-27T18:47:17.094587] COMMAND - Received feature request: Add notifications
+[2026-03-27T18:47:17.094624] EXEC - Processing build command for todo_app
+[2026-03-27T18:47:17.094657] EXEC - Generating feature: Add notifications for todo_app
+[2026-03-27T18:47:17.094868] SELECT - Working on project: code_explainer
+[2026-03-27T18:47:17.095005] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:47:17.095220] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:47:17.337720] TEST_FAIL - /workspace/projects/code_explainer
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/code_explainer
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+______________________ ERROR collecting test_explainer.py ______________________
+ImportError while importing test module '/workspace/projects/code_explainer/test_explainer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_explainer.py:6: in <module>
+    from explainer import CodeParser, CodeFormatter, CodeSummary
+E   ModuleNotFoundError: No module named 'explainer'
+=========================== short test summary info ============================
+ERROR test_explainer.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.09s ===============================
+
+
+[2026-03-27T18:47:17.337868] RETRY - Will retry code_explainer later
+[2026-03-27T18:47:17.337922] SLEEP - 39 seconds
+[2026-03-27T18:47:56.338463] SELECT - Working on project: data_analyzer
+[2026-03-27T18:47:56.338656] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:47:56.338861] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:47:56.618572] TEST_FAIL - /workspace/projects/data_analyzer
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/data_analyzer
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+______________________ ERROR collecting test_analyzer.py _______________________
+ImportError while importing test module '/workspace/projects/data_analyzer/test_analyzer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_analyzer.py:10: in <module>
+    from analyzer import DataLoader, DataAnalyzer
+E   ModuleNotFoundError: No module named 'analyzer'
+=========================== short test summary info ============================
+ERROR test_analyzer.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.10s ===============================
+
+
+[2026-03-27T18:47:56.618686] RETRY - Will retry data_analyzer later
+[2026-03-27T18:47:56.618748] SLEEP - 50 seconds
+[2026-03-27T18:48:46.619411] SELECT - Working on project: todo_app
+[2026-03-27T18:48:46.619610] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:48:46.619851] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:48:46.857439] TEST_FAIL - /workspace/projects/todo_app
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/todo_app
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_______________________ ERROR collecting test_models.py ________________________
+ImportError while importing test module '/workspace/projects/todo_app/test_models.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_models.py:6: in <module>
+    from models import Task, TaskStatus, TaskManager
+E   ModuleNotFoundError: No module named 'models'
+=========================== short test summary info ============================
+ERROR test_models.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.09s ===============================
+
+
+[2026-03-27T18:48:46.857566] RETRY - Will retry todo_app later
+[2026-03-27T18:48:46.857618] SLEEP - 28 seconds
+[2026-03-27T18:49:14.858310] SELECT - Working on project: todo_app
+[2026-03-27T18:49:14.858528] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:49:14.858805] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:49:15.105357] TEST_FAIL - /workspace/projects/todo_app
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/todo_app
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_______________________ ERROR collecting test_models.py ________________________
+ImportError while importing test module '/workspace/projects/todo_app/test_models.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_models.py:6: in <module>
+    from models import Task, TaskStatus, TaskManager
+E   ModuleNotFoundError: No module named 'models'
+=========================== short test summary info ============================
+ERROR test_models.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.09s ===============================
+
+
+[2026-03-27T18:49:15.105474] RETRY - Will retry todo_app later
+[2026-03-27T18:49:15.105529] SLEEP - 53 seconds
+[2026-03-27T18:50:08.106142] SELECT - Working on project: todo_app
+[2026-03-27T18:50:08.106368] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:50:08.106610] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:50:08.346800] TEST_FAIL - /workspace/projects/todo_app
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/todo_app
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_______________________ ERROR collecting test_models.py ________________________
+ImportError while importing test module '/workspace/projects/todo_app/test_models.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_models.py:6: in <module>
+    from models import Task, TaskStatus, TaskManager
+E   ModuleNotFoundError: No module named 'models'
+=========================== short test summary info ============================
+ERROR test_models.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.09s ===============================
+
+
+[2026-03-27T18:50:08.346928] RETRY - Will retry todo_app later
+[2026-03-27T18:50:08.346979] SLEEP - 20 seconds
+[2026-03-27T18:50:28.347603] SELECT - Working on project: todo_app
+[2026-03-27T18:50:28.347806] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:50:28.355755] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:50:28.597533] TEST_FAIL - /workspace/projects/todo_app
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/todo_app
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_______________________ ERROR collecting test_models.py ________________________
+ImportError while importing test module '/workspace/projects/todo_app/test_models.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_models.py:6: in <module>
+    from models import Task, TaskStatus, TaskManager
+E   ModuleNotFoundError: No module named 'models'
+=========================== short test summary info ============================
+ERROR test_models.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.09s ===============================
+
+
+[2026-03-27T18:50:28.597645] RETRY - Will retry todo_app later
+[2026-03-27T18:50:28.597698] SLEEP - 60 seconds
+[2026-03-27T18:51:28.598306] SELECT - Working on project: code_explainer
+[2026-03-27T18:51:28.598498] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:51:28.598728] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:51:28.840757] TEST_FAIL - /workspace/projects/code_explainer
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/code_explainer
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+______________________ ERROR collecting test_explainer.py ______________________
+ImportError while importing test module '/workspace/projects/code_explainer/test_explainer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_explainer.py:6: in <module>
+    from explainer import CodeParser, CodeFormatter, CodeSummary
+E   ModuleNotFoundError: No module named 'explainer'
+=========================== short test summary info ============================
+ERROR test_explainer.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.09s ===============================
+
+
+[2026-03-27T18:51:28.840882] RETRY - Will retry code_explainer later
+[2026-03-27T18:51:28.840934] SLEEP - 30 seconds
+[2026-03-27T18:51:58.841592] SELECT - Working on project: todo_app
+[2026-03-27T18:51:58.841794] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:51:58.842067] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:51:59.133372] TEST_FAIL - /workspace/projects/todo_app
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/todo_app
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_______________________ ERROR collecting test_models.py ________________________
+ImportError while importing test module '/workspace/projects/todo_app/test_models.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_models.py:6: in <module>
+    from models import Task, TaskStatus, TaskManager
+E   ModuleNotFoundError: No module named 'models'
+=========================== short test summary info ============================
+ERROR test_models.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.11s ===============================
+
+
+[2026-03-27T18:51:59.133477] RETRY - Will retry todo_app later
+[2026-03-27T18:51:59.133531] SLEEP - 58 seconds
+[2026-03-27T18:52:57.134075] SELECT - Working on project: code_explainer
+[2026-03-27T18:52:57.134323] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:52:57.134587] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:52:57.376489] TEST_FAIL - /workspace/projects/code_explainer
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/code_explainer
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+______________________ ERROR collecting test_explainer.py ______________________
+ImportError while importing test module '/workspace/projects/code_explainer/test_explainer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_explainer.py:6: in <module>
+    from explainer import CodeParser, CodeFormatter, CodeSummary
+E   ModuleNotFoundError: No module named 'explainer'
+=========================== short test summary info ============================
+ERROR test_explainer.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.09s ===============================
+
+
+[2026-03-27T18:52:57.376611] RETRY - Will retry code_explainer later
+[2026-03-27T18:52:57.376670] SLEEP - 43 seconds
+[2026-03-27T18:53:40.377310] SELECT - Working on project: data_analyzer
+[2026-03-27T18:53:40.377494] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:53:40.385863] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:53:40.623879] TEST_FAIL - /workspace/projects/data_analyzer
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/data_analyzer
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+______________________ ERROR collecting test_analyzer.py _______________________
+ImportError while importing test module '/workspace/projects/data_analyzer/test_analyzer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_analyzer.py:10: in <module>
+    from analyzer import DataLoader, DataAnalyzer
+E   ModuleNotFoundError: No module named 'analyzer'
+=========================== short test summary info ============================
+ERROR test_analyzer.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.09s ===============================
+
+
+[2026-03-27T18:53:40.624003] RETRY - Will retry data_analyzer later
+[2026-03-27T18:53:40.624053] SLEEP - 48 seconds
+[2026-03-27T18:54:28.625113] SELECT - Working on project: code_explainer
+[2026-03-27T18:54:28.625424] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:54:28.625647] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:54:28.864064] TEST_FAIL - /workspace/projects/code_explainer
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/code_explainer
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+______________________ ERROR collecting test_explainer.py ______________________
+ImportError while importing test module '/workspace/projects/code_explainer/test_explainer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_explainer.py:6: in <module>
+    from explainer import CodeParser, CodeFormatter, CodeSummary
+E   ModuleNotFoundError: No module named 'explainer'
+=========================== short test summary info ============================
+ERROR test_explainer.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.09s ===============================
+
+
+[2026-03-27T18:54:28.864197] RETRY - Will retry code_explainer later
+[2026-03-27T18:54:28.864249] SLEEP - 25 seconds
+[2026-03-27T18:54:53.865388] SELECT - Working on project: code_explainer
+[2026-03-27T18:54:53.865553] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:54:53.865755] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:54:54.118535] TEST_FAIL - /workspace/projects/code_explainer
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/code_explainer
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+______________________ ERROR collecting test_explainer.py ______________________
+ImportError while importing test module '/workspace/projects/code_explainer/test_explainer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_explainer.py:6: in <module>
+    from explainer import CodeParser, CodeFormatter, CodeSummary
+E   ModuleNotFoundError: No module named 'explainer'
+=========================== short test summary info ============================
+ERROR test_explainer.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.09s ===============================
+
+
+[2026-03-27T18:54:54.118661] RETRY - Will retry code_explainer later
+[2026-03-27T18:54:54.118723] SLEEP - 42 seconds
+[2026-03-27T18:55:36.119522] SELECT - Working on project: data_analyzer
+[2026-03-27T18:55:36.119671] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:55:36.119848] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:55:36.371429] TEST_FAIL - /workspace/projects/data_analyzer
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/data_analyzer
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+______________________ ERROR collecting test_analyzer.py _______________________
+ImportError while importing test module '/workspace/projects/data_analyzer/test_analyzer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_analyzer.py:10: in <module>
+    from analyzer import DataLoader, DataAnalyzer
+E   ModuleNotFoundError: No module named 'analyzer'
+=========================== short test summary info ============================
+ERROR test_analyzer.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.09s ===============================
+
+
+[2026-03-27T18:55:36.371560] RETRY - Will retry data_analyzer later
+[2026-03-27T18:55:36.371610] SLEEP - 35 seconds
+[2026-03-27T18:56:11.372319] SELECT - Working on project: code_explainer
+[2026-03-27T18:56:11.372543] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:56:11.380503] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:56:11.690475] TEST_FAIL - /workspace/projects/code_explainer
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.3, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /workspace/projects/code_explainer
+configfile: pytest.ini
+testpaths: .
+plugins: timeout-2.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+______________________ ERROR collecting test_explainer.py ______________________
+ImportError while importing test module '/workspace/projects/code_explainer/test_explainer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.11/site-packages/_pytest/python.py:617: in _importtestmodule
+    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)
+/usr/local/lib/python3.11/site-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/local/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/usr/local/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+test_explainer.py:6: in <module>
+    from explainer import CodeParser, CodeFormatter, CodeSummary
+E   ModuleNotFoundError: No module named 'explainer'
+=========================== short test summary info ============================
+ERROR test_explainer.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.10s ===============================
+
+
+[2026-03-27T18:56:11.690598] RETRY - Will retry code_explainer later
+[2026-03-27T18:56:11.690645] SLEEP - 54 seconds
+[2026-03-27T18:57:05.691091] COMMAND - Received build signal
+[2026-03-27T18:57:05.691254] COMMAND - Received build signal
+[2026-03-27T18:57:05.691357] COMMAND - Received build signal
+[2026-03-27T18:57:05.691484] COMMAND - Received build signal
+[2026-03-27T18:57:05.691605] EXEC - Processing build command for todo_app
+[2026-03-27T18:57:05.691918] SELECT - Working on project: code_explainer
+[2026-03-27T18:57:05.692078] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:57:05.692322] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:57:05.870097] TEST_PASS - /workspace/projects/code_explainer
+[2026-03-27T18:57:05.875387] ERROR - Commit failed: Cmd('git') failed due to: exit code(128)
+  cmdline: git add -A
+  stderr: 'fatal: detected dubious ownership in repository at '/workspace'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /workspace'
+[2026-03-27T18:57:05.875468] SLEEP - 28 seconds
+[2026-03-27T18:57:33.876098] SELECT - Working on project: code_explainer
+[2026-03-27T18:57:33.876300] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:57:33.876515] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:57:34.039567] TEST_PASS - /workspace/projects/code_explainer
+[2026-03-27T18:57:34.042053] ERROR - Commit failed: Cmd('git') failed due to: exit code(128)
+  cmdline: git add -A
+  stderr: 'fatal: detected dubious ownership in repository at '/workspace'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /workspace'
+[2026-03-27T18:57:34.042191] SLEEP - 49 seconds
+[2026-03-27T18:58:23.042849] SELECT - Working on project: todo_app
+[2026-03-27T18:58:23.043126] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:58:23.043452] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:58:23.276946] TEST_PASS - /workspace/projects/todo_app
+[2026-03-27T18:58:23.279196] ERROR - Commit failed: Cmd('git') failed due to: exit code(128)
+  cmdline: git add -A
+  stderr: 'fatal: detected dubious ownership in repository at '/workspace'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /workspace'
+[2026-03-27T18:58:23.279292] SLEEP - 40 seconds
+[2026-03-27T18:59:03.279912] SELECT - Working on project: code_explainer
+[2026-03-27T18:59:03.280101] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T18:59:03.280347] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T18:59:03.444479] TEST_PASS - /workspace/projects/code_explainer
+[2026-03-27T18:59:03.446456] ERROR - Commit failed: Cmd('git') failed due to: exit code(128)
+  cmdline: git add -A
+  stderr: 'fatal: detected dubious ownership in repository at '/workspace'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /workspace'
+[2026-03-27T18:59:03.446533] SLEEP - 47 seconds
+[2026-03-27T19:00:31.436375] START - OpenClaw agent starting
+[2026-03-27T19:00:31.448218] INIT - Git safe.directory configured
+[2026-03-27T19:00:31.448830] SELECT - Working on project: todo_app
+[2026-03-27T19:00:31.449077] ERROR - Gemini generation failed: 'harm_category_unspecified'
+[2026-03-27T19:00:31.449306] IMPROVEMENT - Applied to improvement_000.py
+[2026-03-27T19:00:31.685592] TEST_PASS - /workspace/projects/todo_app

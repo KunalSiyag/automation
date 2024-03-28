@@ -138,6 +138,46 @@ A simple machine learning text classifier.
 
 ---
 
+## fix_pytest_imports
+**Status:** URGENT
+
+Fix pytest ModuleNotFoundError issues by configuring PYTHONPATH in all projects.
+
+### Problem:
+- Tests fail with: `ModuleNotFoundError: No module named 'analyzer'` etc
+- Reason: pytest can't find modules in the same directory
+
+### Solution:
+Update each project's `conftest.py` or `pytest.ini` to include project root in Python path:
+
+1. Create/update conftest.py in each project directory with:
+```python
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent))
+```
+
+2. Or update pytest.ini with:
+```ini
+[pytest]
+pythonpath = .
+```
+
+### Tasks:
+- [ ] Fix data_analyzer imports
+- [ ] Fix todo_app imports
+- [ ] Fix web_scraper imports
+- [ ] Fix code_explainer imports
+- [ ] Verify all tests pass
+
+### Projects to Fix:
+- /workspace/projects/data_analyzer/
+- /workspace/projects/todo_app/
+- /workspace/projects/web_scraper/
+- /workspace/projects/code_explainer/
+
+---
+
 ## Config Status
 
 **Agent Configuration:**
