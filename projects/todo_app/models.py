@@ -107,3 +107,8 @@ class TaskManager:
 def openclaw_note_20260327194127() -> str:
     """Autonomous note generated in fallback mode."""
     return "Pick one safe, incremental improvement that strengthens reliability or usability without breaking existing behavior."
+
+
+def openclaw_note_20260327194211() -> str:
+    """Autonomous note generated in fallback mode."""
+    return "Feature request: Add overdue summary helper. Description: Return count of overdue tasks."
