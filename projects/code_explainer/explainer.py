@@ -137,3 +137,8 @@ class CodeSummary:
             "metrics": parser.get_complexity_metrics(),
             "docstrings": parser.extract_docstrings(),
         }
+
+
+def openclaw_note_20260327194326() -> str:
+    """Autonomous note generated in fallback mode."""
+    return "Pick one safe, incremental improvement that strengthens reliability or usability without breaking existing behavior."
