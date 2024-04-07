@@ -442,9 +442,16 @@ def _extract_json_payload(text: str) -> Optional[Dict[str, Any]]:
     return None
 
 
-def _validate_edit_plan(project_path: str, raw_plan: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+def _validate_edit_plan(
+    project_path: str,
+    raw_plan: Dict[str, Any],
+    command: Optional[Dict[str, Any]],
+) -> Optional[Dict[str, Any]]:
     edits = raw_plan.get("edits")
     summary = str(raw_plan.get("summary", "Autonomous update")).strip()
+    source_files, test_files = _list_project_python_files(project_path)
+    allowed_files = set(source_files) | set(test_files)
+    allow_non_source_test = bool(command and command.get("allow_non_source_test"))
 
     if not isinstance(edits, list) or not edits:
         return None
@@ -465,6 +472,9 @@ def _validate_edit_plan(project_path: str, raw_plan: Dict[str, Any]) -> Optional
         if not rel_file.endswith(".py"):
             continue
         if os.path.basename(rel_file).startswith("improvement_"):
+            continue
+        if not allow_non_source_test and rel_file not in allowed_files:
+            # By default we only allow edits to existing source/test files.
             continue
 
         abs_path = os.path.realpath(os.path.join(project_path, rel_file))
@@ -542,7 +552,7 @@ def generate_edit_plan(
         if not raw_plan:
             raise ValueError("Model did not return parseable JSON")
 
-        plan = _validate_edit_plan(project_path, raw_plan)
+        plan = _validate_edit_plan(project_path, raw_plan, command)
         if not plan:
             raise ValueError("Model returned invalid edit plan")
 
@@ -649,13 +659,27 @@ def _summarize_for_commit(summary: str) -> str:
     return text or "Autonomous update"
 
 
-def commit_changes(project_name: str, summary: str, command: Optional[Dict[str, Any]] = None) -> bool:
+def commit_changes(
+    project_name: str,
+    project_path: str,
+    changed_files: List[str],
+    summary: str,
+    command: Optional[Dict[str, Any]] = None,
+) -> bool:
     """Commit staged changes with backdated timestamp."""
     global commit_counter
 
     try:
         repo = get_repo()
-        repo.git.add(A=True)
+        if not changed_files:
+            log_action("DEBUG", "No changed files provided to commit")
+            return False
+
+        workspace_relative_paths = [
+            os.path.relpath(os.path.realpath(os.path.join(project_path, rel_path)), WORKSPACE)
+            for rel_path in changed_files
+        ]
+        repo.index.add(workspace_relative_paths)
 
         if not repo.is_dirty():
             log_action("DEBUG", "No changes to commit")
@@ -745,7 +769,13 @@ def main_loop() -> None:
 
             tests_ok, _ = run_tests(project_path)
             if tests_ok:
-                if commit_changes(project, summary=plan.get("summary", "Autonomous update"), command=command):
+                if commit_changes(
+                    project,
+                    project_path,
+                    changed_files,
+                    summary=plan.get("summary", "Autonomous update"),
+                    command=command,
+                ):
                     error_count = 0
                     if command:
                         log_action("COMMAND_DONE", f"{command.get('type')} ({command.get('id')}) completed")
