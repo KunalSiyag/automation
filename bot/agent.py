@@ -494,14 +494,18 @@ def main_loop() -> None:
     """Main agent loop."""
     error_count = 0
     max_errors = 5
+    pending_commands: List[Dict[str, Any]] = []
 
     log_action("START", "OpenClaw agent starting")
     initialize_agent()
 
     while True:
         try:
-            commands = check_for_commands()
-            command = commands[0] if commands else None
+            new_commands = check_for_commands()
+            if new_commands:
+                pending_commands.extend(new_commands)
+
+            command = pending_commands.pop(0) if pending_commands else None
 
             tasks = read_tasks()
             forced_project = command.get("project") if command else None
