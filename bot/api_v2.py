@@ -5,10 +5,11 @@ Provides command endpoints to control agent behavior
 import os
 import json
 import subprocess
+import re
 from datetime import datetime
+from typing import Any, Dict, List
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import sys
 
 app = Flask(__name__)
 CORS(app)
@@ -16,6 +17,82 @@ CORS(app)
 WORKSPACE = os.getenv('WORKSPACE', '/workspace')
 BOT_DIR = os.path.join(WORKSPACE, 'bot')
 PROJECTS_DIR = os.path.join(WORKSPACE, 'projects')
+TASKS_FILE = os.path.join(WORKSPACE, 'TASKS.md')
+
+
+def _sanitize_token(value: str, default: str = "item") -> str:
+    token = re.sub(r"[^a-zA-Z0-9_-]+", "_", (value or "").strip())
+    token = token.strip("_")
+    return token[:48] or default
+
+
+def _command_filename(prefix: str, project: str) -> str:
+    timestamp = datetime.now().strftime("%Y%m%d%H%M%S%f")
+    safe_project = _sanitize_token(project, default="project")
+    return os.path.join(WORKSPACE, f".{prefix}_{timestamp}_{safe_project}.json")
+
+
+def _write_command_signal(prefix: str, payload: Dict[str, Any]) -> Dict[str, Any]:
+    signal_file = _command_filename(prefix, payload.get("project", "project"))
+    payload = dict(payload)
+    payload.setdefault("id", os.path.basename(signal_file))
+    payload.setdefault("requested_at", datetime.now().isoformat())
+
+    with open(signal_file, "w", encoding="utf-8") as handle:
+        json.dump(payload, handle)
+
+    payload["signal_file"] = os.path.basename(signal_file)
+    return payload
+
+
+def _append_task_to_tasks_md(project: str, task: str) -> None:
+    if not os.path.exists(TASKS_FILE):
+        with open(TASKS_FILE, "w", encoding="utf-8") as handle:
+            handle.write("# OpenClaw Tasks\n\n")
+
+    with open(TASKS_FILE, "r", encoding="utf-8") as handle:
+        lines = handle.readlines()
+
+    section_idx = None
+    for idx, line in enumerate(lines):
+        if line.strip().lower() == f"## {project}".lower():
+            section_idx = idx
+            break
+
+    if section_idx is None:
+        block = [
+            f"\n## {project}\n",
+            "**Status:** IN_PROGRESS\n",
+            "\n",
+            "### Tasks:\n",
+            f"- [ ] {task}\n",
+        ]
+        lines.extend(block)
+    else:
+        insert_at = len(lines)
+        for idx in range(section_idx + 1, len(lines)):
+            if lines[idx].startswith("## "):
+                insert_at = idx
+                break
+
+        task_header_idx = None
+        for idx in range(section_idx + 1, insert_at):
+            if lines[idx].strip().lower() == "### tasks:":
+                task_header_idx = idx
+                break
+
+        if task_header_idx is None:
+            lines.insert(insert_at, f"- [ ] {task}\n")
+            lines.insert(insert_at, "### Tasks:\n")
+            lines.insert(insert_at, "\n")
+        else:
+            task_insert = task_header_idx + 1
+            while task_insert < insert_at and lines[task_insert].strip().startswith("- ["):
+                task_insert += 1
+            lines.insert(task_insert, f"- [ ] {task}\n")
+
+    with open(TASKS_FILE, "w", encoding="utf-8") as handle:
+        handle.writelines(lines)
 
 # ============================================================================
 # CONTROL ENDPOINTS - Command the agent
@@ -25,7 +102,7 @@ PROJECTS_DIR = os.path.join(WORKSPACE, 'projects')
 def assign_task():
     """Assign a task to a specific project"""
     try:
-        data = request.get_json()
+        data = request.get_json() or {}
         project = data.get('project')
         task = data.get('task')
         priority = data.get('priority', 'medium')
@@ -33,25 +110,25 @@ def assign_task():
         if not project or not task:
             return {'error': 'project and task required'}, 400
         
-        # Read current TASKS.md
-        tasks_file = os.path.join(WORKSPACE, 'TASKS.md')
-        with open(tasks_file, 'r') as f:
-            content = f.read()
-        
-        # Append new task
-        if project not in content:
-            content += f"\n## {project}\nStatus: ASSIGNED\nPriority: {priority}\nTasks:\n"
-        
-        # Write back
-        with open(tasks_file, 'w') as f:
-            f.write(content)
+        project_path = os.path.join(PROJECTS_DIR, project)
+        if not os.path.isdir(project_path):
+            return {'error': f'Project {project} not found'}, 404
+
+        _append_task_to_tasks_md(project, task)
+        command_payload = _write_command_signal("task", {
+            "project": project,
+            "task": task,
+            "priority": priority,
+        })
         
         return {
             'status': 'assigned',
             'project': project,
             'task': task,
             'priority': priority,
-            'timestamp': datetime.now().isoformat()
+            'id': command_payload['id'],
+            'signal_file': command_payload['signal_file'],
+            'timestamp': command_payload['requested_at']
         }
     except Exception as e:
         return {'error': str(e)}, 500
@@ -60,7 +137,7 @@ def assign_task():
 def force_build():
     """Force agent to build/improve a specific project"""
     try:
-        data = request.get_json()
+        data = request.get_json() or {}
         project = data.get('project')
         
         if not project:
@@ -70,20 +147,18 @@ def force_build():
         if not os.path.exists(project_path):
             return {'error': f'Project {project} not found'}, 404
         
-        # Create a signal file for the agent to pick up
-        signal_file = os.path.join(WORKSPACE, f'.build_{project}')
-        with open(signal_file, 'w') as f:
-            f.write(json.dumps({
-                'project': project,
-                'requested_at': datetime.now().isoformat(),
-                'priority': data.get('priority', 'high')
-            }))
+        command_payload = _write_command_signal("build", {
+            'project': project,
+            'priority': data.get('priority', 'high')
+        })
         
         return {
             'status': 'build_queued',
             'project': project,
             'message': f'Build signal queued for {project}',
-            'timestamp': datetime.now().isoformat()
+            'id': command_payload['id'],
+            'signal_file': command_payload['signal_file'],
+            'timestamp': command_payload['requested_at']
         }
     except Exception as e:
         return {'error': str(e)}, 500
@@ -92,7 +167,7 @@ def force_build():
 def generate_feature():
     """Tell agent to generate a specific feature for a project"""
     try:
-        data = request.get_json()
+        data = request.get_json() or {}
         project = data.get('project')
         feature = data.get('feature')
         description = data.get('description', '')
@@ -100,22 +175,24 @@ def generate_feature():
         if not project or not feature:
             return {'error': 'project and feature required'}, 400
         
-        # Create feature request file
-        request_file = os.path.join(WORKSPACE, f'.feature_{project}_{int(datetime.now().timestamp())}')
-        with open(request_file, 'w') as f:
-            f.write(json.dumps({
-                'project': project,
-                'feature': feature,
-                'description': description,
-                'requested_at': datetime.now().isoformat()
-            }))
+        project_path = os.path.join(PROJECTS_DIR, project)
+        if not os.path.isdir(project_path):
+            return {'error': f'Project {project} not found'}, 404
+
+        command_payload = _write_command_signal("feature", {
+            'project': project,
+            'feature': feature,
+            'description': description,
+        })
         
         return {
             'status': 'feature_queued',
             'project': project,
             'feature': feature,
             'message': f'Feature request queued: {feature}',
-            'timestamp': datetime.now().isoformat()
+            'id': command_payload['id'],
+            'signal_file': command_payload['signal_file'],
+            'timestamp': command_payload['requested_at']
         }
     except Exception as e:
         return {'error': str(e)}, 500
@@ -245,15 +322,30 @@ def file_content(project, filename):
 def build_queue():
     """Check pending build requests"""
     try:
-        queue = []
-        for file in os.listdir(WORKSPACE):
-            if file.startswith('.build_') or file.startswith('.feature_'):
-                file_path = os.path.join(WORKSPACE, file)
-                with open(file_path, 'r') as f:
-                    queue.append({
-                        'request': file,
-                        'data': json.load(f)
-                    })
+        queue: List[Dict[str, Any]] = []
+        files = sorted(os.listdir(WORKSPACE))
+        for file in files:
+            if not (file.startswith('.build_') or file.startswith('.feature_') or file.startswith('.task_')):
+                continue
+
+            file_path = os.path.join(WORKSPACE, file)
+            if not os.path.isfile(file_path):
+                continue
+
+            command_type = "build"
+            if file.startswith(".feature_"):
+                command_type = "feature"
+            elif file.startswith(".task_"):
+                command_type = "task"
+
+            with open(file_path, 'r', encoding='utf-8') as handle:
+                payload = json.load(handle)
+
+            queue.append({
+                'request': file,
+                'type': command_type,
+                'data': payload
+            })
         
         return {
             'pending': len(queue),
