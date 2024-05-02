@@ -12,6 +12,8 @@ OpenClaw is a proof-of-concept autonomous development system that:
 - **Version Controlled**: Makes local git commits with natural backdated timestamps
 - **Safe & Constrained**: Respects strict boundaries and safety rules
 
+For a Copilot-supervised workflow, see `COPILOT_SUPERVISION.md`.
+
 ## 📁 Project Structure
 
 ```
@@ -126,6 +128,28 @@ docker run -it \
 ```
 
 The agent will mount the current directory as `/workspace` and work only within `/workspace/projects`.
+
+### Supervised Container Mode (Recommended)
+
+Use this when Copilot (or another supervisor) is monitoring logs and issuing commands:
+
+```bash
+# Start everything
+./manage_openclaw.sh up
+
+# Watch logs continuously
+./manage_openclaw.sh logs 200
+
+# Queue commands for the agent
+./manage_openclaw.sh build todo_app
+./manage_openclaw.sh feature todo_app "Add due date reminders" "Send reminders for overdue tasks"
+./manage_openclaw.sh task todo_app "Improve validation around task creation"
+
+# Inspect pending queue
+./manage_openclaw.sh queue
+```
+
+This uses `docker-compose.yml` to run API + agent in one container and keeps processing queued build/feature/task requests automatically.
 
 ## ⚙️ Agent Architecture
 
