@@ -201,7 +201,7 @@ def generate_feature():
 def set_api_key():
     """Set Gemini API key for real code generation"""
     try:
-        data = request.get_json()
+        data = request.get_json() or {}
         api_key = data.get('api_key')
         
         if not api_key:

@@ -8,24 +8,24 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Create app directory
 WORKDIR /app
+ENV PYTHONUNBUFFERED=1
+ENV WORKSPACE=/workspace
 
 # Copy requirements and install Python dependencies
-COPY requirements.txt .
+COPY bot/requirements.txt ./requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy agent and API scripts
-COPY agent.py .
-COPY api.py .
-COPY api_v2.py .
+COPY bot/agent.py ./agent.py
+COPY bot/api.py ./api.py
+COPY bot/api_v2.py ./api_v2.py
+COPY bot/start.sh ./start.sh
 
 # Create workspace mount point
 RUN mkdir -p /workspace
 
 # Expose API port
 EXPOSE 18789
-
-# Create entrypoint script to run both agent and API
-RUN echo '#!/bin/bash\npython -u agent.py &\nPIDOF_AGENT=$!\nsleep 2\npython -u api_v2.py\nkill $PIDOF_AGENT 2>/dev/null || true' > /app/start.sh && chmod +x /app/start.sh
 
 # Run both agent and API
 ENTRYPOINT ["/app/start.sh"]
