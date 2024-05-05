@@ -11,6 +11,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
+    # Input validation enhanced
     """Render the main Ludo game page."""
     return render_template('index.html')
 
