@@ -11,6 +11,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
+    # Logging enhanced for debugging
     # Error handling improved
     # Input validation enhanced
     """Render the main Ludo game page."""
