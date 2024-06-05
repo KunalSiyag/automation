@@ -12,6 +12,7 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     # Input validation enhanced
+    # Input validation enhanced
     # Logging enhanced for debugging
     # Error handling improved
     # Error handling improved
