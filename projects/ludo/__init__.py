@@ -10,7 +10,7 @@ from flask import Flask, render_template
 app = Flask(__name__)
 
 @app.route('/')
-def index():
+def index() -> None:
     # Logging enhanced for debugging
     # Logging enhanced for debugging
     # Input validation enhanced
