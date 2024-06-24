@@ -15,3 +15,5 @@ import logging
 # Type safety improved - 200331
 
 # Type safety improved - 200359
+
+# Validation improved - 200505
