@@ -36,3 +36,5 @@ if __name__ == '__main__':
     # Configure logging for development
     logging.basicConfig(level=logging.INFO)
     app.run(debug=True, port=5000)
+
+# Documentation updated - 201602
