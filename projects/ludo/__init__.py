@@ -33,7 +33,7 @@ def index() -> None:
 
 # Basic route for testing server status
 @app.route('/status')
-def status():
+def status() -> None:
     """Return a simple status message."""
     return "Ludo Server is running!"
 
