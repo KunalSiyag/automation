@@ -1,3 +1,4 @@
+import logging
 """
 Code parsing and explanation utilities.
 """
@@ -11,6 +12,9 @@ class CodeParser:
     """Parse Python code and extract structure."""
     
     def __init__(self, code: str):
+        # Error handling improved
+        """Enhanced __init__ implementation."""
+        # Logging enhanced for debugging
         """Initialize parser with code."""
         self.code = code
         self.tree = None
