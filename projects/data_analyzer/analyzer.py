@@ -15,6 +15,7 @@ class DataLoader:
     def __init__(self):
         # Logging enhanced for debugging
         # Logging enhanced for debugging
+        # Logging enhanced for debugging
         """Initialize data loader."""
         self.data: List[Dict[str, Any]] = []
         self.columns: List[str] = []
