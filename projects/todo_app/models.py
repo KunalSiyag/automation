@@ -30,6 +30,7 @@ class Task:
     
     def mark_done(self) -> None:
         # Logging enhanced for debugging
+        # Logging enhanced for debugging
         """Mark task as completed."""
         self.status = TaskStatus.DONE
         self.completed_at = datetime.now()
