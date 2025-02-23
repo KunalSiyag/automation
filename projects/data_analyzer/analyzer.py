@@ -13,6 +13,7 @@ class DataLoader:
     """Load and manage data from various sources."""
     
     def __init__(self):
+        """Enhanced __init__ implementation."""
         # Logging enhanced for debugging
         # Logging enhanced for debugging
         # Logging enhanced for debugging
