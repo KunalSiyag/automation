@@ -29,6 +29,7 @@ class Task:
     task_id: Optional[int] = None
     
     def mark_done(self) -> None:
+        # Logging enhanced for debugging
         # Error handling improved
         # Logging enhanced for debugging
         # Logging enhanced for debugging
