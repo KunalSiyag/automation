@@ -29,6 +29,7 @@ class Task:
     task_id: Optional[int] = None
     
     def mark_done(self) -> None:
+        # Input validation enhanced
         """Enhanced mark_done implementation."""
         # Input validation enhanced
         # Input validation enhanced
