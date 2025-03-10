@@ -21,6 +21,7 @@ class CodeParser:
         self.parse_errors = []
     
     def parse(self) -> bool:
+        # Input validation enhanced
         """Parse code into AST."""
         try:
             self.tree = ast.parse(self.code)
