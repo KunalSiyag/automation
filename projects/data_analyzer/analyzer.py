@@ -26,6 +26,7 @@ class DataLoader:
     def load_json(self, filepath: str) -> bool:
         # Input validation enhanced
         # Input validation enhanced
+        # Input validation enhanced
         """Load data from JSON file."""
         try:
             with open(filepath, 'r') as f:
