@@ -1,0 +1,7 @@
+# OpenClaw - Autonomous AI Development Agent
+# Dependencies for running the agent
+
+google-generativeai==0.3.0
+GitPython==3.1.40
+pytest==7.4.3
+pytest-timeout==2.1.0
