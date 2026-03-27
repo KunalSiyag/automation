@@ -16,6 +16,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy agent and API scripts
 COPY agent.py .
 COPY api.py .
+COPY api_v2.py .
 
 # Create workspace mount point
 RUN mkdir -p /workspace
@@ -24,7 +25,7 @@ RUN mkdir -p /workspace
 EXPOSE 18789
 
 # Create entrypoint script to run both agent and API
-RUN echo '#!/bin/bash\npython -u agent.py &\nPIDOF_AGENT=$!\nsleep 2\npython -u api.py\nkill $PIDOF_AGENT 2>/dev/null || true' > /app/start.sh && chmod +x /app/start.sh
+RUN echo '#!/bin/bash\npython -u agent.py &\nPIDOF_AGENT=$!\nsleep 2\npython -u api_v2.py\nkill $PIDOF_AGENT 2>/dev/null || true' > /app/start.sh && chmod +x /app/start.sh
 
 # Run both agent and API
 ENTRYPOINT ["/app/start.sh"]

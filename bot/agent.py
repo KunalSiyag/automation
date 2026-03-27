@@ -15,13 +15,15 @@ import sys
 import time
 import random
 import subprocess
+import json
+import glob
 from datetime import datetime, timedelta
 from pathlib import Path
 from git import Repo
 import google.generativeai as genai
 
 # --- CONFIG ---
-WORKSPACE = "/workspace"
+WORKSPACE = os.getenv("WORKSPACE", "/workspace")
 PROJECTS_DIR = os.path.join(WORKSPACE, "projects")
 TASKS_FILE = os.path.join(WORKSPACE, "TASKS.md")
 LOG_FILE = os.path.join(WORKSPACE, "bot_log.md")
@@ -286,6 +288,55 @@ def commit_changes(project_name: str, iteration: int) -> bool:
         log_action("ERROR", f"Commit failed: {e}")
         return False
 
+# --- COMMAND HANDLING ---
+def check_for_commands() -> dict:
+    """Check for pending command files from API"""
+    try:
+        commands = {}
+        
+        # Check for build signals (.build_*)
+        for signal_file in glob.glob(os.path.join(WORKSPACE, ".build_*")):
+            try:
+                with open(signal_file, 'r') as f:
+                    commands['build'] = json.load(f)
+                os.remove(signal_file)
+                log_action("COMMAND", f"Received build signal")
+            except Exception as e:
+                log_action("DEBUG", f"Error reading signal: {e}")
+        
+        # Check for feature requests (.feature_*)
+        for feature_file in glob.glob(os.path.join(WORKSPACE, ".feature_*")):
+            try:
+                with open(feature_file, 'r') as f:
+                    commands['feature'] = json.load(f)
+                os.remove(feature_file)
+                log_action("COMMAND", f"Received feature request: {commands['feature'].get('feature')}")
+            except Exception as e:
+                log_action("DEBUG", f"Error reading feature: {e}")
+        
+        return commands
+    except Exception as e:
+        log_action("DEBUG", f"Error checking commands: {e}")
+        return {}
+
+def process_command(command_type: str, command_data: dict) -> bool:
+    """Process a command from the API"""
+    try:
+        if command_type == 'build':
+            project = command_data.get('project')
+            log_action("EXEC", f"Processing build command for {project}")
+            return True
+        elif command_type == 'feature':
+            project = command_data.get('project')
+            feature = command_data.get('feature')
+            description = command_data.get('description', '')
+            log_action("EXEC", f"Generating feature: {feature} for {project}")
+            return True
+        return False
+    except Exception as e:
+        log_action("ERROR", f"Command processing failed: {e}")
+        return False
+
 # --- MAIN LOOP ---
 def main_loop():
     """Main agent loop"""
@@ -297,6 +348,11 @@ def main_loop():
     
     while True:
         try:
+            # Check for commands from API
+            commands = check_for_commands()
+            for cmd_type, cmd_data in commands.items():
+                process_command(cmd_type, cmd_data)
+            
             tasks = read_tasks()
             project = select_project(tasks)
             
