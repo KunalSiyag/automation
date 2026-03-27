@@ -1,0 +1,124 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                    OPENCLAW - QUICK REFERENCE CARD                        ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚀 START HERE (30 SECONDS)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. python3 openclaw-cli.py status
+2. python3 openclaw-cli.py set-key YOUR_GEMINI_API_KEY
+3. docker restart openclaw-agent
+4. python3 openclaw-cli.py build todo_app --priority high
+5. python3 openclaw-cli.py logs --limit 20
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📖 DOCUMENTATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+👉 USAGE_START_HERE.md  - Everything you need
+   DEMO.md             - Step-by-step walkthrough
+   COMMANDS.md         - All REST endpoints
+   CONTROL_GUIDE.md    - Full workflow
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎮 COMMANDS (CLI)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+MONITOR:
+  status              Agent status
+  projects            List projects
+  project <name>      Project details
+  logs [--limit N]    View logs
+  stats               Statistics
+  queue               Build queue
+
+CONTROL:
+  build <project>            Build project
+  feature <project> "<feat"  Request feature
+  task <project> "<task"     Assign task
+  set-key <key>              Configure API
+  clear-cache                Clear improvements
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🌐 HTTP API (curl)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+HEALTH:
+  curl http://localhost:18789/api/health
+
+BUILD:
+  curl -X POST http://localhost:18789/api/control/force-build \
+    -d '{"project":"todo_app","priority":"high"}'
+
+FEATURE:
+  curl -X POST http://localhost:18789/api/control/generate-feature \
+    -d '{"project":"todo_app","feature":"Add notifications"}'
+
+GET PROJECTS:
+  curl http://localhost:18789/api/projects
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⚙️ DOCKER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Status:     docker ps | grep openclaw
+Logs:       docker logs openclaw-agent
+Restart:    docker restart openclaw-agent
+Stop:       docker stop openclaw-agent
+Start:      docker run -d -p 18789:18789 \
+              -e GEMINI_API_KEY="key" \
+              -v $(pwd):/workspace \
+              openclaw:latest
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 WORKFLOWS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+FULL SETUP:
+  1. python3 openclaw-cli.py set-key YOUR_KEY
+  2. docker restart openclaw-agent
+  3. Wait 10 seconds
+  4. python3 openclaw-cli.py stats (verify has_gemini_key: true)
+
+DEVELOP ALL:
+  for p in code_explainer data_analyzer todo_app web_scraper; do
+    python3 openclaw-cli.py build $p --priority high
+  done
+  watch -n 5 "python3 openclaw-cli.py logs --limit 10"
+
+MONITOR LIVE:
+  watch -n 5 "python3 openclaw-cli.py logs --limit 5"
+
+CHECK RESULTS:
+  python3 openclaw-cli.py project todo_app
+  python3 openclaw-cli.py file todo_app improvement_000.py
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔑 KEY INFO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+API Key:    https://makersuite.google.com (FREE!)
+Port:       18789 (API)
+Container:  openclaw-agent
+Projects:   4 (code_explainer, data_analyzer, todo_app, web_scraper)
+Tests:      38 (100% passing)
+Volume:     /workspace (persistent)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+❓ QUICK HELP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+API not responding?
+  → docker restart openclaw-agent
+
+Agent not building?
+  → python3 openclaw-cli.py stats (check has_gemini_key)
+
+View help:
+  → python3 openclaw-cli.py --help
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Ready? Start with: python3 openclaw-cli.py status
+
