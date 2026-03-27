@@ -1,14 +1,23 @@
 FROM python:3.11-slim
 
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create app directory
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y git curl
-
+# Copy requirements and install Python dependencies
 COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy agent script
 COPY agent.py .
 
+# Create workspace mount point
 RUN mkdir -p /workspace
 
-CMD ["python", "agent.py"]
+# Run agent
+ENTRYPOINT ["python", "-u", "agent.py"]
