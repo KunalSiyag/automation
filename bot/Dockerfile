@@ -13,11 +13,18 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy agent script
+# Copy agent and API scripts
 COPY agent.py .
+COPY api.py .
 
 # Create workspace mount point
 RUN mkdir -p /workspace
 
-# Run agent
-ENTRYPOINT ["python", "-u", "agent.py"]
+# Expose API port
+EXPOSE 18789
+
+# Create entrypoint script to run both agent and API
+RUN echo '#!/bin/bash\npython -u agent.py &\nPIDOF_AGENT=$!\nsleep 2\npython -u api.py\nkill $PIDOF_AGENT 2>/dev/null || true' > /app/start.sh && chmod +x /app/start.sh
+
+# Run both agent and API
+ENTRYPOINT ["/app/start.sh"]
