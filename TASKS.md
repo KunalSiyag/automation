@@ -1,196 +1,138 @@
-# OpenClaw Autonomous Development Tasks
+# Project Tasks
 
-## Project Status Tracking
+The agent should work on these projects in rotation, making meaningful improvements to each.
 
-This file lists all mini-projects and their current development status.
+## Projects
 
----
+### 1. task_manager_web
+**Type:** Web Application (Flask + HTML/CSS/JS)
+**Status:** Active
+**Priority:** High
 
-## todo_app
-**Status:** IN_PROGRESS
+A full-featured task management web application with:
+- Flask REST API backend
+- Interactive HTML/CSS/JS frontend
+- Task CRUD operations
+- Priority and status management
+- Persistent JSON storage
 
-A simple task management application with persistence and testing.
-
-### Tasks:
-- [x] Setup project structure
-- [x] Create core task model
-- [x] Add basic CRUD operations
-- [ ] Add persistence to JSON
-- [ ] Implement task filtering
-- [ ] Add priority levels
-- [ ] Write comprehensive tests
-- [ ] Add task descriptions
-
-### Notes:
-- Using JSON for storage initially
-- Basic pytest test suite
-- Can be extended with CLI interface
-
----
-
-## web_scraper
-**Status:** PLANNED
-
-A web scraping utility for learning projects and data collection.
-
-### Tasks:
-- [ ] Setup project structure
-- [ ] Implement basic HTTP fetcher
-- [ ] Add HTML parser with BeautifulSoup
-- [ ] Create data extraction utilities
-- [ ] Add error handling
-- [ ] Write parser tests
-- [ ] Add rate limiting
-- [ ] Create example scrapers
-
-### Notes:
-- Respects robots.txt
-- Includes retry logic
-- Safe error handling
+**Potential Improvements:**
+- Add user authentication
+- Implement task filtering and sorting
+- Add due dates and reminders
+- Improve UI/UX with animations
+- Add dark mode
+- Implement task categories/tags
+- Add search functionality
+- Improve error handling
+- Add input validation
+- Enhance test coverage
+- Add API documentation
+- Implement task statistics dashboard
+- Add export/import functionality
 
 ---
 
-## data_analyzer
-**Status:** IN_PROGRESS
+### 2. file_converter
+**Type:** CLI Tool (Python)
+**Status:** Active
+**Priority:** High
 
-A data analysis tool for CSV and JSON files.
+File format conversion tool supporting JSON, CSV, YAML, XML:
+- Command-line interface
+- Multiple format support
+- Error handling
+- Comprehensive tests
 
-### Tasks:
-- [x] Setup project structure
-- [x] Create basic data loader
-- [ ] Add statistical functions
-- [ ] Implement CSV processing
-- [ ] Add JSON processing
-- [ ] Create visualization helpers
-- [ ] Write analysis tests
-- [ ] Add documentation
-
-### Notes:
-- Uses pandas for analysis
-- Can export results to multiple formats
-- Educational project for data science
-
----
-
-## api_client
-**Status:** PLANNED
-
-A reusable HTTP client library for API interactions.
-
-### Tasks:
-- [ ] Setup project structure
-- [ ] Implement base client
-- [ ] Add request/response handling
-- [ ] Create authentication support
-- [ ] Add retry logic
-- [ ] Implement rate limiting
-- [ ] Write integration tests
-- [ ] Add documentation
-
-### Notes:
-- OAuth and API key support
-- Comprehensive error handling
-- Based on requests library
+**Potential Improvements:**
+- Add YAML support implementation
+- Add XML support implementation
+- Implement batch conversion
+- Add progress indicators
+- Support nested data structures
+- Add data validation
+- Implement format auto-detection
+- Add compression support (.gz, .zip)
+- Create GUI version with tkinter
+- Add configuration file support
+- Improve error messages
+- Add data transformation features
+- Implement streaming for large files
+- Add conversion previews
 
 ---
 
-## code_explainer
-**Status:** IN_PROGRESS
+### 3. api_monitor
+**Type:** Monitoring Tool (Python + Web Dashboard)
+**Status:** Active
+**Priority:** High
 
-A utility to explain Python code using AI (educational tool).
+API health monitoring system with:
+- HTTP endpoint checking
+- Response time tracking
+- Status code monitoring
+- Statistics calculation
 
-### Tasks:
-- [x] Setup project structure
-- [ ] Implement code parser
-- [ ] Add AI explanation integration
-- [ ] Create CLI interface
-- [ ] Add markdown formatting
-- [ ] Write generation tests
-- [ ] Add caching for explanations
-- [ ] Support multiple languages
-
-### Notes:
-- Uses AST for code analysis
-- Formats explanations in markdown
-- Great for learning and documentation
-
----
-
-## ml_classifier
-**Status:** PLANNED
-
-A simple machine learning text classifier.
-
-### Tasks:
-- [ ] Setup project structure
-- [ ] Implement data loader
-- [ ] Create feature extraction
-- [ ] Train basic classifier
-- [ ] Add prediction interface
-- [ ] Write evaluation tests
-- [ ] Create training pipeline
-- [ ] Add model persistence
-
-### Notes:
-- Uses scikit-learn
-- Educational ML project
-- Text classification focused
+**Potential Improvements:**
+- Add web dashboard for visualization
+- Implement alerting system (email/slack)
+- Add historical data storage (SQLite)
+- Create charts/graphs for metrics
+- Add SSL certificate checking
+- Implement webhook notifications
+- Add scheduled monitoring (cron-like)
+- Support custom headers/authentication
+- Add response body validation
+- Implement multi-region checking
+- Add downtime notifications
+- Create detailed reports
+- Add API for programmatic access
+- Implement retry logic
 
 ---
 
-## fix_pytest_imports
-**Status:** URGENT
+### 4. cli_toolkit
+**Type:** CLI Utilities (Python)
+**Status:** Active
+**Priority:** High
 
-Fix pytest ModuleNotFoundError issues by configuring PYTHONPATH in all projects.
+Collection of command-line utilities:
+- File hashing
+- Line counting
+- Text search
+- Directory size calculation
+- File information
 
-### Problem:
-- Tests fail with: `ModuleNotFoundError: No module named 'analyzer'` etc
-- Reason: pytest can't find modules in the same directory
-
-### Solution:
-Update each project's `conftest.py` or `pytest.ini` to include project root in Python path:
-
-1. Create/update conftest.py in each project directory with:
-```python
-import sys
-from pathlib import Path
-sys.path.insert(0, str(Path(__file__).parent))
-```
-
-2. Or update pytest.ini with:
-```ini
-[pytest]
-pythonpath = .
-```
-
-### Tasks:
-- [ ] Fix data_analyzer imports
-- [ ] Fix todo_app imports
-- [ ] Fix web_scraper imports
-- [ ] Fix code_explainer imports
-- [ ] Verify all tests pass
-
-### Projects to Fix:
-- /workspace/projects/data_analyzer/
-- /workspace/projects/todo_app/
-- /workspace/projects/web_scraper/
-- /workspace/projects/code_explainer/
+**Potential Improvements:**
+- Add more hash algorithms
+- Implement regex search
+- Add file comparison tool
+- Create duplicate file finder
+- Add batch operations
+- Implement colored output
+- Add progress bars
+- Create interactive menu mode
+- Add file encryption/decryption
+- Implement backup utilities
+- Add system information tools
+- Create log analysis features
+- Add network utilities
+- Implement text processing tools
 
 ---
 
-## Config Status
+## Work Guidelines for the Agent
 
-**Agent Configuration:**
-- API: Google Gemini (gemini-1.5-flash-latest)
-- Testing: pytest
-- Version Control: git with backdated commits
-- Log File: bot_log.md
-- Workspace: /workspace
-- Projects Dir: /workspace/projects
+1. **Rotation:** Work on different projects to simulate realistic developer behavior
+2. **Quality:** Make meaningful improvements, not dummy changes
+3. **Testing:** Always run tests after changes (`pytest`)
+4. **Commits:** Use natural, varied commit messages
+5. **Scope:** Focus on one improvement at a time
+6. **Documentation:** Update docstrings and comments when relevant
+7. **Validation:** Ensure code runs without errors
 
-**Safety Rules:**
-- Only modify files within /workspace
-- Never delete entire project folders
-- Always run tests before committing
-- No external API calls (except Gemini)
-- All commits are local only
+## Commit Frequency
+- Target: 4-20 commits per day (randomized)
+- Spread naturally throughout work hours (8 AM - 10 PM)
+- Vary commit sizes and types
+
