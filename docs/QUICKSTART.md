@@ -56,7 +56,7 @@ cd /home/kunalsiyag/Desktop/automation
 source venv/bin/activate
 
 # Install requirements
-pip install -r bot/requirements.txt
+pip install -r src/requirements.txt
 ```
 
 ### 3. Configure API Key
@@ -163,7 +163,7 @@ a7f3b2e Add type hints to models
 
 ### Change Daily Commit Range
 
-Edit `bot/supervisor.py`:
+Edit `src/supervisor.py`:
 
 ```python
 MIN_COMMITS_PER_DAY = 4    # Change to your min
@@ -172,7 +172,7 @@ MAX_COMMITS_PER_DAY = 10   # Change to your max
 
 ### Change Work Hours
 
-Edit `bot/supervisor.py`:
+Edit `src/supervisor.py`:
 
 ```python
 WORK_HOURS_START = 8    # Start hour (24h format)
@@ -273,7 +273,7 @@ python3 --version
 **Check dependencies**:
 ```bash
 source venv/bin/activate
-pip install -r bot/requirements.txt
+pip install -r src/requirements.txt
 ```
 
 **Check for errors**:
@@ -320,7 +320,7 @@ python3 openclaw-cli.py task todo_app "Add better validation"
 
 ### Adjust Quality Threshold
 
-Edit `bot/supervisor.py`:
+Edit `src/supervisor.py`:
 
 ```python
 MIN_QUALITY_SCORE = 0.6      # Lower = more lenient
@@ -332,7 +332,7 @@ MAX_FALLBACK_STREAK = 2      # Max consecutive fallbacks
 ```
 automation/
 ├── agentic_system.sh        ← Main control script (NEW)
-├── bot/
+├── src/
 │   ├── agent.py             ← OpenClaw (enhanced with human-like commits)
 │   ├── supervisor.py        ← Supervisor agent (NEW)
 │   └── requirements.txt
@@ -348,7 +348,7 @@ automation/
 2. **Let it run for an hour**: Go grab coffee ☕
 3. **Check commits**: `git log --oneline -10`
 4. **Monitor quality**: `./agentic_system.sh logs`
-5. **Adjust settings**: Edit `bot/supervisor.py` if needed
+5. **Adjust settings**: Edit `src/supervisor.py` if needed
 
 ## Summary
 

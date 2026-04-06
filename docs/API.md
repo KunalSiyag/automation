@@ -289,7 +289,7 @@ Get git status (working directory changes).
 **Response:**
 ```json
 {
-  "status": "M  bot/agent.py\n?? projects/new_file.py"
+  "status": "M  src/agent.py\n?? projects/new_file.py"
 }
 ```
 

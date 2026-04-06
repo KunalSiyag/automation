@@ -81,14 +81,14 @@ pip install -r requirements.txt
 export GEMINI_API_KEY="your-key-here"
 
 # Run the agent
-python bot/agent.py
+python src/agent.py
 ```
 
 ### Docker Setup
 
 ```bash
 # Build image
-docker build -f bot/Dockerfile -t openclaw:latest .
+docker build -f src/Dockerfile -t openclaw:latest .
 
 # Run container with volume mount
 docker run -it \
@@ -479,7 +479,7 @@ git commit -m "feat: Add my_project"
 
 ### Customizing Agent Behavior
 
-Edit `bot/agent.py`:
+Edit `src/agent.py`:
 
 **Change API model**:
 ```python
@@ -524,7 +524,7 @@ def additional_validation(path: str) -> bool:
 ```bash
 source venv/bin/activate
 pip install -r requirements.txt
-python bot/agent.py
+python src/agent.py
 ```
 
 ### No Projects Found
@@ -632,7 +632,7 @@ done
 1. ✅ Set up development environment
 2. ✅ Run tests on all projects
 3. ✅ Read TASKS.md for current status
-4. ✅ Start agent: `python bot/agent.py`
+4. ✅ Start agent: `python src/agent.py`
 5. ✅ Monitor: `tail -f bot_log.md`
 6. ✅ Extend: Add new projects as needed
 

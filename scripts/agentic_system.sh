@@ -46,7 +46,7 @@ function check_venv() {
         log_warn "Virtual environment not found, creating..."
         python3 -m venv "$WORKSPACE/venv"
         source "$WORKSPACE/venv/bin/activate"
-        pip install -r "$WORKSPACE/bot/requirements.txt"
+        pip install -r "$WORKSPACE/src/requirements.txt"
         log_success "Virtual environment created"
     fi
 }
@@ -64,7 +64,7 @@ function start_openclaw() {
     log_info "Starting OpenClaw agent..."
     activate_venv
     
-    nohup python3 "$WORKSPACE/bot/agent.py" > "$WORKSPACE/openclaw.out" 2>&1 &
+    nohup python3 "$WORKSPACE/src/agent.py" > "$WORKSPACE/openclaw.out" 2>&1 &
     echo $! > "$OPENCLAW_PID"
     
     sleep 2
@@ -86,7 +86,7 @@ function start_supervisor() {
     log_info "Starting Supervisor agent..."
     activate_venv
     
-    nohup python3 "$WORKSPACE/bot/supervisor.py" > "$WORKSPACE/supervisor.out" 2>&1 &
+    nohup python3 "$WORKSPACE/src/supervisor.py" > "$WORKSPACE/supervisor.out" 2>&1 &
     echo $! > "$SUPERVISOR_PID"
     
     sleep 2

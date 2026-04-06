@@ -18,7 +18,7 @@ For a Copilot-supervised workflow, see `COPILOT_SUPERVISION.md`.
 
 ```
 automation/
-├── bot/
+├── src/
 │   ├── agent.py          # Main autonomous agent
 │   ├── requirements.txt   # Python dependencies
 │   └── Dockerfile        # Container configuration
@@ -99,7 +99,7 @@ Analyze and explain Python code structure.
 cd automation
 python3 -m venv venv
 source venv/bin/activate
-pip install -r bot/requirements.txt
+pip install -r src/requirements.txt
 ```
 
 2. **Configure Gemini API:**
@@ -109,14 +109,14 @@ export GEMINI_API_KEY="your-gemini-api-key"
 
 3. **Run the Agent:**
 ```bash
-python bot/agent.py
+python src/agent.py
 ```
 
 ### Running with Docker
 
 1. **Build the Image:**
 ```bash
-docker build -f bot/Dockerfile -t openclaw:latest .
+docker build -f src/Dockerfile -t openclaw:latest .
 ```
 
 2. **Run the Container:**
@@ -298,7 +298,7 @@ WORKSPACE         # Default: /workspace (Docker)
 
 ### Customize Agent Behavior
 
-Edit `bot/agent.py`:
+Edit `src/agent.py`:
 - `START_DATE` - Adjust timeline
 - `generate_edit_plan()` - Modify prompt/edit strategy
 - `run_tests()` - Change test command
