@@ -38,3 +38,21 @@ services:
       - ./:/workspace
     depends_on:
       - openclaw
+
+  dashboard:
+    container_name: kinetic-os-dashboard
+    build:
+      context: .
+      dockerfile: src/Dockerfile.dashboard
+    restart: unless-stopped
+    working_dir: /workspace
+    environment:
+      WORKSPACE: /workspace
+    env_file:
+      - .env
+    volumes:
+      - ./:/workspace
+    ports:
+      - "5000:5000"
+    depends_on:
+      - openclaw

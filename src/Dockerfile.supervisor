@@ -22,4 +22,4 @@ COPY src/supervisor.py ./supervisor.py
 RUN mkdir -p /workspace
 
 # Run supervisor
-ENTRYPOINT ["python", "-u", "supervisor.py"]
+ENTRYPOINT ["python", "-u", "src/supervisor.py"]
