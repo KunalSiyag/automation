@@ -36,10 +36,14 @@
             </div>
 
             <div class="sidebar-nav">
-                <div class="nav-item"><span class="icon">📁</span> AUTOMATIONS</div>
-                <div class="nav-item active"><span class="icon">⚛️</span> NODES</div>
-                <div class="nav-item"><span class="icon">🤖</span> AGENTS</div>
-                <div class="nav-item"><span class="icon">⌨️</span> SECURE_SHELL</div>
+                <div class="nav-item" onclick="showTerminal()"><span class="icon">⌨️</span> LIVE_TERMINAL</div>
+            </div>
+
+            <div class="projects-section">
+                <div class="section-title">PROJECTS</div>
+                <div class="project-list" id="project-list">
+                    <!-- Projects populated by JS -->
+                </div>
             </div>
 
             <div class="commit-history-section">
@@ -56,8 +60,8 @@
         </div>
 
         <!-- Center Column -->
-        <div class="center-panel">
-            <div class="terminal-container">
+        <div class="center-panel" id="main-view">
+            <div class="terminal-container" id="terminal-view">
                 <div class="terminal-header">LIVE_TERMINAL_FEED <div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot blue"></span></div></div>
                 <div class="terminal-content" id="terminal-content">
                     <div class="log-line success">[14:20:01] INITIALIZING KINETIC_OS SUBSYSTEMS...</div>
@@ -65,14 +69,22 @@
                 </div>
             </div>
 
+            <div class="iframe-container" id="iframe-view" style="display: none;">
+                <div class="terminal-header">
+                    <span id="iframe-title">PROJECT_PREVIEW</span>
+                    <button class="back-btn" onclick="showTerminal()">✖ CLOSE</button>
+                </div>
+                <iframe id="project-frame" src="" frameborder="0" width="100%" height="100%"></iframe>
+            </div>
+
             <div class="active-project">
                 <div class="active-project-title">ACTIVE_PROJECT</div>
-                <div class="project-name">AGENTIC_SYSTEM_TERMINAL</div>
+                <div class="project-name" id="active-project-name">SCANNING...</div>
                 <div class="project-stats">
-                    <span class="version">v0.9.4-BETA</span>
-                    <span class="last-commit" id="last-commit-msg">LAST_COMMIT: "Refactored kernel hooks"</span>
+                    <span class="version">v1.0.0-AUTO</span>
+                    <span class="last-commit" id="last-commit-msg">LAST_COMMIT: "Scanning commits..."</span>
                     <div class="iteration-velocity">
-                        ITERATION VELOCITY <span class="velocity-percent">89%</span>
+                        SYS_LOAD <span class="velocity-percent" id="sys-load-percent">--%</span>
                         <div class="bars">
                             <div class="bar bar-1"></div>
                             <div class="bar bar-2"></div>

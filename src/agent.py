@@ -392,13 +392,12 @@ Test files:
 {test_listing}
 
 Important constraints:
-1. Build highly functional, practical, and useful software (e.g., full web apps, desktop games, tools). Avoid trivial or meaningless for-loops.
-2. Enforce strict modularity in generated code. Always separate concerns appropriately (e.g., UI, Game Logic, State/Models).
-3. Prefer editing existing source files over creating new files unless creating new modular files is necessary for a substantial feature.
+1. Build highly functional, practical, and useful software. Projects MUST be Web Applications. Avoid trivial or meaningless for-loops.
+2. Create web interfaces using HTML, CSS, and JS. ALWAYS ensure the main file is named `index.html` at the project root.
+3. Enforce strict modularity in generated code. Always separate concerns appropriately.
 4. DO NOT create files named improvement_*.py.
-5. If you change behavior, update/add relevant tests in existing test files when needed.
-6. Keep edits coherent, completely functional, and safe.
-7. Return ONLY JSON, no markdown.
+5. Keep edits coherent, completely functional, and safe.
+6. Return ONLY JSON, no markdown.
 
 JSON response schema:
 {{

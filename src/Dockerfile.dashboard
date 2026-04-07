@@ -2,7 +2,8 @@ FROM python:3.10-slim
 
 WORKDIR /workspace
 
-RUN apt-get update && apt-get install -y git curl && rm -rf /var/lib/apt/lists/*
+# Install system dependencies, git, curl, and docker CLI
+RUN apt-get update && apt-get install -y git curl docker.io && rm -rf /var/lib/apt/lists/*
 
 COPY src/requirements.txt .
 RUN pip install -r requirements.txt

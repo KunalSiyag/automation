@@ -57,9 +57,55 @@ function fetchLogs() {
         .catch(err => console.error("Error fetching logs:", err));
 }
 
+function fetchProjects() {
+    fetch('/api/projects')
+        .then(res => res.json())
+        .then(data => {
+            const projectList = document.getElementById('project-list');
+            projectList.innerHTML = '';
+
+            if (data.active_project && document.getElementById('active-project-name').innerText === 'SCANNING...') {
+                document.getElementById('active-project-name').innerText = data.active_project.name.toUpperCase();
+            }
+
+            data.projects.forEach(p => {
+                const item = document.createElement('div');
+                item.className = 'project-item';
+                // Only make it clickable if it has an index.html
+                if (p.has_index) {
+                    item.onclick = () => loadProject(p.name);
+                    item.innerHTML = `<span>> ${p.name}</span> <span class="status">WEB</span>`;
+                } else {
+                    item.innerHTML = `<span>> ${p.name}</span> <span class="status" style="color:var(--text-dim)">CLI</span>`;
+                }
+                projectList.appendChild(item);
+            });
+
+            // Randomize sys load for aesthetic
+            document.getElementById('sys-load-percent').innerText = Math.floor(Math.random() * 40 + 40) + '%';
+        })
+        .catch(err => console.error("Error fetching projects:", err));
+}
+
+function loadProject(projectName) {
+    document.getElementById('terminal-view').style.display = 'none';
+    document.getElementById('iframe-view').style.display = 'flex';
+    document.getElementById('project-frame').src = `/projects/${projectName}/`;
+    document.getElementById('iframe-title').innerText = `PROJECT: ${projectName.toUpperCase()}`;
+    document.getElementById('active-project-name').innerText = projectName.toUpperCase();
+}
+
+function showTerminal() {
+    document.getElementById('iframe-view').style.display = 'none';
+    document.getElementById('project-frame').src = "";
+    document.getElementById('terminal-view').style.display = 'flex';
+}
+
 setInterval(fetchStats, 5000);
 setInterval(fetchLogs, 3000);
+setInterval(fetchProjects, 10000);
 
 // Initial fetches
 fetchStats();
 fetchLogs();
+fetchProjects();

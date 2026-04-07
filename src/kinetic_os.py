@@ -1,10 +1,11 @@
 import os
 import subprocess
 from datetime import datetime, timedelta
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, send_from_directory
 
 app = Flask(__name__, template_folder='../templates', static_folder='../static')
 WORKSPACE = os.environ.get("WORKSPACE", os.getcwd())
+PROJECTS_DIR = os.path.join(WORKSPACE, "projects")
 
 def get_recent_commits(n=10):
     result = subprocess.run(
@@ -77,6 +78,48 @@ def read_log_file(filename, num_lines=10):
         return [line for line in result.stdout.strip().split('\n') if line.strip()]
     except Exception:
         return []
+
+@app.route('/api/projects')
+def list_projects():
+    projects = []
+    if os.path.exists(PROJECTS_DIR):
+        for entry in os.listdir(PROJECTS_DIR):
+            proj_path = os.path.join(PROJECTS_DIR, entry)
+            if os.path.isdir(proj_path) and not entry.startswith('.'):
+                has_index = os.path.exists(os.path.join(proj_path, 'index.html'))
+
+                # Get last modified time
+                mtime = os.path.getmtime(proj_path)
+                modified_str = datetime.fromtimestamp(mtime).strftime("%Y-%m-%d %H:%M:%S")
+
+                projects.append({
+                    'name': entry,
+                    'has_index': has_index,
+                    'last_modified': modified_str,
+                    'mtime': mtime
+                })
+
+    # Sort projects by most recently modified
+    projects.sort(key=lambda x: x['mtime'], reverse=True)
+
+    active_project = projects[0] if projects else None
+
+    return jsonify({
+        'projects': projects,
+        'active_project': active_project
+    })
+
+@app.route('/projects/<project_name>/<path:filename>')
+def serve_project_file(project_name, filename):
+    project_path = os.path.join(PROJECTS_DIR, project_name)
+    if os.path.exists(project_path) and os.path.isdir(project_path):
+        return send_from_directory(project_path, filename)
+    return "Project not found", 404
+
+@app.route('/projects/<project_name>/')
+def serve_project_index(project_name):
+    return serve_project_file(project_name, 'index.html')
+
 
 @app.route('/api/logs')
 def logs():

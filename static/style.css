@@ -122,7 +122,12 @@ body, html {
     align-items: center;
 }
 
-.nav-item.active {
+.nav-item:hover, .project-item:hover {
+    color: var(--accent-green);
+    background-color: rgba(74, 246, 38, 0.05);
+}
+
+.nav-item.active, .project-item.active {
     color: var(--accent-green);
     background-color: rgba(74, 246, 38, 0.1);
     padding-left: 10px;
@@ -134,9 +139,31 @@ body, html {
     margin-right: 10px;
 }
 
+.projects-section {
+    margin-bottom: 20px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.project-item {
+    padding: 8px 0;
+    color: var(--text-dim);
+    cursor: pointer;
+    font-size: 0.85rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.project-item .status {
+    color: var(--text-cyan);
+    font-size: 0.7rem;
+}
+
 .commit-history-section {
     flex: 1;
     overflow-y: auto;
+    border-top: 1px solid #333;
+    padding-top: 15px;
 }
 
 .section-title {
@@ -218,6 +245,29 @@ body, html {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.back-btn {
+    background: none;
+    border: 1px solid #333;
+    color: var(--text-dim);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.8rem;
+    cursor: pointer;
+    padding: 3px 8px;
+}
+.back-btn:hover {
+    color: var(--text-light);
+    border-color: var(--text-light);
+}
+
+.iframe-container {
+    flex: 1;
+    background-color: #080808;
+    border: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
 }
 
 .dots .dot {
