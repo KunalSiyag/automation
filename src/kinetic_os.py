@@ -94,18 +94,29 @@ def logs():
     for log in supervisor_logs:
         all_logs.append(f"[SUPERVISOR] {log}")
 
-    # Add bot logs
+    import re
+
+    # Add bot logs (clean up markdown)
     for log in bot_logs:
-        if log.startswith("## ") or log.startswith("### "):
-            all_logs.append(f"[OpenClaw] {log}")
-        else:
+        # Example format: ## [2026-04-01T00:44:54.133474] SELECT - Working on todo_app
+        # We want: [00:44:54] OpenClaw: SELECT - Working on todo_app
+        clean_log = log.replace("## ", "").replace("### ", "").strip()
+
+        # Extract timestamp if possible
+        match = re.search(r'\[(.*?)T(\d{2}:\d{2}:\d{2})\.\d+\] (.*)', clean_log)
+        if match:
+            time_str = match.group(2)
+            action_str = match.group(3)
             # truncate long bot log lines
-            log_str = log[:100] + "..." if len(log) > 100 else log
-            all_logs.append(f"[OpenClaw] {log_str}")
+            action_str = action_str[:100] + "..." if len(action_str) > 100 else action_str
+            all_logs.append(f"[{time_str}] OpenClaw: {action_str}")
+        else:
+            clean_log = clean_log[:100] + "..." if len(clean_log) > 100 else clean_log
+            all_logs.append(f"[OpenClaw] {clean_log}")
 
     # Add recent commits
     for c in recent_commits:
-        all_logs.append(f"[{c['time']}] Git commit: {c['hash']} - '{c['msg']}'")
+        all_logs.append(f"[{c['time']}] Git commit: #{c['hash']} - '{c['msg']}'")
 
     if not all_logs:
         all_logs = ["_ awaiting command..."]
