@@ -392,11 +392,12 @@ Test files:
 {test_listing}
 
 Important constraints:
-1. Prefer editing existing source files over creating new files.
-2. DO NOT create files named improvement_*.py.
-3. If you change behavior, update/add relevant tests in existing test files when needed.
-4. Keep edits small and safe.
-5. Return ONLY JSON, no markdown.
+1. Build highly functional, practical, and useful software. Projects MUST be Web Applications. Avoid trivial or meaningless for-loops.
+2. Create web interfaces using HTML, CSS, and JS. ALWAYS ensure the main file is named `index.html` at the project root.
+3. Enforce strict modularity in generated code. Always separate concerns appropriately.
+4. DO NOT create files named improvement_*.py.
+5. Keep edits coherent, completely functional, and safe.
+6. Return ONLY JSON, no markdown.
 
 JSON response schema:
 {{
@@ -451,7 +452,8 @@ def _validate_edit_plan(
     summary = str(raw_plan.get("summary", "Autonomous update")).strip()
     source_files, test_files = _list_project_python_files(project_path)
     allowed_files = set(source_files) | set(test_files)
-    allow_non_source_test = bool(command and command.get("allow_non_source_test"))
+    # We now allow creation of new files to support modularity
+    allow_non_source_test = True
 
     if not isinstance(edits, list) or not edits:
         return None

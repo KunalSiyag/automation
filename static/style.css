@@ -1,0 +1,546 @@
+:root {
+    --bg-dark: #0d0d0d;
+    --bg-panel: #151515;
+    --bg-header: #1a1a1a;
+    --accent-green: #4af626;
+    --accent-dim: #2e8f1a;
+    --text-light: #e0e0e0;
+    --text-dim: #888888;
+    --text-cyan: #00ffff;
+    --text-red: #ff3333;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    font-family: 'Share Tech Mono', monospace;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.top-nav {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: var(--bg-dark);
+    border-bottom: 1px solid #333;
+    height: 40px;
+}
+
+.brand {
+    color: var(--accent-green);
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-right: 40px;
+}
+
+.nav-links span {
+    margin-right: 20px;
+    color: var(--text-dim);
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.nav-links span.active {
+    color: var(--accent-green);
+    border-bottom: 2px solid var(--accent-green);
+    padding-bottom: 5px;
+}
+
+.nav-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+.search-bar {
+    background-color: var(--bg-panel);
+    border: 1px solid #333;
+    color: var(--accent-green);
+    padding: 5px 10px;
+    font-family: 'Share Tech Mono', monospace;
+    width: 200px;
+    margin-right: 20px;
+}
+
+.icons span {
+    margin-left: 15px;
+    color: var(--accent-green);
+    cursor: pointer;
+}
+
+.main-layout {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background-color: var(--bg-panel);
+    border-right: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.sidebar-section {
+    margin-bottom: 20px;
+}
+
+.sidebar-item {
+    color: var(--text-dim);
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+.sidebar-item.active {
+    color: var(--accent-green);
+    font-weight: bold;
+}
+
+.sidebar-sub {
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    padding-left: 20px;
+}
+
+.sidebar-nav {
+    margin-bottom: 30px;
+}
+
+.nav-item {
+    padding: 10px 0;
+    color: var(--text-dim);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.nav-item:hover, .project-item:hover {
+    color: var(--accent-green);
+    background-color: rgba(74, 246, 38, 0.05);
+}
+
+.nav-item.active, .project-item.active {
+    color: var(--accent-green);
+    background-color: rgba(74, 246, 38, 0.1);
+    padding-left: 10px;
+    margin-left: -10px;
+    border-left: 3px solid var(--accent-green);
+}
+
+.nav-item .icon {
+    margin-right: 10px;
+}
+
+.projects-section {
+    margin-bottom: 20px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.project-item {
+    padding: 8px 0;
+    color: var(--text-dim);
+    cursor: pointer;
+    font-size: 0.85rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.project-item .status {
+    color: var(--text-cyan);
+    font-size: 0.7rem;
+}
+
+.commit-history-section {
+    flex: 1;
+    overflow-y: auto;
+    border-top: 1px solid #333;
+    padding-top: 15px;
+}
+
+.section-title {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.commit-item {
+    margin-bottom: 15px;
+    display: flex;
+}
+
+.commit-dot {
+    color: var(--accent-green);
+    margin-right: 10px;
+}
+
+.commit-info {
+    font-size: 0.8rem;
+}
+
+.commit-hash {
+    color: var(--accent-green);
+}
+
+.commit-desc {
+    color: var(--text-light);
+    margin-top: 3px;
+    line-height: 1.2;
+}
+
+.sidebar-bottom {
+    margin-top: auto;
+}
+
+.new-instance-btn {
+    width: 100%;
+    background-color: var(--accent-green);
+    color: var(--bg-dark);
+    border: none;
+    padding: 10px;
+    font-family: 'Share Tech Mono', monospace;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+.settings-link {
+    color: var(--text-dim);
+    cursor: pointer;
+}
+
+/* Center Column */
+.center-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-right: 1px solid #333;
+}
+
+.terminal-container {
+    flex: 1;
+    background-color: #080808;
+    border: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.terminal-header {
+    background-color: #111;
+    padding: 8px 15px;
+    border-bottom: 1px solid #333;
+    color: var(--accent-green);
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.back-btn {
+    background: none;
+    border: 1px solid #333;
+    color: var(--text-dim);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.8rem;
+    cursor: pointer;
+    padding: 3px 8px;
+}
+.back-btn:hover {
+    color: var(--text-light);
+    border-color: var(--text-light);
+}
+
+.iframe-container {
+    flex: 1;
+    background-color: #080808;
+    border: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.dots .dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-left: 5px;
+}
+
+.dot.red { background-color: #ff5f56; }
+.dot.yellow { background-color: #ffbd2e; }
+.dot.blue { background-color: #27c93f; }
+
+.terminal-content {
+    padding: 15px;
+    overflow-y: auto;
+    flex: 1;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.log-line { margin-bottom: 5px; }
+.log-line.success { color: var(--accent-green); }
+.log-line.info { color: var(--text-light); }
+.log-line.cyan { color: var(--text-cyan); }
+.log-line.warn { color: var(--text-red); }
+
+.active-project {
+    background-color: var(--bg-panel);
+    border: 1px solid #333;
+    padding: 20px;
+}
+
+.active-project-title {
+    color: var(--accent-green);
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.project-name {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.project-stats {
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+}
+
+.version {
+    background-color: #222;
+    padding: 3px 8px;
+    border: 1px solid #444;
+    color: var(--accent-green);
+    margin-right: 20px;
+}
+
+.last-commit {
+    flex: 1;
+}
+
+.iteration-velocity {
+    display: flex;
+    align-items: center;
+}
+
+.velocity-percent {
+    color: var(--text-light);
+    margin-left: 10px;
+    margin-right: 15px;
+}
+
+.bars {
+    display: flex;
+    align-items: flex-end;
+    height: 20px;
+}
+
+.bar {
+    width: 15px;
+    background-color: var(--accent-green);
+    margin-left: 3px;
+    opacity: 0.8;
+}
+
+.bar-1 { height: 40%; background-color: var(--accent-dim); }
+.bar-2 { height: 60%; background-color: var(--accent-dim); }
+.bar-3 { height: 50%; background-color: var(--accent-dim); }
+.bar-4 { height: 90%; }
+.bar-5 { height: 100%; }
+
+/* Right Column */
+.right-panel {
+    width: 300px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.panel-title {
+    color: var(--text-cyan);
+    font-size: 1rem;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+.metric-card {
+    background-color: var(--bg-panel);
+    border: 1px solid #333;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    margin-bottom: 15px;
+}
+
+.card-title {
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    margin-bottom: 5px;
+}
+
+.card-status {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.supervisor-card .card-status { color: var(--text-light); }
+.openclaw-card .card-status { color: var(--text-light); }
+
+.progress-container {
+    display: flex;
+    align-items: center;
+}
+
+.progress-bar {
+    flex: 1;
+    height: 4px;
+    background-color: #333;
+    position: relative;
+    margin-right: 10px;
+}
+
+.supervisor-bar::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; height: 100%;
+    width: 95%;
+    background-color: var(--accent-green);
+}
+
+.openclaw-bar::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; height: 100%;
+    width: 45%;
+    background-color: var(--text-cyan);
+}
+
+.progress-text {
+    font-size: 0.75rem;
+    color: var(--accent-green);
+}
+.openclaw-text { color: var(--text-cyan); }
+
+.stats-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.stat-box {
+    flex: 1;
+    background-color: var(--bg-panel);
+    border: 1px solid #333;
+    padding: 15px;
+}
+
+.stat-label {
+    color: var(--text-dim);
+    font-size: 0.75rem;
+    margin-bottom: 10px;
+}
+
+.stat-value {
+    color: var(--text-red);
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.stat-box:first-child .stat-value {
+    color: var(--text-light);
+}
+
+.spectral-analysis {
+    background-color: var(--bg-panel);
+    border: 1px solid #333;
+    padding: 15px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.spectral-content {
+    flex: 1;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid transparent;
+}
+
+.ring-1 {
+    width: 120px;
+    height: 80px;
+    border-left: 2px solid var(--text-cyan);
+    border-bottom: 2px solid var(--accent-green);
+    transform: rotate(30deg);
+}
+
+.ring-2 {
+    width: 100px;
+    height: 100px;
+    border-top: 2px solid var(--accent-green);
+    border-right: 2px solid var(--text-cyan);
+    transform: rotate(-15deg);
+}
+
+.live-indicator {
+    position: absolute;
+    right: 20px;
+    color: var(--accent-green);
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+/* Footer */
+.footer {
+    height: 30px;
+    background-color: #000;
+    border-top: 1px solid #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+}
+
+.status-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: var(--accent-green);
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.footer-right {
+    color: var(--accent-green);
+}

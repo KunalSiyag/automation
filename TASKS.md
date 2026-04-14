@@ -4,6 +4,22 @@ The agent should work on these projects in rotation, making meaningful improveme
 
 ## Projects
 
+### tic_tac_toe
+**Type:** Application/Game
+**Status:** Active
+**Priority:** High
+
+A modular desktop Tic-Tac-Toe game using Python (e.g., tkinter or Pygame) or a fully functional web-based version.
+- Ensure project structure follows best practices, separating UI, game logic, and state management.
+
+### ludo
+**Type:** Application/Game
+**Status:** Active
+**Priority:** High
+
+A modular desktop Ludo game using Python or a web-based version.
+- Ensure project structure follows best practices, separating UI, board logic, dice mechanics, and models.
+
 ### 1. task_manager_web
 **Type:** Web Application (Flask + HTML/CSS/JS)
 **Status:** Active
