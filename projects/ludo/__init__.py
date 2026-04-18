@@ -11,6 +11,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index() -> None:
+    """Enhanced index implementation."""
     # Logging enhanced for debugging
     """Enhanced index implementation."""
     # Input validation enhanced
