@@ -91,3 +91,5 @@ import logging
 # Type safety improved - 170309
 
 # Type safety improved - 170339
+
+# Validation improved - 170523
