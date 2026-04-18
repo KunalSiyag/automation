@@ -156,3 +156,5 @@ import logging
 # Documentation updated - 180521
 
 # Documentation updated - 180606
+
+# Type safety improved - 180711
