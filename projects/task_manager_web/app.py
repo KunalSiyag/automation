@@ -15,7 +15,11 @@ TASKS_FILE = 'tasks.json'
 def load_tasks():
     if os.path.exists(TASKS_FILE):
         with open(TASKS_FILE, 'r') as f:
-            return json.load(f)
+            try:
+                return json.load(f)
+            except json.JSONDecodeError:
+                # Handle case where tasks.json is empty or malformed
+                return []
     return []
 
 def save_tasks(tasks):
@@ -33,15 +37,24 @@ def get_tasks():
 @app.route('/api/tasks', methods=['POST'])
 def create_task():
     data = request.json
+    if not data or not data.get('title') or not isinstance(data.get('title'), str) or not data.get('title').strip():
+        return jsonify({'error': 'Title is required and must be a non-empty string'}), 400
+
     tasks = load_tasks()
     new_task = {
         'id': max([t['id'] for t in tasks], default=0) + 1,
-        'title': data.get('title'),
-        'description': data.get('description', ''),
-        'priority': data.get('priority', 'medium'),
+        'title': data.get('title').strip(),
+        'description': data.get('description', '').strip(),
+        'priority': data.get('priority', 'medium').lower(),
         'status': 'todo',
         'created_at': datetime.now().isoformat()
     }
+
+    # Basic validation for priority
+    valid_priorities = ['low', 'medium', 'high']
+    if new_task['priority'] not in valid_priorities:
+        new_task['priority'] = 'medium'
+
     tasks.append(new_task)
     save_tasks(tasks)
     return jsonify(new_task), 201
@@ -49,18 +62,59 @@ def create_task():
 @app.route('/api/tasks/<int:task_id>', methods=['PUT'])
 def update_task(task_id):
     tasks = load_tasks()
-    for task in tasks:
+    task_found = False
+    updated_task = None
+
+    for i, task in enumerate(tasks):
         if task['id'] == task_id:
-            task.update(request.json)
+            update_data = request.json
+            if not update_data:
+                return jsonify({'error': 'No update data provided'}), 400
+
+            # Update fields if present
+            if 'title' in update_data and (not isinstance(update_data['title'], str) or not update_data['title'].strip()):
+                return jsonify({'error': 'Title cannot be empty'}), 400
+            if 'title' in update_data: task['title'] = update_data['title'].strip()
+
+            if 'description' in update_data: task['description'] = update_data['description'].strip()
+
+            if 'priority' in update_data:
+                valid_priorities = ['low', 'medium', 'high']
+                priority_val = update_data['priority'].lower()
+                if priority_val in valid_priorities:
+                    task['priority'] = priority_val
+                else:
+                    return jsonify({'error': f'Invalid priority. Must be one of {valid_priorities}'}), 400
+
+            if 'status' in update_data:
+                valid_statuses = ['todo', 'in-progress', 'done']
+                status_val = update_data['status'].lower()
+                if status_val in valid_statuses:
+                    task['status'] = status_val
+                else:
+                    return jsonify({'error': f'Invalid status. Must be one of {valid_statuses}'}), 400
+
+            tasks[i] = task
             save_tasks(tasks)
-            return jsonify(task)
-    return jsonify({'error': 'Not found'}), 404
+            updated_task = task
+            task_found = True
+            break
+
+    if task_found:
+        return jsonify(updated_task)
+    return jsonify({'error': 'Task not found'}), 404
 
 @app.route('/api/tasks/<int:task_id>', methods=['DELETE'])
 def delete_task(task_id):
+    initial_task_count = len(load_tasks())
     tasks = [t for t in load_tasks() if t['id'] != task_id]
+    if len(tasks) == initial_task_count:
+        return jsonify({'error': 'Task not found'}), 404
     save_tasks(tasks)
-    return jsonify({'message': 'Deleted'})
+    return jsonify({'message': 'Task deleted successfully'}), 200
 
 if __name__ == '__main__':
+    # Ensure tasks.json exists if running for the first time
+    if not os.path.exists(TASKS_FILE):
+        save_tasks([])
     app.run(debug=True, port=5000)
