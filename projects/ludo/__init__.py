@@ -70,3 +70,5 @@ if __name__ == '__main__':
 # Type safety improved - 080114
 
 # Type safety improved - 081701
+
+# Documentation updated - 081850
