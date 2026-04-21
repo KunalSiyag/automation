@@ -6,7 +6,7 @@ import logging
 app = Flask(__name__, template_folder=os.path.dirname(os.path.abspath(__file__)), static_folder='static')
 
 @app.route('/')
-def index():
+def index() -> None:
     # Logging enhanced for debugging
     # Error handling improved
     # Input validation enhanced
