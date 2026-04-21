@@ -43,8 +43,15 @@ def create_task():
         return jsonify({'error': 'Title is required and must be a non-empty string'}), 400
 
     tasks = load_tasks()
+    
+    # More robust ID generation: filter for valid integer IDs before finding the maximum.
+    # This prevents potential TypeErrors if the tasks.json file contains entries with
+    # missing or non-integer 'id' fields due to external modification or corruption.
+    current_ids = [t['id'] for t in tasks if isinstance(t.get('id'), int)]
+    new_id = max(current_ids, default=0) + 1
+
     new_task = {
-        'id': max([t['id'] for t in tasks], default=0) + 1,
+        'id': new_id,
         'title': data.get('title').strip(),
         'description': data.get('description', '').strip(),
         'priority': data.get('priority', 'medium').lower(),
