@@ -94,3 +94,5 @@ None
 # Documentation updated - 090210
 
 # Validation improved - 090616
+
+# Type safety improved - 091220
