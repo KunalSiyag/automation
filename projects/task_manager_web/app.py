@@ -1,8 +1,4 @@
-"""
-Task Manager Web Application
-A full-featured task management web app with Flask backend
-"""
-
+import logging
 from flask import Flask, render_template, request, jsonify
 from datetime import datetime
 import json
@@ -16,9 +12,15 @@ def load_tasks():
     if os.path.exists(TASKS_FILE):
         with open(TASKS_FILE, 'r') as f:
             try:
-                return json.load(f)
+                data = json.load(f)
+                # Validate that the loaded data is a list to prevent TypeErrors in subsequent operations.
+                if not isinstance(data, list):
+                    logging.warning(f"Tasks file '{TASKS_FILE}' contains non-list data. Initializing with an empty list.")
+                    return []
+                return data
             except json.JSONDecodeError:
-                # Handle case where tasks.json is empty or malformed
+                # Handle cases where the file is empty or contains malformed JSON.
+                logging.warning(f"Tasks file '{TASKS_FILE}' is empty or malformed JSON. Initializing with an empty list.")
                 return []
     return []
 
