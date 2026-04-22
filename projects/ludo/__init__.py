@@ -13,6 +13,7 @@ app = Flask(__name__, template_folder='.')
 @app.route('/')
 def index() -> str:
     # Error handling improved
+    # Error handling improved
     # Logging enhanced for debugging
     # Error handling improved
     # Error handling improved
