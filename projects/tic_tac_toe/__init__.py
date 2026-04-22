@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 import os
+import logging
 
 # Configure Flask to look for index.html in the project root and static files in a 'static' folder.
 app = Flask(__name__, template_folder=os.path.dirname(os.path.abspath(__file__)), static_folder='static')
