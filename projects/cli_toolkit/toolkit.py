@@ -1,98 +1,126 @@
-"""
-CLI Toolkit - Collection of useful command-line utilities
-"""
-
-import os
-import sys
 import hashlib
-import json
-from pathlib import Path
+import os
+import time
 
 class CLIToolkit:
-    def __init__(self):
-        self.commands = {
-            'hash': self.hash_file,
-            'count': self.count_lines,
-            'search': self.search_text,
-            'size': self.directory_size,
-            'info': self.file_info
-        }
-    
+    """
+    A collection of utility methods for file operations.
+    """
+
     def hash_file(self, filename: str, algorithm: str = 'sha256') -> str:
-        hash_obj = hashlib.new(algorithm)
-        with open(filename, 'rb') as f:
-            for chunk in iter(lambda: f.read(4096), b''):
-                hash_obj.update(chunk)
-        return hash_obj.hexdigest()
-    
+        """
+        Calculates the hash of a given file.
+
+        Args:
+            filename (str): The path to the file.
+            algorithm (str): The hashing algorithm to use (e.g., 'sha256', 'md5').
+
+        Returns:
+            str: The hexadecimal hash value of the file.
+
+        Raises:
+            ValueError: If the specified algorithm is not supported.
+            FileNotFoundError: If the file does not exist.
+            IOError: If there's an issue reading the file.
+        """
+        algorithm = algorithm.lower()
+        if algorithm not in hashlib.algorithms_available:
+            raise ValueError(f"Unsupported hashing algorithm: {algorithm}. Available: {', '.join(hashlib.algorithms_available)}")
+
+        try:
+            hasher = hashlib.new(algorithm)
+            with open(filename, 'rb') as f:
+                while chunk := f.read(8192):  # Read file in chunks to handle large files
+                    hasher.update(chunk)
+            return hasher.hexdigest()
+        except FileNotFoundError:
+            raise FileNotFoundError(f"File not found: {filename}")
+        except IOError as e:
+            raise IOError(f"Error reading file {filename}: {e}")
+
     def count_lines(self, filename: str) -> dict:
-        with open(filename, 'r') as f:
-            lines = f.readlines()
-        return {
-            'total_lines': len(lines),
-            'non_empty_lines': sum(1 for line in lines if line.strip()),
-            'empty_lines': sum(1 for line in lines if not line.strip())
-        }
-    
-    def search_text(self, directory: str, pattern: str) -> list:
-        results = []
-        for root, dirs, files in os.walk(directory):
-            for file in files:
-                if file.endswith('.txt') or file.endswith('.py'):
-                    filepath = os.path.join(root, file)
-                    try:
-                        with open(filepath, 'r') as f:
-                            for i, line in enumerate(f, 1):
-                                if pattern in line:
-                                    results.append({
-                                        'file': filepath,
-                                        'line': i,
-                                        'content': line.strip()
-                                    })
-                    except:
-                        pass
-        return results
-    
-    def directory_size(self, directory: str) -> dict:
-        total_size = 0
-        file_count = 0
-        for root, dirs, files in os.walk(directory):
-            for file in files:
-                filepath = os.path.join(root, file)
-                if os.path.exists(filepath):
-                    total_size += os.path.getsize(filepath)
-                    file_count += 1
-        return {
-            'total_size_bytes': total_size,
-            'total_size_mb': round(total_size / (1024 * 1024), 2),
-            'file_count': file_count
-        }
-    
-    def file_info(self, filename: str) -> dict:
-        stat = os.stat(filename)
-        return {
-            'size': stat.st_size,
-            'created': stat.st_ctime,
-            'modified': stat.st_mtime,
-            'is_file': os.path.isfile(filename),
-            'is_dir': os.path.isdir(filename),
-            'extension': Path(filename).suffix
+        """
+        Counts total, non-empty, and empty lines in a text file.
+
+        Args:
+            filename (str): The path to the file.
+
+        Returns:
+            dict: A dictionary containing 'total_lines', 'non_empty_lines', 'empty_lines'.
+
+        Raises:
+            FileNotFoundError: If the file does not exist.
+            IOError: If there's an issue reading the file.
+        """
+        total_lines = 0
+        non_empty_lines = 0
+        empty_lines = 0
+
+        try:
+            with open(filename, 'r', encoding='utf-8') as f:
+                for line in f:
+                    total_lines += 1
+                    if line.strip():  # Check if line is not just whitespace
+                        non_empty_lines += 1
+                    else:
+                        empty_lines += 1
+            return {
+                'total_lines': total_lines,
+                'non_empty_lines': non_empty_lines,
+                'empty_lines': empty_lines
+            }
+        except FileNotFoundError:
+            raise FileNotFoundError(f"File not found: {filename}")
+        except IOError as e:
+            raise IOError(f"Error reading file {filename}: {e}")
+        except UnicodeDecodeError:
+            raise IOError(f"Could not decode file {filename} with UTF-8. Consider specifying encoding.")
+
+    def file_info(self, path_to_check: str) -> dict:
+        """
+        Retrieves basic information about a file or path.
+
+        Args:
+            path_to_check (str): The path to the file or directory.
+
+        Returns:
+            dict: A dictionary containing file information:
+                  'path': The original path.
+                  'exists': True if the path exists, False otherwise.
+                  'is_file': True if the path is a file, False otherwise.
+                  'is_dir': True if the path is a directory, False otherwise.
+                  'size': Size in bytes if it's a file, None otherwise.
+                  'last_modified_timestamp': Timestamp of last modification (seconds since epoch), None if path does not exist.
+                  'last_modified_human': Human-readable last modification time, None if path does not exist.
+                  'created_timestamp': Timestamp of creation (seconds since epoch), None if path does not exist.
+                  'created_human': Human-readable creation time, None if path does not exist.
+        """
+        info = {
+            'path': path_to_check,
+            'exists': os.path.exists(path_to_check),
+            'is_file': False,
+            'is_dir': False,
+            'size': None,
+            'last_modified_timestamp': None,
+            'last_modified_human': None,
+            'created_timestamp': None,
+            'created_human': None
         }
 
-def main():
-    if len(sys.argv) < 2:
-        print("Usage: python toolkit.py <command> [args]")
-        print("Commands: hash, count, search, size, info")
-        return
-    
-    toolkit = CLIToolkit()
-    command = sys.argv[1]
-    
-    if command in toolkit.commands:
-        result = toolkit.commands[command](*sys.argv[2:])
-        print(json.dumps(result, indent=2))
-    else:
-        print(f"Unknown command: {command}")
+        if info['exists']:
+            info['is_file'] = os.path.isfile(path_to_check)
+            info['is_dir'] = os.path.isdir(path_to_check)
 
-if __name__ == '__main__':
-    main()
+            try:
+                stats = os.stat(path_to_check)
+                if info['is_file']:
+                    info['size'] = stats.st_size
+                
+                info['last_modified_timestamp'] = stats.st_mtime
+                info['last_modified_human'] = time.ctime(stats.st_mtime)
+                info['created_timestamp'] = stats.st_ctime
+                info['created_human'] = time.ctime(stats.st_ctime)
+            except OSError:
+                # e.g., permission denied to get stats for some files/directories
+                pass # Leave these fields as None or indicate an error if desired
+        return info

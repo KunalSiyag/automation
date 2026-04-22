@@ -5,7 +5,7 @@ from toolkit import CLIToolkit
 app = Flask(__name__)
 # Configure Flask to serve static files (like index.html) from the root directory
 app.static_folder = '.'
-app.static_url_path = '/'
+app.static_url_path = '/' # This maps requests to '/' (root) to the static_folder
 
 toolkit = CLIToolkit()
 
@@ -41,5 +41,23 @@ def hash_file_web():
     except Exception as e:
         return jsonify({'error': f'An unexpected error occurred: {str(e)}'}), 500
 
+@app.route('/file-info', methods=['POST'])
+def file_info_web():
+    """Web endpoint to get information about a file or path on the server."""
+    data = request.get_json()
+    if not data or 'path' not in data:
+        return jsonify({'error': 'Missing path in request body'}), 400
+
+    path_to_check = data['path']
+
+    try:
+        info = toolkit.file_info(path_to_check)
+        return jsonify(info)
+    except Exception as e:
+        # file_info is designed to be robust even for non-existent paths,
+        # but catch any truly unexpected issues.
+        return jsonify({'error': f'An unexpected error occurred while getting info for {path_to_check}: {str(e)}'}), 500
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    # In a production environment, debug=False and use a production WSGI server.
+    app.run(debug=True, port=5000)
