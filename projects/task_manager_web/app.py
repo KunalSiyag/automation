@@ -39,8 +39,25 @@ def get_tasks():
 @app.route('/api/tasks', methods=['POST'])
 def create_task():
     data = request.json
+    
+    # Validate title first as it's mandatory and must be a string
     if not data or not data.get('title') or not isinstance(data.get('title'), str) or not data.get('title').strip():
         return jsonify({'error': 'Title is required and must be a non-empty string'}), 400
+
+    # Validate description type. If present and not a string, return error.
+    description_val = data.get('description')
+    if description_val is not None and not isinstance(description_val, str):
+        return jsonify({'error': 'Description must be a string'}), 400
+    # Use the description, strip it if it's a string, otherwise default to empty.
+    description_to_use = description_val.strip() if isinstance(description_val, str) else ''
+
+    # Validate priority type. If present and not a string, return error.
+    priority_val = data.get('priority')
+    if priority_val is not None and not isinstance(priority_val, str):
+        return jsonify({'error': 'Priority must be a string'}), 400
+    
+    # Determine priority to use, lowercasing if it's a string, otherwise defaulting to 'medium'.
+    priority_to_use = (priority_val.lower() if isinstance(priority_val, str) else 'medium')
 
     tasks = load_tasks()
     
@@ -53,13 +70,14 @@ def create_task():
     new_task = {
         'id': new_id,
         'title': data.get('title').strip(),
-        'description': data.get('description', '').strip(),
-        'priority': data.get('priority', 'medium').lower(),
+        'description': description_to_use,
+        'priority': priority_to_use,
         'status': 'todo',
         'created_at': datetime.now().isoformat()
     }
 
-    # Basic validation for priority
+    # Basic validation for priority against valid options. If invalid, default to 'medium'.
+    # This maintains the original behavior of defaulting for invalid string values.
     valid_priorities = ['low', 'medium', 'high']
     if new_task['priority'] not in valid_priorities:
         new_task['priority'] = 'medium'
@@ -80,24 +98,41 @@ def update_task(task_id):
             if not update_data:
                 return jsonify({'error': 'No update data provided'}), 400
 
-            # Update fields if present
-            if 'title' in update_data and (not isinstance(update_data['title'], str) or not update_data['title'].strip()):
-                return jsonify({'error': 'Title cannot be empty'}), 400
-            if 'title' in update_data: task['title'] = update_data['title'].strip()
+            # Update title if present and valid
+            if 'title' in update_data:
+                title_val = update_data['title']
+                if not isinstance(title_val, str) or not title_val.strip():
+                    return jsonify({'error': 'Title cannot be empty and must be a string'}), 400
+                task['title'] = title_val.strip()
 
-            if 'description' in update_data: task['description'] = update_data['description'].strip()
+            # Update description if present and valid
+            if 'description' in update_data:
+                description_val = update_data['description']
+                if not isinstance(description_val, str):
+                    return jsonify({'error': 'Description must be a string'}), 400
+                task['description'] = description_val.strip()
 
+            # Update priority if present and valid
             if 'priority' in update_data:
+                priority_val_raw = update_data['priority']
+                if not isinstance(priority_val_raw, str):
+                    return jsonify({'error': 'Priority must be a string'}), 400
+                
+                priority_val = priority_val_raw.lower()
                 valid_priorities = ['low', 'medium', 'high']
-                priority_val = update_data['priority'].lower()
                 if priority_val in valid_priorities:
                     task['priority'] = priority_val
                 else:
                     return jsonify({'error': f'Invalid priority. Must be one of {valid_priorities}'}), 400
 
+            # Update status if present and valid
             if 'status' in update_data:
+                status_val_raw = update_data['status']
+                if not isinstance(status_val_raw, str):
+                    return jsonify({'error': 'Status must be a string'}), 400
+                
+                status_val = status_val_raw.lower()
                 valid_statuses = ['todo', 'in-progress', 'done']
-                status_val = update_data['status'].lower()
                 if status_val in valid_statuses:
                     task['status'] = status_val
                 else:
