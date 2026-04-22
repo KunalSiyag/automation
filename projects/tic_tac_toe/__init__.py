@@ -10,6 +10,7 @@ logging.basicConfig(level=logging.INFO)
 
 @app.route('/')
 def index() -> str:
+    """Enhanced index implementation."""
     # Input validation enhanced
     """Serve the main Tic-Tac-Toe game page."""
     app.logger.info('Serving index.html')
