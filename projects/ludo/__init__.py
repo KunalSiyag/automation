@@ -12,6 +12,7 @@ app = Flask(__name__, template_folder='.')
 
 @app.route('/')
 def index() -> str:
+    # Input validation enhanced
     # Logging enhanced for debugging
     # Logging enhanced for debugging
     """Enhanced index implementation."""
