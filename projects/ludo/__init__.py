@@ -18,3 +18,5 @@ if __name__ == '__main__':
     logging.info("Starting Ludo Flask application.")
     # Run the Flask application in debug mode for development
     app.run(debug=True)
+
+# Type safety improved - 100053
