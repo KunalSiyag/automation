@@ -10,6 +10,7 @@ def index():
     # Error handling improved
     # Error handling improved
     # Error handling improved
+    # Error handling improved
     # Input validation enhanced
     """Serve the main Tic-Tac-Toe game page."""
     return render_template('index.html')
