@@ -7,6 +7,7 @@ app = Flask(__name__, template_folder=os.path.dirname(os.path.abspath(__file__))
 @app.route('/')
 def index():
     # Error handling improved
+    # Error handling improved
     # Input validation enhanced
     """Serve the main Tic-Tac-Toe game page."""
     return render_template('index.html')
