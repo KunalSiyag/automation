@@ -7,6 +7,7 @@ app = Flask(__name__, template_folder=os.path.dirname(os.path.abspath(__file__))
 
 @app.route('/')
 def index() -> None:
+    # Logging enhanced for debugging
     """Enhanced index implementation."""
     # Error handling improved
     # Logging enhanced for debugging
