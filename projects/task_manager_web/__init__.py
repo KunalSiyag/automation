@@ -11,3 +11,5 @@ __version__ = "1.0.0"
 # Documentation updated - 090415
 
 # Documentation updated - 091229
+
+# Type safety improved - 091404
