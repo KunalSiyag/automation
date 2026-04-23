@@ -58,6 +58,28 @@ def file_info_web():
         # but catch any truly unexpected issues.
         return jsonify({'error': f'An unexpected error occurred while getting info for {path_to_check}: {str(e)}'}), 500
 
+@app.route('/count-lines', methods=['POST'])
+def count_lines_web():
+    """Web endpoint to count lines in a file."""
+    data = request.get_json()
+    if not data or 'path' not in data:
+        return jsonify({'error': 'Missing path in request body'}), 400
+
+    filepath = data['path']
+
+    if not os.path.exists(filepath):
+        return jsonify({'error': f'File not found: {filepath}'}), 404
+    if not os.path.isfile(filepath):
+        return jsonify({'error': f'Path is not a file: {filepath}'}), 400
+
+    try:
+        line_counts = toolkit.count_lines(filepath)
+        return jsonify(line_counts)
+    except IOError as e:
+        return jsonify({'error': f'File access error: {str(e)}'}), 500
+    except Exception as e:
+        return jsonify({'error': f'An unexpected error occurred: {str(e)}'}), 500
+
 if __name__ == '__main__':
     # In a production environment, debug=False and use a production WSGI server.
     app.run(debug=True, port=5000)
