@@ -75,3 +75,5 @@ import logging
 # Documentation updated - 085717
 
 # Validation improved - 085849
+
+# Path canonicalization added - 090000

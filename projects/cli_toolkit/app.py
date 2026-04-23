@@ -21,17 +21,20 @@ def hash_file_web():
     if not data or 'filename' not in data:
         return jsonify({'error': 'Missing filename in request body'}), 400
 
-    filename = data['filename']
+    filename_raw = data['filename']
     algorithm = data.get('algorithm', 'sha256')
 
-    if not os.path.exists(filename):
-        return jsonify({'error': f'File not found: {filename}'}), 404
-    if not os.path.isfile(filename):
-        return jsonify({'error': f'Path is not a file: {filename}'}), 400
-
     try:
+        # Resolve the real path to handle symlinks and path normalization
+        filename = os.path.realpath(filename_raw)
+
+        if not os.path.exists(filename):
+            return jsonify({'error': f'File not found: {filename_raw}'}), 404
+        if not os.path.isfile(filename):
+            return jsonify({'error': f'Path is not a file: {filename_raw}'}), 400
+
         hash_value = toolkit.hash_file(filename, algorithm)
-        return jsonify({'filename': filename, 'algorithm': algorithm, 'hash': hash_value})
+        return jsonify({'filename': filename_raw, 'algorithm': algorithm, 'hash': hash_value})
     except ValueError as e:
         # e.g., unsupported hash algorithm
         return jsonify({'error': str(e)}), 400
@@ -48,6 +51,8 @@ def file_info_web():
     if not data or 'path' not in data:
         return jsonify({'error': 'Missing path in request body'}), 400
 
+    # file_info is designed to be robust even for non-existent paths,
+    # and might need to report on the exact path provided, so realpath is not applied here.
     path_to_check = data['path']
 
     try:
@@ -65,14 +70,17 @@ def count_lines_web():
     if not data or 'path' not in data:
         return jsonify({'error': 'Missing path in request body'}), 400
 
-    filepath = data['path']
-
-    if not os.path.exists(filepath):
-        return jsonify({'error': f'File not found: {filepath}'}), 404
-    if not os.path.isfile(filepath):
-        return jsonify({'error': f'Path is not a file: {filepath}'}), 400
+    filepath_raw = data['path']
 
     try:
+        # Resolve the real path to handle symlinks and path normalization
+        filepath = os.path.realpath(filepath_raw)
+
+        if not os.path.exists(filepath):
+            return jsonify({'error': f'File not found: {filepath_raw}'}), 404
+        if not os.path.isfile(filepath):
+            return jsonify({'error': f'Path is not a file: {filepath_raw}'}), 400
+
         line_counts = toolkit.count_lines(filepath)
         return jsonify(line_counts)
     except IOError as e:
