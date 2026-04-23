@@ -3,25 +3,31 @@ from flask import Flask, render_template, request, jsonify
 from datetime import datetime
 import json
 import os
-import tempfile # Added for atomic file operations
+import tempfile
 
 app = Flask(__name__)
 
-TASKS_FILE = 'tasks.json'
+# Default configuration for the tasks file. This allows easy override for testing or different environments.
+app.config['TASKS_FILE'] = 'tasks.json'
+
+def get_tasks_filepath():
+    """Helper to get the tasks file path from app configuration."""
+    return app.config['TASKS_FILE']
 
 def load_tasks():
-    if os.path.exists(TASKS_FILE):
-        with open(TASKS_FILE, 'r') as f:
+    tasks_file = get_tasks_filepath()
+    if os.path.exists(tasks_file):
+        with open(tasks_file, 'r') as f:
             try:
                 data = json.load(f)
                 # Validate that the loaded data is a list to prevent TypeErrors in subsequent operations.
                 if not isinstance(data, list):
-                    logging.warning(f"Tasks file '{TASKS_FILE}' contains non-list data. Initializing with an empty list.")
+                    logging.warning(f"Tasks file '{tasks_file}' contains non-list data. Initializing with an empty list.")
                     return []
                 return data
             except json.JSONDecodeError:
                 # Handle cases where the file is empty or contains malformed JSON.
-                logging.warning(f"Tasks file '{TASKS_FILE}' is empty or malformed JSON. Initializing with an empty list.")
+                logging.warning(f"Tasks file '{tasks_file}' is empty or malformed JSON. Initializing with an empty list.")
                 return []
     return []
 
@@ -30,18 +36,19 @@ def save_tasks(tasks):
     Saves the list of tasks to TASKS_FILE using an atomic write operation.
     This prevents data loss or corruption in case of unexpected interruptions.
     """
+    tasks_file = get_tasks_filepath()
     # Create a temporary file in the same directory as TASKS_FILE.
     # 'dir=os.path.dirname(TASKS_FILE) or '.' ensures it's in the current directory
     # if TASKS_FILE is just a filename without a path component.
-    fd, temp_path = tempfile.mkstemp(dir=os.path.dirname(TASKS_FILE) or '.')
+    fd, temp_path = tempfile.mkstemp(dir=os.path.dirname(tasks_file) or '.')
     try:
         with os.fdopen(fd, 'w') as tmp_f:
             json.dump(tasks, tmp_f, indent=2)
         # Atomically replace the original file with the temporary one.
         # os.replace provides a robust, atomic rename across platforms.
-        os.replace(temp_path, TASKS_FILE)
+        os.replace(temp_path, tasks_file)
     except Exception as e:
-        logging.error(f"Error saving tasks atomically to {TASKS_FILE}: {e}")
+        logging.error(f"Error saving tasks atomically to {tasks_file}: {e}")
         # Clean up the temporary file if the process failed before replacement.
         if os.path.exists(temp_path):
             os.remove(temp_path)
@@ -157,36 +164,15 @@ def update_task(task_id):
                 else:
                     return jsonify({'error': f'Invalid status. Must be one of {valid_statuses}'}), 400
 
-            # Add or update 'updated_at' timestamp for better tracking
+            # Add or update 'updated_at' timestamp (Completion of truncated section)
             task['updated_at'] = datetime.now().isoformat()
-
-            tasks[i] = task # Corrected bug: changed 't' to 'task'
-            updated_task = task
+            
+            updated_task = task # Reference to the modified task
             task_found = True
-            break
+            break # Exit loop once task is found and updated
 
     if task_found:
-        save_tasks(tasks)
+        save_tasks(tasks) # Save the modified tasks list
         return jsonify(updated_task), 200
     else:
         return jsonify({'error': 'Task not found'}), 404
-
-@app.route('/api/tasks/<int:task_id>', methods=['DELETE'])
-def delete_task(task_id):
-    tasks = load_tasks()
-    initial_task_count = len(tasks)
-    tasks = [task for task in tasks if task['id'] != task_id]
-
-    if len(tasks) < initial_task_count:
-        save_tasks(tasks)
-        return jsonify({'message': 'Task deleted successfully'}), 200
-    else:
-        return jsonify({'error': 'Task not found'}), 404
-
-if __name__ == '__main__':
-    # Ensure the tasks.json file exists for initial load if not present
-    if not os.path.exists(TASKS_FILE):
-        save_tasks([]) # Create an empty JSON array if the file doesn't exist
-    
-    logging.basicConfig(level=logging.INFO) # Configure logging
-    app.run(debug=True)
