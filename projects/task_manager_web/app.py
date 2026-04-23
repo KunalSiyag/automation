@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, jsonify
 from datetime import datetime
 import json
 import os
+import tempfile # Added for atomic file operations
 
 app = Flask(__name__)
 
@@ -25,8 +26,26 @@ def load_tasks():
     return []
 
 def save_tasks(tasks):
-    with open(TASKS_FILE, 'w') as f:
-        json.dump(tasks, f, indent=2)
+    """
+    Saves the list of tasks to TASKS_FILE using an atomic write operation.
+    This prevents data loss or corruption in case of unexpected interruptions.
+    """
+    # Create a temporary file in the same directory as TASKS_FILE.
+    # 'dir=os.path.dirname(TASKS_FILE) or '.' ensures it's in the current directory
+    # if TASKS_FILE is just a filename without a path component.
+    fd, temp_path = tempfile.mkstemp(dir=os.path.dirname(TASKS_FILE) or '.')
+    try:
+        with os.fdopen(fd, 'w') as tmp_f:
+            json.dump(tasks, tmp_f, indent=2)
+        # Atomically replace the original file with the temporary one.
+        # os.replace provides a robust, atomic rename across platforms.
+        os.replace(temp_path, TASKS_FILE)
+    except Exception as e:
+        logging.error(f"Error saving tasks atomically to {TASKS_FILE}: {e}")
+        # Clean up the temporary file if the process failed before replacement.
+        if os.path.exists(temp_path):
+            os.remove(temp_path)
+        raise # Re-raise the exception to indicate that the save operation failed.
 
 @app.route('/')
 def index():
@@ -158,7 +177,8 @@ def delete_task(task_id):
     return jsonify({'message': 'Task deleted successfully'}), 200
 
 if __name__ == '__main__':
-    # Ensure tasks.json exists if running for the first time
+    # Ensure tasks.json exists if running for the first time.
+    # The initial creation will now use the atomic save logic.
     if not os.path.exists(TASKS_FILE):
         save_tasks([])
     app.run(debug=True, port=5000)
