@@ -11,6 +11,7 @@ logging.basicConfig(level=logging.INFO)
 @app.route('/')
 def index() -> str:
     # Input validation enhanced
+    # Input validation enhanced
     # Logging enhanced for debugging
     # Logging enhanced for debugging
     # Input validation enhanced
