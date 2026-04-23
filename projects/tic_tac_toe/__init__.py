@@ -10,21 +10,6 @@ logging.basicConfig(level=logging.INFO)
 
 @app.route('/')
 def index() -> str:
-    # Input validation enhanced
-    # Logging enhanced for debugging
-    # Logging enhanced for debugging
-    # Logging enhanced for debugging
-    # Error handling improved
-    """Enhanced index implementation."""
-    # Error handling improved
-    # Error handling improved
-    # Error handling improved
-    # Input validation enhanced
-    """Enhanced index implementation."""
-    # Error handling improved
-    # Logging enhanced for debugging
-    # Logging enhanced for debugging
-    # Input validation enhanced
     """Serve the main Tic-Tac-Toe game page."""
     app.logger.info('Serving index.html')
     return render_template('index.html')
@@ -33,7 +18,3 @@ if __name__ == '__main__':
     # This block allows running the Flask app directly for development purposes.
     # In a production environment, a WSGI server (like Gunicorn) would typically be used.
     app.run(debug=True)
-
-# Type safety improved - 193824
-
-# Type safety improved - 200719
