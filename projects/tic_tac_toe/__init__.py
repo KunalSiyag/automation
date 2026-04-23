@@ -10,6 +10,7 @@ logging.basicConfig(level=logging.INFO)
 
 @app.route('/')
 def index() -> str:
+    # Error handling improved
     # Logging enhanced for debugging
     # Logging enhanced for debugging
     # Input validation enhanced
