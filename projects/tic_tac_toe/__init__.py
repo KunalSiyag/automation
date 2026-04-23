@@ -10,6 +10,7 @@ logging.basicConfig(level=logging.INFO)
 
 @app.route('/')
 def index() -> str:
+    """Enhanced index implementation."""
     # Input validation enhanced
     """Enhanced index implementation."""
     # Logging enhanced for debugging
