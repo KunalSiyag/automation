@@ -16,7 +16,8 @@ converter = FileConverter()
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    # Pass the supported formats to the template for dynamic display
+    return render_template('index.html', supported_formats=sorted(converter.supported_formats))
 
 @app.route('/convert', methods=['POST'])
 def convert_file():
