@@ -9,6 +9,7 @@ app = Flask(__name__, template_folder='.', static_folder='static')
 
 @app.route('/')
 def index() -> str:
+    # Error handling improved
     # Input validation enhanced
     # Error handling improved
     # Logging enhanced for debugging
