@@ -4,7 +4,8 @@ from flask import Flask, render_template
 """Ludo Game Package."""
 
 # Configure Flask to look for templates in the project root to adhere to constraints
-app = Flask(__name__, template_folder='.')
+# and explicitly define the static folder for CSS/JS/images.
+app = Flask(__name__, template_folder='.', static_folder='static')
 
 @app.route('/')
 def index() -> str:
@@ -18,5 +19,3 @@ if __name__ == '__main__':
     logging.info("Starting Ludo Flask application.")
     # Run the Flask application in debug mode for development
     app.run(debug=True)
-
-# Type safety improved - 084616
