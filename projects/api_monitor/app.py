@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, jsonify
 from monitor import APIMonitor
 import logging
@@ -14,7 +15,8 @@ app = Flask(__name__, template_folder='.')
 monitor = APIMonitor()
 
 # Configuration for the background monitor interval (e.g., every 5 minutes)
-MONITOR_INTERVAL_SECONDS = 300
+# Now configurable via an environment variable 'API_MONITOR_INTERVAL_SECONDS'
+MONITOR_INTERVAL_SECONDS = int(os.environ.get('API_MONITOR_INTERVAL_SECONDS', 300))
 
 # Add some initial endpoints to monitor, including custom timeouts for demonstration
 monitor.add_endpoint('Google', 'https://www.google.com')
@@ -68,7 +70,7 @@ if __name__ == '__main__':
         daemon=True # Daemon thread ensures it will exit when the main program exits
     )
     monitor_thread.start()
-    logger.info(f"Background API monitor started, checking every {MONITOR_INTERVAL_SECONDS} seconds.")
+    logger.info(f"Background API monitor started, checking every {MONITOR_INTERVAL_SECONDS} seconds (configurable via API_MONITOR_INTERVAL_SECONDS env var).")
 
     # Run the Flask app
     # In a production environment, use a WSGI server like Gunicorn or uWSGI
