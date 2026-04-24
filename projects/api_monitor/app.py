@@ -8,7 +8,9 @@ import time
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-app = Flask(__name__)
+# Initialize Flask app, specifying the current directory as the template folder
+# This allows index.html to be at the project root as per requirements.
+app = Flask(__name__, template_folder='.')
 monitor = APIMonitor()
 
 # Configuration for the background monitor interval (e.g., every 5 minutes)
