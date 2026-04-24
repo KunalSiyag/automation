@@ -10,7 +10,8 @@ UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 MB max upload size
-app.secret_key = 'a_very_secret_key_for_flash_messages' # In a real app, use a strong, random key from env var
+# Improved: Load secret key from environment variable for better security and deployability
+app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'a_default_secret_key_for_development_only')
 
 converter = FileConverter()
 
