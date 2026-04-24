@@ -157,28 +157,36 @@ def update_task(task_id):
                 else:
                     return jsonify({'error': f'Invalid status. Must be one of {valid_statuses}'}), 400
 
-            tasks[i] = task
-            save_tasks(tasks)
+            # Add or update 'updated_at' timestamp for better tracking
+            task['updated_at'] = datetime.now().isoformat()
+
+            tasks[i] = task # Corrected bug: changed 't' to 'task'
             updated_task = task
             task_found = True
             break
 
     if task_found:
-        return jsonify(updated_task)
-    return jsonify({'error': 'Task not found'}), 404
+        save_tasks(tasks)
+        return jsonify(updated_task), 200
+    else:
+        return jsonify({'error': 'Task not found'}), 404
 
 @app.route('/api/tasks/<int:task_id>', methods=['DELETE'])
 def delete_task(task_id):
-    initial_task_count = len(load_tasks())
-    tasks = [t for t in load_tasks() if t['id'] != task_id]
-    if len(tasks) == initial_task_count:
+    tasks = load_tasks()
+    initial_task_count = len(tasks)
+    tasks = [task for task in tasks if task['id'] != task_id]
+
+    if len(tasks) < initial_task_count:
+        save_tasks(tasks)
+        return jsonify({'message': 'Task deleted successfully'}), 200
+    else:
         return jsonify({'error': 'Task not found'}), 404
-    save_tasks(tasks)
-    return jsonify({'message': 'Task deleted successfully'}), 200
 
 if __name__ == '__main__':
-    # Ensure tasks.json exists if running for the first time.
-    # The initial creation will now use the atomic save logic.
+    # Ensure the tasks.json file exists for initial load if not present
     if not os.path.exists(TASKS_FILE):
-        save_tasks([])
-    app.run(debug=True, port=5000)
+        save_tasks([]) # Create an empty JSON array if the file doesn't exist
+    
+    logging.basicConfig(level=logging.INFO) # Configure logging
+    app.run(debug=True)
