@@ -9,6 +9,7 @@ app = Flask(__name__, template_folder='.', static_folder='static')
 
 @app.route('/')
 def index() -> str:
+    # Logging enhanced for debugging
     """Serves the main Ludo game page from index.html at the project root."""
     logging.info("Attempting to render index.html for the Ludo game.")
     return render_template('index.html')
