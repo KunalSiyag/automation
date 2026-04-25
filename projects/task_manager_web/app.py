@@ -158,21 +158,34 @@ def update_task(task_id):
                     return jsonify({'error': 'Status must be a string'}), 400
                 
                 status_val = status_val_raw.lower()
-                valid_statuses = ['todo', 'in-progress', 'done']
+                valid_statuses = ['todo', 'in-progress', 'done'] # Define valid statuses
                 if status_val in valid_statuses:
                     task['status'] = status_val
                 else:
                     return jsonify({'error': f'Invalid status. Must be one of {valid_statuses}'}), 400
-
-            # Add or update 'updated_at' timestamp (Completion of truncated section)
-            task['updated_at'] = datetime.now().isoformat()
             
-            updated_task = task # Reference to the modified task
+            task['updated_at'] = datetime.now().isoformat() # Add updated_at timestamp
+            tasks[i] = task # Ensure the updated task is put back (though direct modification usually suffices)
+            updated_task = task
             task_found = True
-            break # Exit loop once task is found and updated
+            break
 
-    if task_found:
-        save_tasks(tasks) # Save the modified tasks list
-        return jsonify(updated_task), 200
-    else:
+    if not task_found:
         return jsonify({'error': 'Task not found'}), 404
+
+    save_tasks(tasks)
+    return jsonify(updated_task)
+
+@app.route('/api/tasks/<int:task_id>', methods=['DELETE'])
+def delete_task(task_id):
+    tasks = load_tasks()
+    original_len = len(tasks)
+    # Filter out the task to be deleted. 
+    # Use task.get('id') for safer access in case 'id' is missing from a task dict.
+    tasks = [task for task in tasks if task.get('id') != task_id]
+
+    if len(tasks) == original_len:
+        return jsonify({'error': 'Task not found'}), 404
+
+    save_tasks(tasks)
+    return jsonify({'message': 'Task deleted successfully'}), 200

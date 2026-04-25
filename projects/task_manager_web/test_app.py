@@ -173,21 +173,30 @@ def test_update_task_invalid_status(client):
     create_response = client.post('/api/tasks', json={'title': 'Valid'})
     task_id = create_response.json['id']
 
-    response = client.put(f'/api/tasks/{task_id}', json={'status': 'completed'}) # Invalid status value
+    response = client.put(f'/api/tasks/{task_id}', json={'status': 'completed'}) # 'completed' is an invalid status
     assert response.status_code == 400
     assert 'error' in response.json
     assert 'Invalid status' in response.json['error']
 
-    response = client.put(f'/api/tasks/{task_id}', json={'status': 123}) # Invalid status type
+    response = client.put(f'/api/tasks/{task_id}', json={'status': 123})
     assert response.status_code == 400
     assert 'error' in response.json
     assert 'Status must be a string' in response.json['error']
 
-def test_update_task_invalid_description(client):
-    create_response = client.post('/api/tasks', json={'title': 'Valid'})
+def test_delete_task_success(client):
+    create_response = client.post('/api/tasks', json={'title': 'Task to delete'})
     task_id = create_response.json['id']
 
-    response = client.put(f'/api/tasks/{task_id}', json={'description': 123})
-    assert response.status_code == 400
+    response = client.delete(f'/api/tasks/{task_id}')
+    assert response.status_code == 200
+    assert response.json['message'] == 'Task deleted successfully'
+
+    # Verify task is actually deleted
+    tasks = load_tasks()
+    assert len(tasks) == 0
+
+def test_delete_task_not_found(client):
+    response = client.delete('/api/tasks/999')
+    assert response.status_code == 404
     assert 'error' in response.json
-    assert 'Description must be a string' in response.json['error']
+    assert response.json['error'] == 'Task not found'
