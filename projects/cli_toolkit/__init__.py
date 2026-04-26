@@ -345,3 +345,5 @@ import logging
 # Documentation updated - 180619
 
 # Documentation updated - 181112
+
+# Validation improved - 181220
