@@ -49,18 +49,18 @@ def hash_file_web():
 
     try:
         # Resolve the real path to handle symlinks and path normalization
-        filename = os.path.realpath(filename_raw)
+        filename_resolved = os.path.realpath(filename_raw)
 
         # Security check: Ensure the resolved path is within the allowed directory
-        if not is_path_safe(filename, SAFE_FILE_DIR):
+        if not is_path_safe(filename_resolved, SAFE_FILE_DIR):
             return jsonify({'error': 'Access denied: Path outside allowed directory'}), 403
 
-        if not os.path.exists(filename):
+        if not os.path.exists(filename_resolved):
             return jsonify({'error': f'File not found: {filename_raw}'}), 404
-        if not os.path.isfile(filename):
+        if not os.path.isfile(filename_resolved):
             return jsonify({'error': f'Path is not a file: {filename_raw}'}), 400
 
-        hash_value = toolkit.hash_file(filename, algorithm)
+        hash_value = toolkit.hash_file(filename_resolved, algorithm)
         return jsonify({'filename': filename_raw, 'algorithm': algorithm, 'hash': hash_value})
     except ValueError as e:
         # e.g., unsupported hash algorithm
@@ -80,19 +80,30 @@ def file_info_web():
 
     path_to_check_raw = data['path']
 
-    # For file_info, we generally want info on the *requested* path, not necessarily its realpath
-    # However, we must still check its canonical location for safety before processing.
-    # os.path.abspath is used here for the safety check as toolkit.file_info may expect the raw path.
-    abs_path_for_safety_check = os.path.abspath(path_to_check_raw)
-
-    # Security check: Ensure the absolute path is within the allowed directory
-    if not is_path_safe(abs_path_for_safety_check, SAFE_FILE_DIR):
-        return jsonify({'error': 'Access denied: Path outside allowed directory'}), 403
-
     try:
-        # toolkit.file_info is designed to be robust even for non-existent paths.
-        # The safety check above ensures that even non-existent paths resolve within the allowed base directory.
+        # Get absolute and canonical paths for comprehensive safety checks and detailed response
+        absolute_path = os.path.abspath(path_to_check_raw)
+        canonical_path = os.path.realpath(path_to_check_raw)
+
+        # Security check: Ensure both the absolute path (as given)
+        # and the canonical path (after resolving symlinks) are within the allowed directory.
+        # This prevents symlink traversal attacks.
+        if not is_path_safe(absolute_path, SAFE_FILE_DIR):
+            return jsonify({'error': 'Access denied: Path (absolute) outside allowed directory'}), 403
+        if not is_path_safe(canonical_path, SAFE_FILE_DIR):
+            return jsonify({'error': 'Access denied: Path (canonical/resolved) outside allowed directory'}), 403
+
+        # Call toolkit.file_info which provides basic info like is_file and size
         info = toolkit.file_info(path_to_check_raw)
+
+        # Augment the info with additional, robust path details
+        info['requested_path'] = path_to_check_raw
+        info['exists'] = os.path.exists(path_to_check_raw)
+        info['is_directory'] = os.path.isdir(path_to_check_raw)
+        info['is_symlink'] = os.path.islink(path_to_check_raw)
+        info['absolute_path'] = absolute_path
+        info['canonical_path'] = canonical_path # The path after resolving all symlinks
+
         return jsonify(info)
     except Exception as e:
         # file_info is designed to be robust even for non-existent paths,
@@ -110,18 +121,18 @@ def count_lines_web():
 
     try:
         # Resolve the real path to handle symlinks and path normalization
-        filepath = os.path.realpath(filepath_raw)
+        filepath_resolved = os.path.realpath(filepath_raw)
 
         # Security check: Ensure the resolved path is within the allowed directory
-        if not is_path_safe(filepath, SAFE_FILE_DIR):
+        if not is_path_safe(filepath_resolved, SAFE_FILE_DIR):
             return jsonify({'error': 'Access denied: Path outside allowed directory'}), 403
 
-        if not os.path.exists(filepath):
+        if not os.path.exists(filepath_resolved):
             return jsonify({'error': f'File not found: {filepath_raw}'}), 404
-        if not os.path.isfile(filepath):
+        if not os.path.isfile(filepath_resolved):
             return jsonify({'error': f'Path is not a file: {filepath_raw}'}), 400
 
-        line_counts = toolkit.count_lines(filepath)
+        line_counts = toolkit.count_lines(filepath_resolved)
         return jsonify(line_counts)
     except IOError as e:
         return jsonify({'error': f'File access error: {str(e)}'}), 500
