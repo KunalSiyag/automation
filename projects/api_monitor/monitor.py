@@ -1,105 +1,127 @@
 import requests
 import time
 import logging
+from datetime import datetime
 
-# Configure logging for the monitor module
 logger = logging.getLogger(__name__)
-# Ensure a handler is configured if the root logger isn't already set up by the main app.
-# In this project, app.py configures basicConfig, so this check mostly for standalone use.
-if not logger.handlers:
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 class APIMonitor:
     def __init__(self):
         self.endpoints = []
-        self.results = [] # Stores the results of the last check_all operation
-        logger.info("APIMonitor initialized.")
+        self.results = [] # Stores the latest check result for each endpoint
+        self.history = {} # Optional: to store historical results if needed for trends
 
-    def add_endpoint(self, name, url, method='GET', timeout=5):
-        """Adds an endpoint to monitor with an optional custom timeout."""
-        if not url.startswith(('http://', 'https://')):
-            logger.warning(f"Attempted to add endpoint '{name}' with an invalid URL scheme: {url}. Must be http(s).")
-            # For robustness, could raise ValueError or return False. Sticking to logging for 'safe, incremental'.
-        self.endpoints.append({'name': name, 'url': url, 'method': method, 'timeout': timeout})
-        logger.info(f"Added endpoint: '{name}' ({url}) with default/custom timeout of {timeout}s.")
+    def add_endpoint(self, name, url, method='GET', timeout=10, data=None, headers=None):
+        """Adds an endpoint to be monitored."""
+        self.endpoints.append({
+            'name': name,
+            'url': url,
+            'method': method,
+            'timeout': timeout,
+            'data': data,
+            'headers': headers
+        })
+        logger.info(f"Added endpoint: {name} - {url}")
 
     def check_endpoint(self, endpoint):
-        """Checks a single endpoint for health and response time, handling various network errors."""
+        """
+        Performs an HTTP check on a single endpoint and returns the result.
+        Now includes status_code and error_message for more detail.
+        """
+        url = endpoint['url']
+        name = endpoint['name']
+        method = endpoint.get('method', 'GET')
+        timeout = endpoint.get('timeout', 10) # Default timeout in seconds
+        data = endpoint.get('data') # For POST requests
+        headers = endpoint.get('headers')
+
         start_time = time.monotonic()
         healthy = False
         status_code = None
         error_message = None
-        response_time = 0
-        request_timeout = endpoint.get('timeout', 5) # Use endpoint-specific timeout, default to 5s
 
-        logger.debug(f"Checking endpoint: '{endpoint['name']}' ({endpoint['url']}) with timeout {request_timeout}s")
         try:
-            response = requests.request(
-                endpoint['method'],
-                endpoint['url'],
-                timeout=request_timeout
-            )
-            response_time = (time.monotonic() - start_time) * 1000 # milliseconds
-            healthy = response.status_code < 400 # HTTP status codes below 400 are generally considered healthy
+            response = requests.request(method, url, timeout=timeout, data=data, headers=headers)
+            response.raise_for_status() # Raise an exception for HTTP error codes (4xx or 5xx)
+            healthy = True
             status_code = response.status_code
-
-            if healthy:
-                logger.info(f"Endpoint '{endpoint['name']}' ({endpoint['url']}) is HEALTHY. Status: {status_code}, Time: {response_time:.2f}ms")
-            else:
-                logger.warning(f"Endpoint '{endpoint['name']}' ({endpoint['url']}) is UNHEALTHY. Status: {status_code}, Time: {response_time:.2f}ms")
-
         except requests.exceptions.Timeout:
-            response_time = (time.monotonic() - start_time) * 1000 # ms
-            healthy = False
-            error_message = f"Request timed out after {request_timeout}s."
-            logger.error(f"Endpoint '{endpoint['name']}' ({endpoint['url']}) timed out. Error: {error_message}")
+            error_message = f"Timeout after {timeout} seconds."
+            logger.warning(f"Endpoint '{name}' timed out after {timeout}s: {url}")
         except requests.exceptions.ConnectionError as e:
-            response_time = (time.monotonic() - start_time) * 1000 # ms
-            healthy = False
             error_message = f"Connection error: {e}"
-            logger.error(f"Endpoint '{endpoint['name']}' ({endpoint['url']}) encountered a connection error. Error: {error_message}")
+            logger.warning(f"Endpoint '{name}' connection error: {url} - {e}")
+        except requests.exceptions.HTTPError as e:
+            status_code = e.response.status_code if e.response is not None else None
+            error_message = f"HTTP error: {status_code} {e.response.reason}" if e.response and e.response.reason else f"HTTP error: {e}"
+            logger.warning(f"Endpoint '{name}' HTTP error: {url} - {error_message}")
         except requests.exceptions.RequestException as e:
-            response_time = (time.monotonic() - start_time) * 1000 # ms
-            healthy = False
-            error_message = f"An unexpected request error occurred: {e}"
-            logger.error(f"Endpoint '{endpoint['name']}' ({endpoint['url']}) encountered an unexpected request error. Error: {error_message}")
+            # Catch all other requests-related exceptions
+            error_message = f"Request failed: {e}"
+            logger.error(f"Endpoint '{name}' general request error: {url} - {e}")
         except Exception as e:
-            response_time = (time.monotonic() - start_time) * 1000 # ms
-            healthy = False
-            error_message = f"An unknown error occurred: {e}"
-            logger.exception(f"Endpoint '{endpoint['name']}' ({endpoint['url']}) encountered an unknown error (full traceback below).")
+            # Catch any other unexpected errors
+            error_message = f"Unexpected error: {e}"
+            logger.critical(f"Endpoint '{name}' unexpected error during check: {url} - {e}")
+        finally:
+            end_time = time.monotonic()
+            response_time = round((end_time - start_time) * 1000) # in ms
 
         result = {
-            'endpoint_name': endpoint['name'],
-            'url': endpoint['url'],
+            'name': name,
+            'url': url,
+            'timestamp': datetime.now().isoformat(),
             'healthy': healthy,
-            'status': status_code,
+            'status_code': status_code, # Add status code
             'response_time': response_time,
-            'timestamp': time.time(),
-            'error': error_message
+            'error_message': error_message # Add error message
         }
         return result
 
     def check_all(self):
-        """Checks all configured endpoints and updates the internal results."""
-        logger.info(f"Starting check for all {len(self.endpoints)} endpoints.")
+        """
+        Checks all configured endpoints and updates the internal results.
+        This method is called by the background thread.
+        """
+        logger.debug(f"Initiating checks for {len(self.endpoints)} endpoints.")
         current_results = []
         for endpoint in self.endpoints:
-            result = self.check_endpoint(endpoint)
-            current_results.append(result)
-        self.results = current_results # Update the monitor's results attribute with the latest batch
-        logger.info(f"Finished checking all {len(self.endpoints)} endpoints.")
+            try:
+                result = self.check_endpoint(endpoint)
+                current_results.append(result)
+                logger.debug(f"Checked '{endpoint['name']}': Healthy={result['healthy']}, Status={result['status_code']}, Time={result['response_time']}ms")
+            except Exception as e:
+                logger.error(f"Error checking endpoint {endpoint['name']}: {e}")
+                # Append a failure result if check_endpoint itself fails unexpectedly
+                current_results.append({
+                    'name': endpoint['name'],
+                    'url': endpoint['url'],
+                    'timestamp': datetime.now().isoformat(),
+                    'healthy': False,
+                    'status_code': None,
+                    'response_time': 0, # Cannot determine response time if check_endpoint fails
+                    'error_message': f"Internal monitor error: {e}"
+                })
+        self.results = current_results
+        logger.debug(f"Finished checking all endpoints. {len(self.results)} results collected.")
 
     def get_stats(self):
-        """Calculates aggregate statistics based on the latest monitoring results."""
+        """Calculates and returns aggregate statistics based on the latest results."""
         total_checks = len(self.results)
         healthy_checks = sum(1 for r in self.results if r['healthy'])
-        # Handle division by zero for uptime_percentage if no checks have been performed
+        unhealthy_checks = total_checks - healthy_checks
+        
         uptime_percentage = (healthy_checks / total_checks * 100) if total_checks > 0 else 0
-        logger.debug(f"Calculated stats: Total={total_checks}, Healthy={healthy_checks}, Uptime={uptime_percentage:.2f}%")
+        
+        avg_response_time = 0
+        if healthy_checks > 0:
+            total_response_time = sum(r['response_time'] for r in self.results if r['healthy'] and r['response_time'] is not None)
+            avg_response_time = round(total_response_time / healthy_checks)
+
         return {
             'total_checks': total_checks,
             'healthy': healthy_checks,
-            'unhealthy': total_checks - healthy_checks,
-            'uptime_percentage': uptime_percentage
+            'unhealthy': unhealthy_checks,
+            'uptime_percentage': round(uptime_percentage, 2),
+            'avg_response_time_ms': avg_response_time
         }
