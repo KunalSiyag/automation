@@ -6,7 +6,8 @@ import threading
 import time
 
 # Configure basic logging for the Flask app
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+# Enhanced log format to include filename and line number for better debuggability
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(filename)s:%(lineno)d - %(message)s')
 logger = logging.getLogger(__name__)
 
 # Initialize Flask app, specifying the current directory as the template folder
