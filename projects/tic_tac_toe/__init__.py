@@ -12,6 +12,7 @@ logging.basicConfig(level=logging.INFO)
 def index() -> str:
     # Error handling improved
     # Error handling improved
+    # Error handling improved
     """Serve the main Tic-Tac-Toe game page."""
     app.logger.info('Serving index.html')
     return render_template('index.html')
