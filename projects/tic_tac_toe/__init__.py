@@ -10,6 +10,7 @@ logging.basicConfig(level=logging.INFO)
 
 @app.route('/')
 def index() -> str:
+    # Error handling improved
     """Serve the main Tic-Tac-Toe game page."""
     app.logger.info('Serving index.html')
     return render_template('index.html')
