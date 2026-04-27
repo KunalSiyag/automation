@@ -77,13 +77,19 @@ def create_task():
     # Use the description, strip it if it's a string, otherwise default to empty.
     description_to_use = description_val.strip() if isinstance(description_val, str) else ''
 
-    # Validate priority type. If present and not a string, return error.
+    # Validate and set priority
     priority_val = data.get('priority')
-    if priority_val is not None and not isinstance(priority_val, str):
-        return jsonify({'error': 'Priority must be a string'}), 400
-    
-    # Determine priority to use, lowercasing if it's a string, otherwise defaulting to 'medium'.
-    priority_to_use = (priority_val.lower() if isinstance(priority_val, str) else 'medium')
+    valid_priorities = ['low', 'medium', 'high']
+    priority_to_use = 'medium' # Default if not provided
+
+    if priority_val is not None:
+        if not isinstance(priority_val, str):
+            return jsonify({'error': 'Priority must be a string'}), 400
+        
+        normalized_priority = priority_val.lower()
+        if normalized_priority not in valid_priorities:
+            return jsonify({'error': f'Invalid priority. Must be one of {valid_priorities}'}), 400
+        priority_to_use = normalized_priority
 
     tasks = load_tasks()
     
@@ -101,12 +107,6 @@ def create_task():
         'status': 'todo',
         'created_at': datetime.now().isoformat()
     }
-
-    # Basic validation for priority against valid options. If invalid, default to 'medium'.
-    # This maintains the original behavior of defaulting for invalid string values.
-    valid_priorities = ['low', 'medium', 'high']
-    if new_task['priority'] not in valid_priorities:
-        new_task['priority'] = 'medium'
 
     tasks.append(new_task)
     save_tasks(tasks)
@@ -164,37 +164,33 @@ def update_task(task_id):
                 else:
                     return jsonify({'error': f'Invalid status. Must be one of {valid_statuses}'}), 400
 
-            # Add or update the 'updated_at' timestamp
             task['updated_at'] = datetime.now().isoformat()
-            
-            save_tasks(tasks)
             updated_task = task
             task_found = True
             break
 
     if not task_found:
         return jsonify({'error': 'Task not found'}), 404
-    
+
+    save_tasks(tasks)
     return jsonify(updated_task)
 
 @app.route('/api/tasks/<int:task_id>', methods=['DELETE'])
 def delete_task(task_id):
     tasks = load_tasks()
     initial_task_count = len(tasks)
-    # Filter out the task to be deleted. This creates a new list without the specified task.
     tasks = [task for task in tasks if task['id'] != task_id]
 
     if len(tasks) == initial_task_count:
-        # If the length hasn't changed, no task was found with the given ID.
         return jsonify({'error': 'Task not found'}), 404
-    
+
     save_tasks(tasks)
     return jsonify({'message': 'Task deleted successfully'}), 200
 
 if __name__ == '__main__':
-    # Configure basic logging
+    # Set up basic logging
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-    # Ensure the tasks file exists or is created with an empty list if not present
+    # Ensure tasks.json exists if running locally for the first time
     if not os.path.exists(app.config['TASKS_FILE']):
         save_tasks([])
     app.run(debug=True)

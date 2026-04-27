@@ -76,10 +76,12 @@ def test_create_task_invalid_priority_type(client):
     assert 'error' in response.json
     assert 'Priority must be a string' in response.json['error']
 
-def test_create_task_invalid_priority_value_defaults_to_medium(client):
+def test_create_task_invalid_priority_value_returns_error(client):
+    # This test now expects an error for invalid priority values, rather than defaulting
     response = client.post('/api/tasks', json={'title': 'Invalid Priority Task', 'priority': 'super-high'})
-    assert response.status_code == 201
-    assert response.json['priority'] == 'medium' # Should default to medium
+    assert response.status_code == 400
+    assert 'error' in response.json
+    assert 'Invalid priority. Must be one of' in response.json['error']
 
 def test_get_multiple_tasks(client):
     # Create a few tasks
@@ -173,7 +175,7 @@ def test_update_task_invalid_status(client):
     create_response = client.post('/api/tasks', json={'title': 'Valid'})
     task_id = create_response.json['id']
 
-    response = client.put(f'/api/tasks/{task_id}', json={'status': 'completed'}) # 'completed' is an invalid status
+    response = client.put(f'/api/tasks/{task_id}', json={'status': 'completed-invalid'})
     assert response.status_code == 400
     assert 'error' in response.json
     assert 'Invalid status' in response.json['error']
@@ -191,7 +193,6 @@ def test_delete_task_success(client):
     assert response.status_code == 200
     assert response.json['message'] == 'Task deleted successfully'
 
-    # Verify task is actually deleted
     tasks = load_tasks()
     assert len(tasks) == 0
 
