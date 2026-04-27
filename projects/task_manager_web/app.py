@@ -158,34 +158,43 @@ def update_task(task_id):
                     return jsonify({'error': 'Status must be a string'}), 400
                 
                 status_val = status_val_raw.lower()
-                valid_statuses = ['todo', 'in-progress', 'done'] # Define valid statuses
+                valid_statuses = ['todo', 'in-progress', 'done']
                 if status_val in valid_statuses:
                     task['status'] = status_val
                 else:
                     return jsonify({'error': f'Invalid status. Must be one of {valid_statuses}'}), 400
+
+            # Add or update the 'updated_at' timestamp
+            task['updated_at'] = datetime.now().isoformat()
             
-            task['updated_at'] = datetime.now().isoformat() # Add updated_at timestamp
-            tasks[i] = task # Ensure the updated task is put back (though direct modification usually suffices)
+            save_tasks(tasks)
             updated_task = task
             task_found = True
             break
 
     if not task_found:
         return jsonify({'error': 'Task not found'}), 404
-
-    save_tasks(tasks)
+    
     return jsonify(updated_task)
 
 @app.route('/api/tasks/<int:task_id>', methods=['DELETE'])
 def delete_task(task_id):
     tasks = load_tasks()
-    original_len = len(tasks)
-    # Filter out the task to be deleted. 
-    # Use task.get('id') for safer access in case 'id' is missing from a task dict.
-    tasks = [task for task in tasks if task.get('id') != task_id]
+    initial_task_count = len(tasks)
+    # Filter out the task to be deleted. This creates a new list without the specified task.
+    tasks = [task for task in tasks if task['id'] != task_id]
 
-    if len(tasks) == original_len:
+    if len(tasks) == initial_task_count:
+        # If the length hasn't changed, no task was found with the given ID.
         return jsonify({'error': 'Task not found'}), 404
-
+    
     save_tasks(tasks)
     return jsonify({'message': 'Task deleted successfully'}), 200
+
+if __name__ == '__main__':
+    # Configure basic logging
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+    # Ensure the tasks file exists or is created with an empty list if not present
+    if not os.path.exists(app.config['TASKS_FILE']):
+        save_tasks([])
+    app.run(debug=True)
