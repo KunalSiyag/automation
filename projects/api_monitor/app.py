@@ -48,12 +48,13 @@ def index():
 
 @app.route('/api/status', methods=['GET'])
 def get_monitor_status():
-    """Triggers a check of all endpoints and returns the latest results and aggregate statistics.
-    Note: A background thread also continuously checks, but this provides an on-demand refresh.
+    """Returns the latest results and aggregate statistics from the background monitor.
+    This endpoint no longer triggers an immediate endpoint check, relying instead
+    on the continuous updates from the background thread for improved responsiveness.
     """
-    logger.info("API /api/status called. Triggering an immediate endpoint check.")
-    monitor.check_all() # Perform a check every time this API is called to ensure immediate feedback
-    results = monitor.results # Get all accumulated results
+    logger.info("API /api/status called. Returning latest results from background monitor.")
+    # The monitor.results and monitor.get_stats() are kept up-to-date by the background thread
+    results = monitor.results
     stats = monitor.get_stats()
     logger.debug(f"Returning API status: {len(results)} results, {stats.get('healthy', 0)} healthy.")
     return jsonify({
