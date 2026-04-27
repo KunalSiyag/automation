@@ -19,3 +19,5 @@ if __name__ == '__main__':
     logging.info("Starting Ludo Flask application.")
     # Run the Flask application in debug mode for development
     app.run(debug=True)
+
+# Documentation updated - 153737
