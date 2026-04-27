@@ -478,3 +478,5 @@ __version__ = "1.0.0"
 # Documentation updated - 180134
 
 # Documentation updated - 180213
+
+# Validation improved - 180318
