@@ -57,6 +57,8 @@ def convert_file():
             output_file_path = os.path.join(app.config['UPLOAD_FOLDER'], f"{unique_id}_{output_filename}")
             
             converter.convert(input_file_path, output_file_path)
+            # Log successful conversion for traceability
+            app.logger.info(f"Successfully converted '{original_filename}' ({input_format}) to '{output_filename}' ({output_format}).")
             files_to_clean.append(output_file_path) # Mark output file for cleanup
 
             @after_this_request
@@ -75,9 +77,11 @@ def convert_file():
 
     except NotImplementedError as e:
         flash(f"Conversion error: {e}. Only JSON and CSV conversions are currently implemented.", "error")
+        app.logger.warning(f"Conversion failed due to unsupported operation: {e}") # Log specific conversion error
         return redirect(url_for('index'))
     except ValueError as e:
         flash(f"Conversion error: {e}", "error")
+        app.logger.warning(f"Conversion failed due to invalid data or format: {e}") # Log specific data validation error
         return redirect(url_for('index'))
     except Exception as e:
         # Log the unexpected error for debugging purposes
