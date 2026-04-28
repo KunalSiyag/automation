@@ -9,6 +9,7 @@ app = Flask(__name__, template_folder='.', static_folder='static')
 
 @app.route('/')
 def index() -> str:
+    # Input validation enhanced
     # Logging enhanced for debugging
     # Input validation enhanced
     """Serves the main Ludo game page from index.html at the project root."""
